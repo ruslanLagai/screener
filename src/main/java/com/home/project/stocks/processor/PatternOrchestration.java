@@ -2,6 +2,7 @@ package com.home.project.stocks.processor;
 
 import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.processing.ProcessingResult;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,7 @@ public class PatternOrchestration {
                 .collect(Collectors.toMap(StocksProcessor::getType, Function.identity()));
     }
 
-    public Collection<ProcessingResult> processStocks(Map<String, Candle[]> data) {
+    public Collection<ProcessingResult> processStocks(@NonNull Map<String, Candle[]> data) {
         Set<ProcessingResult> result = null;
         for (var i : data.entrySet()) {
             var processingItem = new ProcessingResult();
@@ -45,8 +46,7 @@ public class PatternOrchestration {
     private boolean isPattern(Map.Entry<String, Candle[]> i, StocksProcessor stocksProcessor,
                               ProcessingResult processingItem) {
         var procResult = stocksProcessor.processStock(i.getKey(), "", i.getValue());
-        int maxIndex = procResult.keySet().stream().max(Comparator.naturalOrder()).orElse(0);
-        var isPattern = !procResult.isEmpty() && maxIndex > 20;
+        var isPattern = !procResult.isEmpty();
         if (isPattern) {
             processingItem.getProcessedCandles().putAll(procResult);
         }

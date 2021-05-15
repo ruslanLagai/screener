@@ -7,6 +7,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Class to test {@link DodgeProcessor}
+ */
 class DodgeProcessorTest extends AbstractProcessorTest {
 
     DodgeProcessor dodgeProcessor = new DodgeProcessor();

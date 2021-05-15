@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Class to test {@link HammerProcessor}
+ */
 class HammerProcessorTest extends AbstractProcessorTest{
 
     HammerProcessor hammerProcessor = new HammerProcessor();
