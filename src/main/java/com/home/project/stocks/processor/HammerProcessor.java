@@ -5,6 +5,8 @@ import com.home.project.stocks.model.processing.Trend;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.Range;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,9 +26,9 @@ public class HammerProcessor implements StocksProcessor {
     private static final double UPPER_CANDLE_BODY_RATIO = 0.9;
 
     @Override
-    public Map<Integer, Candle> processStock(String figi, String ticker, Candle[] candles) {
+    public MultiValueMap<Processors, Candle> processStock(String figi, String ticker, Candle[] candles) {
         log.info("Processing stock, figi: " + figi);
-        Map<Integer, Candle> hammers = new HashMap<>();
+        MultiValueMap<Processors, Candle> hammers = new LinkedMultiValueMap<>();
         Stream.of(candles)
                 .filter(candle -> {
                     var index = Arrays.asList(candles).indexOf(candle);
@@ -38,7 +40,7 @@ public class HammerProcessor implements StocksProcessor {
                 .filter(HammerProcessor::isUpperPart)
                 .filter(HammerProcessor::hasShadow)
                 .map(candle -> Arrays.asList(candles).indexOf(candle))
-                .forEach(index -> hammers.put(index, candles[index]));
+                .forEach(index -> hammers.addIfAbsent(Processors.HAMMER, candles[index]));
         return hammers;
     }
 

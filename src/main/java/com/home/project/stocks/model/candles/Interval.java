@@ -16,9 +16,10 @@ public enum Interval {
     THREE_MIN("3min"),
     FIVE_MIN("5min"),
     TEN_MIN("10min"),
-    TWENTY_MIN("15min"),
+    FIFTEEN_MIN("15min"),
     THIRTY_MIN("30min"),
     ONE_HOUR("hour"),
+    FOUR_HOUR("4hour"),
     ONE_DAY("day"),
     ONE_WEEK("week"),
     ONE_MONTH("month");

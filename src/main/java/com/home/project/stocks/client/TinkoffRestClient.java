@@ -4,7 +4,6 @@ import org.joda.time.DateTime;
 import org.springframework.http.ResponseEntity;
 
 import com.home.project.stocks.model.candles.*;
-import com.home.project.stocks.model.info.*;
 
 public interface TinkoffRestClient {
 

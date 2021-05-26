@@ -1,8 +1,8 @@
-package com.home.project.stocks.model.info;
+package com.home.project.stocks.model.candles;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import com.home.project.stocks.model.Payload;
+import com.home.project.stocks.model.candles.Payload;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,8 +1,7 @@
 package com.home.project.stocks.scheduled;
 
-import com.home.project.stocks.model.Payload;
+import com.home.project.stocks.model.candles.Payload;
 import com.home.project.stocks.processor.PatternOrchestration;
-import com.home.project.stocks.processor.StocksProcessor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -10,10 +9,6 @@ import org.springframework.stereotype.Component;
 
 import com.home.project.stocks.client.TinkoffRestClient;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -43,6 +38,7 @@ public class CandlesRequester implements ScheduledRequester{
                 .map(r -> r.getBody().getPayload())
                 .collect(Collectors.toMap(Payload::getFigi, Payload::getCandles));
         log.info("Number of received stocks: {}", candlesByFigi.size());
+        //todo verify candles
         orchestration.processStocks(candlesByFigi);
     }
 }

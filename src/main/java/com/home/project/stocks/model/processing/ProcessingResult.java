@@ -7,8 +7,9 @@ import com.home.project.stocks.processor.StocksProcessor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Getter
@@ -23,7 +24,7 @@ public class ProcessingResult {
     private String ticker;
     private Boolean isDodge;
     private Boolean isHammer;
-    private Map<Integer, Candle> processedCandles = new HashMap<>();
+    private MultiValueMap<StocksProcessor.Processors, Candle> processedCandles = new LinkedMultiValueMap<>();
 
     @SneakyThrows
     public void initField(boolean value, StocksProcessor stocksProcessor) {

@@ -2,9 +2,11 @@ package com.home.project.stocks.processor;
 
 import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.processing.ProcessingResult;
+import com.home.project.stocks.service.RepositoryService;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
 
 import java.util.*;
 import java.util.function.Function;
@@ -14,6 +16,12 @@ import java.util.stream.Collectors;
 public class PatternOrchestration {
     private List<StocksProcessor> stocksProcessors;
     private Map<String, StocksProcessor> stocksProcessorMap;
+    private RepositoryService repositoryService;
+
+    @Autowired
+    public void setRepositoryService(RepositoryService repositoryService) {
+        this.repositoryService = repositoryService;
+    }
 
     @Autowired
     public void setStocksProcessors(List<StocksProcessor> stocksProcessors) {
@@ -37,9 +45,10 @@ public class PatternOrchestration {
                     .filter(ProcessingResult::shouldBeSent)
                     .collect(Collectors.toSet());
         }
-        //todo check already sent dodges
-
-        //todo call to microservice with result
+        if (result != null && !result.isEmpty()) {
+            result = repositoryService.save(result);
+            //todo call to microservice with result
+        }
         return result;
     }
 
@@ -48,7 +57,7 @@ public class PatternOrchestration {
         var procResult = stocksProcessor.processStock(i.getKey(), "", i.getValue());
         var isPattern = !procResult.isEmpty();
         if (isPattern) {
-            processingItem.getProcessedCandles().putAll(procResult);
+            processingItem.getProcessedCandles().addAll(procResult);
         }
         return isPattern;
     }

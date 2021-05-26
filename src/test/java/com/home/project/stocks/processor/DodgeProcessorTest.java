@@ -28,12 +28,12 @@ class DodgeProcessorTest extends AbstractProcessorTest {
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
         assertAll(() -> {
-            assertEquals(20.5, result.get(2).getC());
-            assertEquals(20.1, result.get(2).getO());
-            assertEquals(28, result.get(2).getH());
-            assertEquals(14, result.get(2).getL());
-            assertEquals(5, result.get(2).getV());
-            assertEquals(FIGI, result.get(2).getFigi());
+            assertEquals(20.5, result.get(StocksProcessor.Processors.DODGE).get(0).getC());
+            assertEquals(20.1, result.get(StocksProcessor.Processors.DODGE).get(0).getO());
+            assertEquals(28, result.get(StocksProcessor.Processors.DODGE).get(0).getH());
+            assertEquals(14, result.get(StocksProcessor.Processors.DODGE).get(0).getL());
+            assertEquals(5, result.get(StocksProcessor.Processors.DODGE).get(0).getV());
+            assertEquals(FIGI, result.get(StocksProcessor.Processors.DODGE).get(0).getFigi());
         });
     }
 

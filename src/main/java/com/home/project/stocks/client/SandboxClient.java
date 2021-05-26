@@ -15,7 +15,6 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.home.project.stocks.model.candles.*;
-import com.home.project.stocks.model.info.*;
 
 import lombok.extern.log4j.Log4j2;
 

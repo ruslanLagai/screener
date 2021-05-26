@@ -1,7 +1,7 @@
 package com.home.project.stocks.controller;
 
 import com.home.project.stocks.client.TinkoffRestClient;
-import com.home.project.stocks.model.info.*;
+import com.home.project.stocks.model.candles.StockByTicker;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

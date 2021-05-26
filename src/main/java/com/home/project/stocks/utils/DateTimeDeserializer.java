@@ -3,7 +3,6 @@ package com.home.project.stocks.utils;
 import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
@@ -18,7 +17,7 @@ public class DateTimeDeserializer extends StdDeserializer<DateTime> {
     }
 
     @Override
-    public DateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public DateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         return DateTime.parse(p.getText());
     }
 }

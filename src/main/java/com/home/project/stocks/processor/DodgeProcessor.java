@@ -5,6 +5,8 @@ import com.home.project.stocks.model.processing.Trend;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.Range;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -21,16 +23,16 @@ public class DodgeProcessor implements StocksProcessor {
     private static final double MAX_INTERVAL = 1.03;
 
     @Override
-    public Map<Integer, Candle> processStock(String figi, String ticker, Candle[] candles) {
+    public MultiValueMap<Processors, Candle> processStock(String figi, String ticker, Candle[] candles) {
         //stores candle index &&
         log.info("Processing stock, figi: " + figi);
-        Map<Integer, Candle> dodges = new HashMap<>();
+        MultiValueMap<Processors, Candle> dodges = new LinkedMultiValueMap<>();
         Stream.of(candles)
             .filter(DodgeProcessor::checkDifference)
             .map(candle -> Arrays.asList(candles).indexOf(candle))
             .forEach(index -> {
                 if (isDodge(candles, index)) {
-                    dodges.put(index, candles[index]);
+                    dodges.addIfAbsent(Processors.DODGE, candles[index]);
                 }
             });
         return dodges;
