@@ -4,6 +4,7 @@ import com.home.project.stocks.model.candles.Candle;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -38,7 +39,7 @@ public class CandleIndex {
     @Field(type = FieldType.Double)
     private double v;
 
-    @Field(type = FieldType.Date)
+    @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "uuuu-MM-dd'T'HH:mm:ss.Z")
     private LocalDateTime time;
 
     public static CandleIndex populateFields(Candle candle) {

@@ -35,7 +35,7 @@ public class CandlesRequester implements ScheduledRequester{
     }
 
     @Override
-    @Scheduled(cron = "00 1 ? * MON-FRI")
+    @Scheduled(cron = "0 0 18 * * MON-FRI")
     @Retryable(value = {TinkoffServerException.class}, maxAttempts = 2, backoff = @Backoff(delay = 1000))
     public void requestData() {
         var response = client.getStocks();
