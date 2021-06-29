@@ -170,8 +170,7 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
     }
 
     @TestConfiguration
-    @ComponentScan(basePackages = {"com.home.project.stocks.processor", "com.home.project.stocks.service",
-            "com.home.project.stocks.repository"})
+    @ComponentScan(basePackages = {"com.home.project.stocks.processor", "com.home.project.stocks.service"})
     static class Config {
 
     }

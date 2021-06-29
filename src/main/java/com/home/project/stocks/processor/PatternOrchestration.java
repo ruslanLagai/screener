@@ -1,10 +1,13 @@
 package com.home.project.stocks.processor;
 
+import com.home.project.stocks.client.NotifierClient;
 import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.service.RepositoryService;
 import lombok.NonNull;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 
@@ -13,10 +16,17 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
+@Log4j2
 public class PatternOrchestration {
     private List<StocksProcessor> stocksProcessors;
     private Map<String, StocksProcessor> stocksProcessorMap;
     private RepositoryService repositoryService;
+    private NotifierClient notifierClient;
+
+    @Autowired
+    public void setNotifierClient(NotifierClient notifierClient) {
+        this.notifierClient = notifierClient;
+    }
 
     @Autowired
     public void setRepositoryService(RepositoryService repositoryService) {
@@ -47,7 +57,10 @@ public class PatternOrchestration {
         }
         if (result != null && !result.isEmpty()) {
             result = repositoryService.save(result);
-            //todo call to microservice with result
+            var response = notifierClient.notifyUser(result);
+            if (response.getStatusCode() != HttpStatus.OK) {
+               log.error("Failed to process candles, status code: " + response.getStatusCode());
+            }
         }
         return result;
     }

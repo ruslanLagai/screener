@@ -2,13 +2,9 @@ package com.home.project.stocks.repository;
 
 import com.home.project.stocks.model.repositories.CandleIndex;
 import com.home.project.stocks.model.repositories.DodgeIndex;
-import org.apache.http.HttpHost;
-import org.elasticsearch.client.Request;
-import org.elasticsearch.client.RestClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.http.HttpMethod;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
