@@ -1,7 +1,9 @@
 package com.home.project.stocks.processor;
 
+import com.home.project.stocks.client.AlphaVantageApiClient;
 import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.processing.ProcessingResult;
+import com.home.project.stocks.service.NotifierService;
 import com.home.project.stocks.service.RepositoryService;
 import org.apache.commons.compress.utils.Sets;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cloud.openfeign.FeignContext;
+import org.springframework.cloud.openfeign.FeignLoggerFactory;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -173,5 +177,10 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
     @ComponentScan(basePackages = {"com.home.project.stocks.processor", "com.home.project.stocks.service"})
     static class Config {
 
+        @MockBean
+        AlphaVantageApiClient alphaVantageApiClient;
+
+        @MockBean
+        NotifierService notifierService;
     }
 }

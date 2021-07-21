@@ -21,12 +21,6 @@ public class PatternOrchestration {
     private List<StocksProcessor> stocksProcessors;
     private Map<String, StocksProcessor> stocksProcessorMap;
     private RepositoryService repositoryService;
-    private NotifierClient notifierClient;
-
-    @Autowired
-    public void setNotifierClient(NotifierClient notifierClient) {
-        this.notifierClient = notifierClient;
-    }
 
     @Autowired
     public void setRepositoryService(RepositoryService repositoryService) {
@@ -55,13 +49,13 @@ public class PatternOrchestration {
                     .filter(ProcessingResult::shouldBeSent)
                     .collect(Collectors.toSet());
         }
-        if (result != null && !result.isEmpty()) {
-            result = repositoryService.save(result);
-            var response = notifierClient.notifyUser(result);
-            if (response.getStatusCode() != HttpStatus.OK) {
-               log.error("Failed to process candles, status code: " + response.getStatusCode());
-            }
-        }
+//        if (result != null && !result.isEmpty()) {
+//            result = repositoryService.save(result);
+//            var response = notifierClient.notifyUser(result);
+//            if (response.getStatusCode() != HttpStatus.OK) {
+//               log.error("Failed to process candles, status code: " + response.getStatusCode());
+//            }
+//        }
         return result;
     }
 

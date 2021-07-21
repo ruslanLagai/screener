@@ -5,3 +5,15 @@ spring:
 
 notifier:
   url: localhost:8070
+alpha:
+  vantage:
+    url: https://www.alphavantage.co/query
+    key: 1PA3VZKFACQRRVMA
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: full
+        encoder: com.example.SimpleEncoder
+        decoder: com.example.SimpleDecoder

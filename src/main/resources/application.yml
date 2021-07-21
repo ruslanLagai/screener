@@ -7,3 +7,17 @@ feign:
         connectTimeout: 5000
         readTimeout: 5000
         loggerLevel: basic
+
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ruslanlagai@gmail.com
+    password: irbxjcfpxsdythly
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+

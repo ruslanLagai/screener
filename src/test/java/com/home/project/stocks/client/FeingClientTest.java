@@ -6,9 +6,7 @@ import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.processor.AbstractProcessorTest;
 import com.home.project.stocks.processor.StocksProcessor;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.Ignore;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -35,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ActiveProfiles("test")
 @ContextConfiguration(classes = FeingClientTest.Config.class)
 @EnableConfigurationProperties
+@Ignore("unused for now")
 public class FeingClientTest extends AbstractProcessorTest {
 
     @Autowired
@@ -43,7 +42,6 @@ public class FeingClientTest extends AbstractProcessorTest {
     @Autowired
     NotifierClient notifierClient;
 
-    @BeforeEach
     public void setUp() {
         wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/notify"))
             .willReturn(WireMock.aResponse()
@@ -51,8 +49,7 @@ public class FeingClientTest extends AbstractProcessorTest {
                 .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
     }
 
-    @Test
-    @DisplayName("test feing client")
+
     public void testFeing() {
         var procResult = new ProcessingResult();
         procResult.setFigi("figi");
