@@ -15,6 +15,12 @@ public class Metadata {
     private String interval;
     @JsonProperty("5: Time Period")
     private int timePeriod;
+    @JsonProperty("5.1: Fast Period")
+    private int fastPeriod;
+    @JsonProperty("5.2: Slow Period")
+    private int slowPeriod;
+    @JsonProperty("5.3: Signal Period")
+    private int signalPeriod;
     @JsonProperty("6: Series Type")
     private String seriesType;
     @JsonProperty("7: Time Zone")

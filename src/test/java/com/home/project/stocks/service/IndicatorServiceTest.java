@@ -4,7 +4,9 @@ import com.home.project.stocks.client.AlphaVantageApiClient;
 import com.home.project.stocks.config.FeingConfig;
 import com.home.project.stocks.model.aplha.vantage.EmaPeriod;
 import com.home.project.stocks.model.aplha.vantage.Interval;
+import com.home.project.stocks.model.aplha.vantage.RsiPeriod;
 import com.home.project.stocks.model.aplha.vantage.SeriesType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,30 +30,65 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @DisplayName("Test Ema service")
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
-@ContextConfiguration(classes = {EmaServiceTest.Config.class })
+@ContextConfiguration(classes = {IndicatorServiceTest.Config.class })
 @Import({FeignAutoConfiguration.class, HttpMessageConvertersAutoConfiguration.class})
 @EnableConfigurationProperties
 @TestPropertySource("classpath:sandbox.properties")
-class EmaServiceTest {
+class IndicatorServiceTest {
 
     private static final String TICKER = "IBM";
 
-    @Autowired
-    private EmaService emaService;
-
-    @Test
-    @DisplayName("Basic test")
-    void getEma() {
-        var ema = emaService.getEma(TICKER, Interval.ONE_DAY, EmaPeriod.ONE_HUNDRED, SeriesType.OPEN);
-        assertFalse(ema.getEma().isEmpty());
+    @BeforeEach
+    public void initialise() throws InterruptedException {
+        Thread.sleep(30000);
     }
 
-    @DisplayName("Parametrized for intervals")
+    @Autowired
+    private IndicatorService indicatorService;
+
+    @Test
+    @DisplayName("Ema - Basic test")
+    void getEma() {
+        var ema = indicatorService.getEma(TICKER, Interval.ONE_DAY, EmaPeriod.ONE_HUNDRED, SeriesType.OPEN);
+        assertFalse(ema.getIndicatorData().isEmpty());
+    }
+
+    @DisplayName("Ema - Parametrized for intervals")
     @ParameterizedTest
     @EnumSource(value = Interval.class, names = {"ONE_HOUR", "ONE_WEEK"})
     void testParametrizedInterval(Interval interval) {
-        var ema = emaService.getEma(TICKER, interval, EmaPeriod.ONE_HUNDRED, SeriesType.OPEN);
-        assertFalse(ema.getEma().isEmpty());
+        var ema = indicatorService.getEma(TICKER, interval, EmaPeriod.ONE_HUNDRED, SeriesType.OPEN);
+        assertFalse(ema.getIndicatorData().isEmpty());
+    }
+
+    @Test
+    @DisplayName("Rsi - Basic test")
+    void getRsi() {
+        var ema = indicatorService.getRsi(TICKER, Interval.ONE_DAY, RsiPeriod.NINE, SeriesType.CLOSE);
+        assertFalse(ema.getIndicatorData().isEmpty());
+    }
+
+    @DisplayName("Rsi - Parametrized for Rsi period")
+    @ParameterizedTest
+    @EnumSource(value = RsiPeriod.class, names = {"FOURTEEN", "TWENTY_FOUR"})
+    void testRsiParametrizedInterval(RsiPeriod rsiPeriod) {
+        var ema = indicatorService.getRsi(TICKER, Interval.ONE_DAY, rsiPeriod, SeriesType.OPEN);
+        assertFalse(ema.getIndicatorData().isEmpty());
+    }
+
+    @Test
+    @DisplayName("Macd - Basic test")
+    void getMacd() {
+        var ema = indicatorService.getMacd(TICKER, Interval.ONE_DAY, SeriesType.CLOSE);
+        assertFalse(ema.getMacdData().isEmpty());
+    }
+
+    @DisplayName("Macd - Parametrized for intervals")
+    @ParameterizedTest
+    @EnumSource(value = Interval.class, names = {"ONE_HOUR", "ONE_WEEK"})
+    void testRsiParametrizedInterval(Interval interval) {
+        var ema = indicatorService.getMacd(TICKER, interval, SeriesType.OPEN);
+        assertFalse(ema.getMacdData().isEmpty());
     }
 
     @TestConfiguration
@@ -59,8 +96,8 @@ class EmaServiceTest {
     static class Config {
 
         @Bean
-        EmaService emaService() {
-            return new EmaService();
+        IndicatorService emaService() {
+            return new IndicatorService();
         }
 
         @Bean
