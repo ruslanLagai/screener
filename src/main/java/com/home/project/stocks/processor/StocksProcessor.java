@@ -9,7 +9,7 @@ public interface StocksProcessor {
         return this.getClass().getName();
     }
 
-    public enum Processors {
+    enum Processors {
         DODGE,
         HAMMER
     }

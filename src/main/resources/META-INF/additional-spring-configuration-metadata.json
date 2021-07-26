@@ -9,5 +9,15 @@
       "name": "alpha.vantage.key",
       "type": "java.lang.String",
       "description": "Key for alpha vantage."
+    },
+    {
+      "name": "indicator.ema.threshold",
+      "type": "java.lang.String",
+      "description": "Threshold to notify about ema."
+    },
+    {
+      "name": "indicator.rsi.columnsNumber",
+      "type": "java.lang.String",
+      "description": "Number of values in RSI histogram to take into account."
     }
   ] }

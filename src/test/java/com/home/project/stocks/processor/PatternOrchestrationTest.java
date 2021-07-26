@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.openfeign.FeignContext;
 import org.springframework.cloud.openfeign.FeignLoggerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -174,8 +175,18 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
     }
 
     @TestConfiguration
-    @ComponentScan(basePackages = {"com.home.project.stocks.processor", "com.home.project.stocks.service"})
+    @ComponentScan(basePackages = {"com.home.project.stocks.service"})
     static class Config {
+
+        @Bean
+        DodgeProcessor dodgeProcessor() {
+            return new DodgeProcessor();
+        };
+
+        @Bean
+        HammerProcessor hammerProcessor() {
+            return new HammerProcessor();
+        };
 
         @MockBean
         AlphaVantageApiClient alphaVantageApiClient;

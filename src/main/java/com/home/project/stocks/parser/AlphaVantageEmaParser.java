@@ -5,11 +5,11 @@ import com.home.project.stocks.model.aplha.vantage.CommonIndicator;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import lombok.extern.log4j.Log4j2;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.home.project.stocks.utils.DateTimeParser.parseDate;
 
 @Log4j2
 public class AlphaVantageEmaParser {
@@ -48,17 +48,5 @@ public class AlphaVantageEmaParser {
         macdData.put("MACD_Hist", indicatorData.getMacdHist());
         macdData.put("MACD_Signal", indicatorData.getMacdSignal());
         data.put(parseDate(date), macdData);
-    }
-
-    private static Date parseDate(String date) {
-        var formatter = date.contains(":") ?
-                new SimpleDateFormat("dd-M-yyyy hh:mm") :
-                new SimpleDateFormat("dd-M-yyyy");
-        try {
-            return formatter.parse(date);
-        } catch (ParseException e) {
-            log.error("Failed to parse date in response. " + e.getMessage());
-        }
-        return null;
     }
 }

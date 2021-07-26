@@ -21,3 +21,8 @@ spring:
           starttls:
             enable: true
 
+indicator:
+  ema:
+    threshold: 3
+  rsi:
+    columnsNumber: 3
