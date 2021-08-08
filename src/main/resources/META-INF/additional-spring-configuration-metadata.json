@@ -19,5 +19,10 @@
       "name": "indicator.rsi.columnsNumber",
       "type": "java.lang.String",
       "description": "Number of values in RSI histogram to take into account."
+    },
+    {
+      "name": "indicator.macd.columnsNumber",
+      "type": "java.lang.String",
+      "description": "Number of bars in MACD histogram to take into account."
     }
   ] }

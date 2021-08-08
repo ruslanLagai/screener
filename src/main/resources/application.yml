@@ -26,3 +26,5 @@ indicator:
     threshold: 3
   rsi:
     columnsNumber: 3
+  macd:
+    columnsNumber: 3

@@ -4,7 +4,6 @@ import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.indicators.IndicatorProcessingResult;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.Range;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

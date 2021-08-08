@@ -9,10 +9,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.home.project.stocks.model.indicators.ParsedIndicator.*;
 import static com.home.project.stocks.utils.DateTimeParser.parseDate;
 
 @Log4j2
-public class AlphaVantageEmaParser {
+public class AlphaVantageParser {
 
     public static ParsedIndicator parseIndicator(CommonIndicator indicator) {
         Map<Date, Double> data = new HashMap<>();
@@ -44,9 +45,9 @@ public class AlphaVantageEmaParser {
                 || indicatorData.getMacdSignal() == null) {
             throw new IndicatorParsingException("Not enough data for MACD indicator");
         }
-        macdData.put("MACD", indicatorData.getMacd());
-        macdData.put("MACD_Hist", indicatorData.getMacdHist());
-        macdData.put("MACD_Signal", indicatorData.getMacdSignal());
+        macdData.put(MACD, indicatorData.getMacd());
+        macdData.put(MACD_HIST, indicatorData.getMacdHist());
+        macdData.put(MACD_SIGNAL, indicatorData.getMacdSignal());
         data.put(parseDate(date), macdData);
     }
 }

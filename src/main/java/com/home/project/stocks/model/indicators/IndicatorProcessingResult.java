@@ -18,9 +18,9 @@ public class IndicatorProcessingResult {
     private double closePrice;
     private double openPrice;
     private double maxPrice;
-    private Trend trend;
+    private Trend macdSignalTrend;
+    private Trend macdBarTrend;
     private RsiSign rsiSign;
-    private Trend momentumTrend;
 
     public IndicatorProcessingResult() {
         emaValue = new HashMap<>();
