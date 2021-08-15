@@ -1,6 +1,6 @@
 package com.home.project.stocks.processor;
 
-import com.home.project.stocks.model.indicators.IndicatorProcessingResult;
+import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import com.home.project.stocks.utils.DateTimeParser;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,11 +39,11 @@ class RsiProcessorTest extends AbstractProcessorTest {
 
         var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10);
 
-        var processingResult = new IndicatorProcessingResult();
+        var processingResult = new ProcessingResult();
         var parsedIndicator = new ParsedIndicator(indicatorData, null, "IBM", "daily");
         rsiProcessor.processIndicator(parsedIndicator, candle, processingResult);
         assertAll(() -> {
-            assertEquals(IndicatorProcessingResult.RsiSign.NO_SIGN, processingResult.getRsiSign());
+            assertEquals(ProcessingResult.RsiSign.NO_SIGN, processingResult.getRsiSign());
             assertEquals(Arrays.asList(46.8841, 49.6213, 29.9468), processingResult.getRsiValues());
         });
     }
@@ -59,11 +59,11 @@ class RsiProcessorTest extends AbstractProcessorTest {
 
         var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10);
 
-        var processingResult = new IndicatorProcessingResult();
+        var processingResult = new ProcessingResult();
         var parsedIndicator = new ParsedIndicator(indicatorData, null, "IBM", "daily");
         rsiProcessor.processIndicator(parsedIndicator, candle, processingResult);
         assertAll(() -> {
-            assertEquals(IndicatorProcessingResult.RsiSign.OVERSOLD, processingResult.getRsiSign());
+            assertEquals(ProcessingResult.RsiSign.OVERSOLD, processingResult.getRsiSign());
             assertEquals(Arrays.asList(14.8841, 16.6213, 19.9468), processingResult.getRsiValues());
         });
     }
@@ -79,11 +79,11 @@ class RsiProcessorTest extends AbstractProcessorTest {
 
         var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10);
 
-        var processingResult = new IndicatorProcessingResult();
+        var processingResult = new ProcessingResult();
         var parsedIndicator = new ParsedIndicator(indicatorData, null, "IBM", "daily");
         rsiProcessor.processIndicator(parsedIndicator, candle, processingResult);
         assertAll(() -> {
-            assertEquals(IndicatorProcessingResult.RsiSign.OVERBOUGHT, processingResult.getRsiSign());
+            assertEquals(ProcessingResult.RsiSign.OVERBOUGHT, processingResult.getRsiSign());
             assertEquals(Arrays.asList(67.8841, 65.6213, 56.9468), processingResult.getRsiValues());
         });
     }

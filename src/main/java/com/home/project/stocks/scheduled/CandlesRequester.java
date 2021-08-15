@@ -45,6 +45,6 @@ public class CandlesRequester implements ScheduledRequester{
                 .collect(Collectors.toMap(Payload::getFigi, Payload::getCandles));
         log.info("Number of received stocks: {}", candlesByFigi.size());
         CandleValidator.removeInvalid(candlesByFigi);
-        orchestration.processStocks(candlesByFigi);
+//        orchestration.processStocks(candlesByFigi);
     }
 }

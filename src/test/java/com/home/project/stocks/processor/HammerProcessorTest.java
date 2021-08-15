@@ -28,12 +28,12 @@ class HammerProcessorTest extends AbstractProcessorTest{
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
         assertAll(() -> {
-            assertEquals(20.9, result.get(StocksProcessor.Processors.HAMMER).get(0).getC());
-            assertEquals(18.6, result.get(StocksProcessor.Processors.HAMMER).get(0).getO());
-            assertEquals(21, result.get(StocksProcessor.Processors.HAMMER).get(0).getH());
-            assertEquals(16, result.get(StocksProcessor.Processors.HAMMER).get(0).getL());
-            assertEquals(5, result.get(StocksProcessor.Processors.HAMMER).get(0).getV());
-            assertEquals(FIGI, result.get(StocksProcessor.Processors.HAMMER).get(0).getFigi());
+            assertEquals(20.9, result.get(PatternProcessor.Processors.HAMMER).get(0).getC());
+            assertEquals(18.6, result.get(PatternProcessor.Processors.HAMMER).get(0).getO());
+            assertEquals(21, result.get(PatternProcessor.Processors.HAMMER).get(0).getH());
+            assertEquals(16, result.get(PatternProcessor.Processors.HAMMER).get(0).getL());
+            assertEquals(5, result.get(PatternProcessor.Processors.HAMMER).get(0).getV());
+            assertEquals(FIGI, result.get(PatternProcessor.Processors.HAMMER).get(0).getFigi());
         });
     }
 

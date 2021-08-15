@@ -3,7 +3,6 @@ package com.home.project.stocks.processor;
 import com.home.project.stocks.model.candles.Candle;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,12 +27,12 @@ class DodgeProcessorTest extends AbstractProcessorTest {
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
         assertAll(() -> {
-            assertEquals(20.5, result.get(StocksProcessor.Processors.DODGE).get(0).getC());
-            assertEquals(20.1, result.get(StocksProcessor.Processors.DODGE).get(0).getO());
-            assertEquals(28, result.get(StocksProcessor.Processors.DODGE).get(0).getH());
-            assertEquals(14, result.get(StocksProcessor.Processors.DODGE).get(0).getL());
-            assertEquals(5, result.get(StocksProcessor.Processors.DODGE).get(0).getV());
-            assertEquals(FIGI, result.get(StocksProcessor.Processors.DODGE).get(0).getFigi());
+            assertEquals(20.5, result.get(PatternProcessor.Processors.DODGE).get(0).getC());
+            assertEquals(20.1, result.get(PatternProcessor.Processors.DODGE).get(0).getO());
+            assertEquals(28, result.get(PatternProcessor.Processors.DODGE).get(0).getH());
+            assertEquals(14, result.get(PatternProcessor.Processors.DODGE).get(0).getL());
+            assertEquals(5, result.get(PatternProcessor.Processors.DODGE).get(0).getV());
+            assertEquals(FIGI, result.get(PatternProcessor.Processors.DODGE).get(0).getFigi());
         });
     }
 

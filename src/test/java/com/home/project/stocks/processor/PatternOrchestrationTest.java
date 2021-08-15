@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.cloud.openfeign.FeignContext;
-import org.springframework.cloud.openfeign.FeignLoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,14 +19,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
 
 /**
  * Class to test {@link PatternOrchestration}
@@ -45,7 +39,6 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
     @BeforeEach
     public void setUp() {
         orchestration.setStocksProcessors(Arrays.asList(new DodgeProcessor(), new HammerProcessor()));
-        orchestration.setRepositoryService(repositoryService);
     }
 
     @Test
@@ -60,8 +53,9 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
         c1.setFigi("testFigi");
         c1.setInterval("1min");
         Candle[] candles = {c1};
-        var result = orchestration.processStocks(Map.of("testFigi", candles));
-        assertEquals(0, result.size());
+        var result = orchestration.processStocks("testTicker", "testFigi", candles, null);
+        assertFalse(result.getIsDodge());
+        assertFalse(result.getIsHammer());
     }
 
     @Test
@@ -76,15 +70,12 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
             generateCandle(22.6, 26.9, 28, 18, 5),
         };
         //when
-        doReturn(mockResult(true, false, candles[2])).when(repositoryService).save(any());
-        var result = orchestration.processStocks(Map.of(FIGI, candles));
+        var result = orchestration.processStocks(TICKER, FIGI, candles, null);
         //then
-        assertEquals(1, result.size());
         assertAll(() -> {
-            assertTrue(result.iterator().next().getIsDodge());
-            assertFalse(result.iterator().next().getIsHammer());
-            assertTrue(result.iterator().next().shouldBeSent());
-            assertEquals(FIGI, result.iterator().next().getFigi());
+            assertTrue(result.getIsDodge());
+            assertFalse(result.getIsHammer());
+            assertEquals(FIGI, result.getFigi());
         });
     }
 
@@ -100,15 +91,12 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
             generateCandle(20.9, 23.9, 26, 19, 5),
         };
         //when
-        doReturn(mockResult(false, true, candles[2])).when(repositoryService).save(any());
         //then
-        var result = orchestration.processStocks(Map.of(FIGI, candles));
-        assertEquals(1, result.size());
+        var result = orchestration.processStocks(TICKER, FIGI, candles, null);
         assertAll(() -> {
-            assertFalse(result.iterator().next().getIsDodge());
-            assertTrue(result.iterator().next().getIsHammer());
-            assertTrue(result.iterator().next().shouldBeSent());
-            assertEquals(FIGI, result.iterator().next().getFigi());
+            assertFalse(result.getIsDodge());
+            assertTrue(result.getIsHammer());
+            assertEquals(FIGI, result.getFigi());
         });
     }
 
@@ -129,16 +117,12 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
                 generateCandle(22.6, 26.9, 28, 18, 5)
         };
         //when
-        doReturn(mockResult(true, true, candles[2])).when(repositoryService).save(any());
-        var result = orchestration.processStocks(Map.of(FIGI, candles));
+        var result = orchestration.processStocks(TICKER, FIGI, candles, null);
         //then
-        assertEquals(1, result.size());
-        var list = new ArrayList<>(result);
         assertAll(() -> {
-            assertTrue(list.get(0).getIsDodge());
-            assertTrue(list.get(0).getIsHammer());
-            assertTrue(list.get(0).shouldBeSent());
-            assertEquals(FIGI, list.get(0).getFigi());
+            assertTrue(result.getIsDodge());
+            assertTrue(result.getIsHammer());
+            assertEquals(FIGI, result.getFigi());
         });
     }
 
@@ -148,14 +132,15 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
         var candles = new Candle[]{
             generateCandle(30.1, 25.2, 31, 24, 10)
         };
-        var result = orchestration.processStocks(Map.of(FIGI, candles));
-        assertEquals(0, result.size());
+        var result = orchestration.processStocks(TICKER, FIGI, candles, null);
+        assertFalse(result.getIsDodge());
+        assertFalse(result.getIsHammer());
     }
 
     @Test
     @DisplayName("test null entry")
     void testNullProcessing() {
-        assertThrows(NullPointerException.class, () -> orchestration.processStocks(null));
+        assertThrows(NullPointerException.class, () -> orchestration.processStocks(null, null, null, null));
     }
 
     private HashSet<ProcessingResult> mockResult(boolean isDodge, boolean isHammer, Candle candle) {
@@ -163,11 +148,11 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
         processingResult.setFigi(FIGI);
         processingResult.setIsDodge(isDodge);
         processingResult.setIsHammer(isHammer);
-        MultiValueMap<StocksProcessor.Processors, Candle> candles = new LinkedMultiValueMap<>();
+        MultiValueMap<PatternProcessor.Processors, Candle> candles = new LinkedMultiValueMap<>();
         if (isDodge) {
-            candles.add(StocksProcessor.Processors.DODGE, candle);
+            candles.add(PatternProcessor.Processors.DODGE, candle);
         } else {
-            candles.add(StocksProcessor.Processors.HAMMER, candle);
+            candles.add(PatternProcessor.Processors.HAMMER, candle);
         }
         processingResult.setProcessedCandles(candles);
 

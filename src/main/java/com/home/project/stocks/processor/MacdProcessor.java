@@ -1,7 +1,7 @@
 package com.home.project.stocks.processor;
 
 import com.home.project.stocks.model.candles.Candle;
-import com.home.project.stocks.model.indicators.IndicatorProcessingResult;
+import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +23,11 @@ import static com.home.project.stocks.model.indicators.ParsedIndicator.*;
  * sign as descending if:
  *      - hist desc over last 3 days
  *      - MACD crosses signal line below
+ *
+ * Note:
+ *  - barValues, macdValues contain last 3 values starting from the latest one,
+ *      i.e. latest value at index 0
+ *
  */
 @Component
 @Log4j2
@@ -37,9 +42,10 @@ public class MacdProcessor implements IndicatorProcessor {
     private int columnsNumber;
 
     @Override
-    public void processIndicator(ParsedIndicator indicator, Candle candle, IndicatorProcessingResult processingResult) {
+    public void processIndicator(ParsedIndicator indicator, Candle candle, ProcessingResult processingResult) {
         extractLastDates(indicator);
         extractLastValues(indicator);
+        processingResult.setMacdBarValues(barValues);
         processingResult.setMacdBarTrend(checkBarCondition());
         processingResult.setMacdSignalTrend(checkMacdSignal());
     }
@@ -60,26 +66,26 @@ public class MacdProcessor implements IndicatorProcessor {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    private IndicatorProcessingResult.Trend checkBarCondition() {
-        IndicatorProcessingResult.Trend trend = null;
+    private ProcessingResult.Trend checkBarCondition() {
+        ProcessingResult.Trend trend = null;
         if (barValues.size() < columnsNumber) {
-            return IndicatorProcessingResult.Trend.NO_SIGN;
+            return ProcessingResult.Trend.NO_SIGN;
         }
         for (int i = 1; i < barValues.size(); i++) {
             var current = barValues.get(i);
             var next = barValues.get(i - 1);
-            trend = current > next && (trend == IndicatorProcessingResult.Trend.DESCENDING || trend == null)
-                    ? IndicatorProcessingResult.Trend.DESCENDING :
-                    current < next && (trend == IndicatorProcessingResult.Trend.ASCENDING || trend == null)
-                    ? IndicatorProcessingResult.Trend.ASCENDING : IndicatorProcessingResult.Trend.NO_SIGN;
+            trend = current > next && (trend == ProcessingResult.Trend.DESCENDING || trend == null)
+                    ? ProcessingResult.Trend.DESCENDING :
+                    current < next && (trend == ProcessingResult.Trend.ASCENDING || trend == null)
+                    ? ProcessingResult.Trend.ASCENDING : ProcessingResult.Trend.NO_SIGN;
         }
         return trend;
     }
 
-    private IndicatorProcessingResult.Trend checkMacdSignal() {
-        IndicatorProcessingResult.Trend trend = null;
+    private ProcessingResult.Trend checkMacdSignal() {
+        ProcessingResult.Trend trend = null;
         if (macdValues.size() < columnsNumber) {
-            return IndicatorProcessingResult.Trend.NO_SIGN;
+            return ProcessingResult.Trend.NO_SIGN;
         }
 
         boolean isCrossedAbove = false;
@@ -93,8 +99,8 @@ public class MacdProcessor implements IndicatorProcessor {
                     && (macdValues.get(i + 1) <= signalLineValues.get(i + 1)
                     || macdValues.get(i) <= signalLineValues.get(i));
         }
-        return isCrossedAbove ? IndicatorProcessingResult.Trend.ASCENDING
-                : isCrossedBelow ? IndicatorProcessingResult.Trend.DESCENDING
-                : IndicatorProcessingResult.Trend.NO_SIGN;
+        return isCrossedAbove ? ProcessingResult.Trend.ASCENDING
+                : isCrossedBelow ? ProcessingResult.Trend.DESCENDING
+                : ProcessingResult.Trend.NO_SIGN;
     }
 }

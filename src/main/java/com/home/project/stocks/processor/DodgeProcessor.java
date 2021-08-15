@@ -17,7 +17,7 @@ import java.util.stream.Stream;
  */
 @Component
 @Log4j2
-public class DodgeProcessor implements StocksProcessor {
+public class DodgeProcessor implements PatternProcessor {
 
     private static final double MIN_INTERVAL = 0.97;
     private static final double MAX_INTERVAL = 1.03;

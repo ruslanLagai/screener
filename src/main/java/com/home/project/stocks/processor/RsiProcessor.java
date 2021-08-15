@@ -1,7 +1,7 @@
 package com.home.project.stocks.processor;
 
 import com.home.project.stocks.model.candles.Candle;
-import com.home.project.stocks.model.indicators.IndicatorProcessingResult;
+import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +25,7 @@ public class RsiProcessor implements IndicatorProcessor {
     private int columnsNumber;
 
     @Override
-    public void processIndicator(ParsedIndicator indicator, Candle candle, IndicatorProcessingResult processingResult) {
+    public void processIndicator(ParsedIndicator indicator, Candle candle, ProcessingResult processingResult) {
         var lastDates = indicator.getIndicatorData().keySet().stream()
                 .sorted(Comparator.reverseOrder())
                 .limit(columnsNumber)
@@ -37,11 +37,11 @@ public class RsiProcessor implements IndicatorProcessor {
         processingResult.setRsiValues(lastValues);
     }
 
-    private static IndicatorProcessingResult.RsiSign checkCondition(List<Double> values) {
+    private static ProcessingResult.RsiSign checkCondition(List<Double> values) {
         var isOversold = values.stream().allMatch(value -> value <= RSI_LOWER_LIMIT);
         var isOverbought = values.stream().allMatch(value -> value >= RSI_UPPER_LIMIT);
-        return isOversold ? IndicatorProcessingResult.RsiSign.OVERSOLD
-                : isOverbought ? IndicatorProcessingResult.RsiSign.OVERBOUGHT
-                : IndicatorProcessingResult.RsiSign.NO_SIGN;
+        return isOversold ? ProcessingResult.RsiSign.OVERSOLD
+                : isOverbought ? ProcessingResult.RsiSign.OVERBOUGHT
+                : ProcessingResult.RsiSign.NO_SIGN;
     }
 }

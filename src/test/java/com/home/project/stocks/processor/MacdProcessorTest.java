@@ -1,6 +1,6 @@
 package com.home.project.stocks.processor;
 
-import com.home.project.stocks.model.indicators.IndicatorProcessingResult;
+import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import com.home.project.stocks.utils.DateTimeParser;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,7 +52,7 @@ class MacdProcessorTest extends AbstractProcessorTest {
                 "MACD_Hist", 0.4227));
 
         var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10);
-        var processingResult = new IndicatorProcessingResult();
+        var processingResult = new ProcessingResult();
         var parsedIndicator = new ParsedIndicator(null, indicatorData, "IBM", "daily");
 
         //when
@@ -60,8 +60,8 @@ class MacdProcessorTest extends AbstractProcessorTest {
 
         //then
         assertAll(() -> {
-            assertEquals(IndicatorProcessingResult.Trend.NO_SIGN, processingResult.getMacdSignalTrend());
-            assertEquals(IndicatorProcessingResult.Trend.NO_SIGN, processingResult.getMacdSignalTrend());
+            assertEquals(ProcessingResult.Trend.NO_SIGN, processingResult.getMacdSignalTrend());
+            assertEquals(ProcessingResult.Trend.NO_SIGN, processingResult.getMacdSignalTrend());
         });
     }
 
@@ -88,7 +88,7 @@ class MacdProcessorTest extends AbstractProcessorTest {
                 "MACD_Hist", 0.4227));
 
         var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10);
-        var processingResult = new IndicatorProcessingResult();
+        var processingResult = new ProcessingResult();
         var parsedIndicator = new ParsedIndicator(null, indicatorData, "IBM", "daily");
 
         //when
@@ -96,8 +96,8 @@ class MacdProcessorTest extends AbstractProcessorTest {
 
         //then
         assertAll(() -> {
-            assertEquals(IndicatorProcessingResult.Trend.ASCENDING, processingResult.getMacdSignalTrend());
-            assertEquals(IndicatorProcessingResult.Trend.ASCENDING, processingResult.getMacdSignalTrend());
+            assertEquals(ProcessingResult.Trend.ASCENDING, processingResult.getMacdSignalTrend());
+            assertEquals(ProcessingResult.Trend.ASCENDING, processingResult.getMacdSignalTrend());
         });
     }
 
@@ -124,7 +124,7 @@ class MacdProcessorTest extends AbstractProcessorTest {
                 "MACD_Hist", 0.5227));
 
         var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10);
-        var processingResult = new IndicatorProcessingResult();
+        var processingResult = new ProcessingResult();
         var parsedIndicator = new ParsedIndicator(null, indicatorData, "IBM", "daily");
 
         //when
@@ -132,8 +132,8 @@ class MacdProcessorTest extends AbstractProcessorTest {
 
         //then
         assertAll(() -> {
-            assertEquals(IndicatorProcessingResult.Trend.DESCENDING, processingResult.getMacdSignalTrend());
-            assertEquals(IndicatorProcessingResult.Trend.DESCENDING, processingResult.getMacdSignalTrend());
+            assertEquals(ProcessingResult.Trend.DESCENDING, processingResult.getMacdSignalTrend());
+            assertEquals(ProcessingResult.Trend.DESCENDING, processingResult.getMacdSignalTrend());
         });
     }
 }

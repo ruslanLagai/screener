@@ -5,7 +5,7 @@ import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.model.repositories.CandleIndex;
 import com.home.project.stocks.model.repositories.DodgeIndex;
 import com.home.project.stocks.model.repositories.HammerIndex;
-import com.home.project.stocks.processor.StocksProcessor;
+import com.home.project.stocks.processor.PatternProcessor;
 import com.home.project.stocks.repository.CandleRepository;
 import com.home.project.stocks.repository.DodgeRepository;
 import com.home.project.stocks.repository.HammerRepository;
@@ -59,10 +59,10 @@ public class RepositoryService {
     private void filterAlreadySent(Collection<ProcessingResult> results) {
         results.forEach(item -> {
             var multiValueMap = item.getProcessedCandles();
-            multiValueMap.replace(StocksProcessor.Processors.DODGE,
-                    filterAlreadySentStocks(multiValueMap.get(StocksProcessor.Processors.DODGE), dodgesIndexFunction));
-            multiValueMap.replace(StocksProcessor.Processors.HAMMER,
-                    filterAlreadySentStocks(multiValueMap.get(StocksProcessor.Processors.HAMMER), hammerIndexFunction));
+            multiValueMap.replace(PatternProcessor.Processors.DODGE,
+                    filterAlreadySentStocks(multiValueMap.get(PatternProcessor.Processors.DODGE), dodgesIndexFunction));
+            multiValueMap.replace(PatternProcessor.Processors.HAMMER,
+                    filterAlreadySentStocks(multiValueMap.get(PatternProcessor.Processors.HAMMER), hammerIndexFunction));
         });
     }
 
@@ -87,7 +87,7 @@ public class RepositoryService {
     private void saveDodgePatterns(Collection<ProcessingResult> results) {
         try {
             results.stream().filter(ProcessingResult::getIsDodge)
-                    .forEach(item -> item.getProcessedCandles().get(StocksProcessor.Processors.DODGE).stream()
+                    .forEach(item -> item.getProcessedCandles().get(PatternProcessor.Processors.DODGE).stream()
                             .filter(Objects::nonNull)
                             .map(candle -> {
                                 var candleIndex = candleRepository.save(CandleIndex.populateFields(candle));
@@ -109,7 +109,7 @@ public class RepositoryService {
     private void saveHammerPatterns(Collection<ProcessingResult> results) {
         try {
             results.stream().filter(ProcessingResult::getIsHammer)
-                    .forEach(item -> item.getProcessedCandles().get(StocksProcessor.Processors.HAMMER).stream()
+                    .forEach(item -> item.getProcessedCandles().get(PatternProcessor.Processors.HAMMER).stream()
                             .filter(Objects::nonNull)
                             .map(candle -> {
                                 var candleIndex = candleRepository.save(CandleIndex.populateFields(candle));

@@ -5,7 +5,7 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.processor.AbstractProcessorTest;
-import com.home.project.stocks.processor.StocksProcessor;
+import com.home.project.stocks.processor.PatternProcessor;
 import org.junit.Ignore;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +54,8 @@ public class FeingClientTest extends AbstractProcessorTest {
         var procResult = new ProcessingResult();
         procResult.setFigi("figi");
         procResult.setIsDodge(true);
-        MultiValueMap<StocksProcessor.Processors, Candle> map = new LinkedMultiValueMap<>();
-        map.put(StocksProcessor.Processors.DODGE, Collections.singletonList(generateCandle(0, 1, 2, 3, 4)));
+        MultiValueMap<PatternProcessor.Processors, Candle> map = new LinkedMultiValueMap<>();
+        map.put(PatternProcessor.Processors.DODGE, Collections.singletonList(generateCandle(0, 1, 2, 3, 4)));
         procResult.setProcessedCandles(map);
 
         var response = notifierClient.notifyUser(

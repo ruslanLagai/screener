@@ -9,8 +9,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -19,7 +17,7 @@ import java.util.stream.Stream;
  */
 @Component
 @Log4j2
-public class HammerProcessor implements StocksProcessor {
+public class HammerProcessor implements PatternProcessor {
 
     private static final double LOWER_SHADOW_RATIO = 1.1;
     private static final double LOWER_CANDLE_BODY_RATIO = 0.1;

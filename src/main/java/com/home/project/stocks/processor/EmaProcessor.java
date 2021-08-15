@@ -2,7 +2,7 @@ package com.home.project.stocks.processor;
 
 import com.home.project.stocks.model.aplha.vantage.EmaPeriod;
 import com.home.project.stocks.model.candles.Candle;
-import com.home.project.stocks.model.indicators.IndicatorProcessingResult;
+import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.Range;
@@ -22,14 +22,14 @@ public abstract class EmaProcessor implements IndicatorProcessor {
     protected EmaPeriod emaPeriod;
 
     @Override
-    public void processIndicator(ParsedIndicator indicator, Candle candle, IndicatorProcessingResult processingResult) {
+    public void processIndicator(ParsedIndicator indicator, Candle candle, ProcessingResult processingResult) {
         var lastDate = indicator.getIndicatorData().keySet().stream().max(Date::compareTo).orElse(null);
         var emaValue = indicator.getIndicatorData().get(lastDate);
         var isSupportLevel = isSupportLevel(candle.getH(), emaValue);
         var difference = calculateDifference(isSupportLevel ? candle.getL() : candle.getH(), emaValue);
         processingResult.getEmaValue().put(this.emaPeriod, initEmaData(emaValue, difference, isCloseToEma(difference),
-                isSupportLevel ? IndicatorProcessingResult.LevelType.SUPPORT
-                        : IndicatorProcessingResult.LevelType.RESISTANCE));
+                isSupportLevel ? ProcessingResult.LevelType.SUPPORT
+                        : ProcessingResult.LevelType.RESISTANCE));
     }
 
     /**
@@ -57,9 +57,9 @@ public abstract class EmaProcessor implements IndicatorProcessor {
         return range.contains(difference);
     }
 
-    protected IndicatorProcessingResult.EmaData initEmaData(double emaValue, double difference, boolean isClose,
-                                                            IndicatorProcessingResult.LevelType levelType) {
-        return IndicatorProcessingResult.EmaData.builder()
+    protected ProcessingResult.EmaData initEmaData(double emaValue, double difference, boolean isClose,
+                                                   ProcessingResult.LevelType levelType) {
+        return ProcessingResult.EmaData.builder()
                 .emaValue(emaValue)
                 .difference(difference)
                 .isCloseToEma(isClose)

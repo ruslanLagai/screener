@@ -17,3 +17,11 @@ feign:
         loggerLevel: full
         encoder: com.example.SimpleEncoder
         decoder: com.example.SimpleDecoder
+
+indicator:
+  ema:
+    threshold: 3
+  rsi:
+    columnsNumber: 3
+  macd:
+    columnsNumber: 3

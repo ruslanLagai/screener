@@ -6,7 +6,7 @@ import com.home.project.stocks.model.repositories.CandleIndex;
 import com.home.project.stocks.model.repositories.DodgeIndex;
 import com.home.project.stocks.model.repositories.HammerIndex;
 import com.home.project.stocks.processor.AbstractProcessorTest;
-import com.home.project.stocks.processor.StocksProcessor;
+import com.home.project.stocks.processor.PatternProcessor;
 import com.home.project.stocks.repository.CandleRepository;
 import com.home.project.stocks.repository.DodgeRepository;
 import com.home.project.stocks.repository.HammerRepository;
@@ -70,10 +70,10 @@ class RepositoryServiceTest extends AbstractProcessorTest {
         hammerCandle.setInterval("day");
 
         var processingResult = mockProcessingResult(true, false);
-        MultiValueMap<StocksProcessor.Processors, Candle> candles = new LinkedMultiValueMap<>();
-        candles.add(StocksProcessor.Processors.DODGE, dodgeCandle);
-        candles.add(StocksProcessor.Processors.DODGE, dodgeCandle1);
-        candles.add(StocksProcessor.Processors.HAMMER, hammerCandle);
+        MultiValueMap<PatternProcessor.Processors, Candle> candles = new LinkedMultiValueMap<>();
+        candles.add(PatternProcessor.Processors.DODGE, dodgeCandle);
+        candles.add(PatternProcessor.Processors.DODGE, dodgeCandle1);
+        candles.add(PatternProcessor.Processors.HAMMER, hammerCandle);
         processingResult.setProcessedCandles(candles);
 
         //when
@@ -91,8 +91,8 @@ class RepositoryServiceTest extends AbstractProcessorTest {
 
         assertEquals(1, result.size());
         result.forEach(item -> assertAll(() -> {
-            assertEquals(2, item.getProcessedCandles().get(StocksProcessor.Processors.DODGE).size());
-            assertEquals(1, item.getProcessedCandles().get(StocksProcessor.Processors.HAMMER).size());
+            assertEquals(2, item.getProcessedCandles().get(PatternProcessor.Processors.DODGE).size());
+            assertEquals(1, item.getProcessedCandles().get(PatternProcessor.Processors.HAMMER).size());
             assertTrue(item.getIsDodge());
         }));
     }
@@ -114,10 +114,10 @@ class RepositoryServiceTest extends AbstractProcessorTest {
         hammerCandle1.setInterval("day");
 
         var processingResult = mockProcessingResult(false, true);
-        MultiValueMap<StocksProcessor.Processors, Candle> candles = new LinkedMultiValueMap<>();
-        candles.add(StocksProcessor.Processors.DODGE, dodgeCandle);
-        candles.add(StocksProcessor.Processors.HAMMER, hammerCandle1);
-        candles.add(StocksProcessor.Processors.HAMMER, hammerCandle);
+        MultiValueMap<PatternProcessor.Processors, Candle> candles = new LinkedMultiValueMap<>();
+        candles.add(PatternProcessor.Processors.DODGE, dodgeCandle);
+        candles.add(PatternProcessor.Processors.HAMMER, hammerCandle1);
+        candles.add(PatternProcessor.Processors.HAMMER, hammerCandle);
         processingResult.setProcessedCandles(candles);
 
         //when
@@ -135,8 +135,8 @@ class RepositoryServiceTest extends AbstractProcessorTest {
 
         assertEquals(1, result.size());
         result.forEach(item -> assertAll(() -> {
-            assertEquals(1, item.getProcessedCandles().get(StocksProcessor.Processors.DODGE).size());
-            assertEquals(2, item.getProcessedCandles().get(StocksProcessor.Processors.HAMMER).size());
+            assertEquals(1, item.getProcessedCandles().get(PatternProcessor.Processors.DODGE).size());
+            assertEquals(2, item.getProcessedCandles().get(PatternProcessor.Processors.HAMMER).size());
             assertTrue(item.getIsHammer());
         }));
     }
@@ -154,9 +154,9 @@ class RepositoryServiceTest extends AbstractProcessorTest {
         hammerCandle.setInterval("day");
 
         var processingResult = mockProcessingResult(true, true);
-        MultiValueMap<StocksProcessor.Processors, Candle> candles = new LinkedMultiValueMap<>();
-        candles.add(StocksProcessor.Processors.DODGE, dodgeCandle);
-        candles.add(StocksProcessor.Processors.HAMMER, hammerCandle);
+        MultiValueMap<PatternProcessor.Processors, Candle> candles = new LinkedMultiValueMap<>();
+        candles.add(PatternProcessor.Processors.DODGE, dodgeCandle);
+        candles.add(PatternProcessor.Processors.HAMMER, hammerCandle);
         processingResult.setProcessedCandles(candles);
 
         //when
@@ -175,8 +175,8 @@ class RepositoryServiceTest extends AbstractProcessorTest {
 
         assertEquals(1, result.size());
         result.forEach(item -> assertAll(() -> {
-            assertEquals(1, item.getProcessedCandles().get(StocksProcessor.Processors.DODGE).size());
-            assertEquals(1, item.getProcessedCandles().get(StocksProcessor.Processors.HAMMER).size());
+            assertEquals(1, item.getProcessedCandles().get(PatternProcessor.Processors.DODGE).size());
+            assertEquals(1, item.getProcessedCandles().get(PatternProcessor.Processors.HAMMER).size());
             assertTrue(item.getIsHammer());
             assertTrue(item.getIsDodge());
         }));
@@ -195,9 +195,9 @@ class RepositoryServiceTest extends AbstractProcessorTest {
         hammerCandle.setInterval("day");
 
         var processingResult = mockProcessingResult(true, true);
-        MultiValueMap<StocksProcessor.Processors, Candle> candles = new LinkedMultiValueMap<>();
-        candles.add(StocksProcessor.Processors.DODGE, dodgeCandle);
-        candles.add(StocksProcessor.Processors.HAMMER, hammerCandle);
+        MultiValueMap<PatternProcessor.Processors, Candle> candles = new LinkedMultiValueMap<>();
+        candles.add(PatternProcessor.Processors.DODGE, dodgeCandle);
+        candles.add(PatternProcessor.Processors.HAMMER, hammerCandle);
         processingResult.setProcessedCandles(candles);
 
         //when
@@ -212,8 +212,8 @@ class RepositoryServiceTest extends AbstractProcessorTest {
         verify(dodgeRepository, times(0)).save(any());
         verify(hammerRepository, times(0)).save(any());
 
-        assertEquals(0, result.iterator().next().getProcessedCandles().get(StocksProcessor.Processors.HAMMER).size());
-        assertEquals(0, result.iterator().next().getProcessedCandles().get(StocksProcessor.Processors.DODGE).size());
+        assertEquals(0, result.iterator().next().getProcessedCandles().get(PatternProcessor.Processors.HAMMER).size());
+        assertEquals(0, result.iterator().next().getProcessedCandles().get(PatternProcessor.Processors.DODGE).size());
 
     }
 

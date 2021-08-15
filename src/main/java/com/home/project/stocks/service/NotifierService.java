@@ -34,8 +34,8 @@ public class NotifierService {
         this.sender = sender;
     }
 
-    public void notifyAdmin(Set<ProcessingResult> processingResultSet) {
-        var stocks = processingResultSet.stream().map(ProcessingResult::getTicker)
+    public void notifyAdmin(Set<ProcessingResult> patternsProcessingResultSet) {
+        var stocks = patternsProcessingResultSet.stream().map(ProcessingResult::getTicker)
                     .collect(Collectors.toList());
         var mimeMessage = sender.createMimeMessage();
         try {

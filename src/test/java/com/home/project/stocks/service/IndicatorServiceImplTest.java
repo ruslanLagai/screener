@@ -30,11 +30,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @DisplayName("Test Ema service")
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
-@ContextConfiguration(classes = {IndicatorServiceTest.Config.class })
+@ContextConfiguration(classes = {IndicatorServiceImplTest.Config.class })
 @Import({FeignAutoConfiguration.class, HttpMessageConvertersAutoConfiguration.class})
 @EnableConfigurationProperties
 @TestPropertySource("classpath:sandbox.properties")
-class IndicatorServiceTest {
+class IndicatorServiceImplTest {
 
     private static final String TICKER = "IBM";
 
@@ -44,12 +44,12 @@ class IndicatorServiceTest {
     }
 
     @Autowired
-    private IndicatorService indicatorService;
+    private IndicatorService indicatorServiceImpl;
 
     @Test
     @DisplayName("Ema - Basic test")
     void getEma() {
-        var ema = indicatorService.getEma(TICKER, Interval.ONE_DAY, EmaPeriod.ONE_HUNDRED, SeriesType.OPEN);
+        var ema = indicatorServiceImpl.getEma(TICKER, Interval.ONE_DAY, EmaPeriod.ONE_HUNDRED, SeriesType.OPEN);
         assertFalse(ema.getIndicatorData().isEmpty());
     }
 
@@ -57,14 +57,14 @@ class IndicatorServiceTest {
     @ParameterizedTest
     @EnumSource(value = Interval.class, names = {"ONE_HOUR", "ONE_WEEK"})
     void testParametrizedInterval(Interval interval) {
-        var ema = indicatorService.getEma(TICKER, interval, EmaPeriod.ONE_HUNDRED, SeriesType.OPEN);
+        var ema = indicatorServiceImpl.getEma(TICKER, interval, EmaPeriod.ONE_HUNDRED, SeriesType.OPEN);
         assertFalse(ema.getIndicatorData().isEmpty());
     }
 
     @Test
     @DisplayName("Rsi - Basic test")
     void getRsi() {
-        var ema = indicatorService.getRsi(TICKER, Interval.ONE_DAY, RsiPeriod.NINE, SeriesType.CLOSE);
+        var ema = indicatorServiceImpl.getRsi(TICKER, Interval.ONE_DAY, RsiPeriod.NINE, SeriesType.CLOSE);
         assertFalse(ema.getIndicatorData().isEmpty());
     }
 
@@ -72,14 +72,14 @@ class IndicatorServiceTest {
     @ParameterizedTest
     @EnumSource(value = RsiPeriod.class, names = {"FOURTEEN", "TWENTY_FOUR"})
     void testRsiParametrizedInterval(RsiPeriod rsiPeriod) {
-        var ema = indicatorService.getRsi(TICKER, Interval.ONE_DAY, rsiPeriod, SeriesType.OPEN);
+        var ema = indicatorServiceImpl.getRsi(TICKER, Interval.ONE_DAY, rsiPeriod, SeriesType.OPEN);
         assertFalse(ema.getIndicatorData().isEmpty());
     }
 
     @Test
     @DisplayName("Macd - Basic test")
     void getMacd() {
-        var ema = indicatorService.getMacd(TICKER, Interval.ONE_DAY, SeriesType.CLOSE);
+        var ema = indicatorServiceImpl.getMacd(TICKER, Interval.ONE_DAY, SeriesType.CLOSE);
         assertFalse(ema.getMacdData().isEmpty());
     }
 
@@ -87,7 +87,7 @@ class IndicatorServiceTest {
     @ParameterizedTest
     @EnumSource(value = Interval.class, names = {"ONE_HOUR", "ONE_WEEK"})
     void testRsiParametrizedInterval(Interval interval) {
-        var ema = indicatorService.getMacd(TICKER, interval, SeriesType.OPEN);
+        var ema = indicatorServiceImpl.getMacd(TICKER, interval, SeriesType.OPEN);
         assertFalse(ema.getMacdData().isEmpty());
     }
 
@@ -97,7 +97,7 @@ class IndicatorServiceTest {
 
         @Bean
         IndicatorService emaService() {
-            return new IndicatorService();
+            return new IndicatorServiceImpl();
         }
 
         @Bean
