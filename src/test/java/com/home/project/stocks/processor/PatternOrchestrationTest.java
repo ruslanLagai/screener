@@ -53,7 +53,8 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
         c1.setFigi("testFigi");
         c1.setInterval("1min");
         Candle[] candles = {c1};
-        var result = orchestration.processStocks("testTicker", "testFigi", candles, null);
+        var result = new ProcessingResult();
+        orchestration.processStocks("testTicker", "testFigi", candles, null, result);
         assertFalse(result.getIsDodge());
         assertFalse(result.getIsHammer());
     }
@@ -62,6 +63,7 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
     @DisplayName("test dodge processing")
     void testDodgeProcessing() {
         //given
+        var result = new ProcessingResult();
         var candles = new Candle[]{
             generateCandle(30.1, 25.2, 31, 24, 10),
             generateCandle(25.2, 20.4, 27, 19, 9),
@@ -70,7 +72,7 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
             generateCandle(22.6, 26.9, 28, 18, 5),
         };
         //when
-        var result = orchestration.processStocks(TICKER, FIGI, candles, null);
+        orchestration.processStocks(TICKER, FIGI, candles, null, result);
         //then
         assertAll(() -> {
             assertTrue(result.getIsDodge());
@@ -83,6 +85,7 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
     @DisplayName("test hammer processing")
     void testHammerProcessing() {
         //given
+        var result = new ProcessingResult();
         var candles = new Candle[]{
             generateCandle(30.1, 25.2, 31, 24, 10),
             generateCandle(25.2, 20.4, 27, 19, 9),
@@ -92,7 +95,7 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
         };
         //when
         //then
-        var result = orchestration.processStocks(TICKER, FIGI, candles, null);
+        orchestration.processStocks(TICKER, FIGI, candles, null, result);
         assertAll(() -> {
             assertFalse(result.getIsDodge());
             assertTrue(result.getIsHammer());
@@ -104,6 +107,7 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
     @DisplayName("test hammer & dodge processing")
     void testTwoPatterndProcessing() {
         //given
+        var result = new ProcessingResult();
         var candles = new Candle[]{
                 generateCandle(30.1, 25.2, 31, 24, 10),
                 generateCandle(25.2, 20.4, 27, 19, 9),
@@ -117,7 +121,7 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
                 generateCandle(22.6, 26.9, 28, 18, 5)
         };
         //when
-        var result = orchestration.processStocks(TICKER, FIGI, candles, null);
+        orchestration.processStocks(TICKER, FIGI, candles, null, result);
         //then
         assertAll(() -> {
             assertTrue(result.getIsDodge());
@@ -129,10 +133,11 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
     @Test
     @DisplayName("test single candle")
     void testSingleCandleProcessing() {
+        var result = new ProcessingResult();
         var candles = new Candle[]{
             generateCandle(30.1, 25.2, 31, 24, 10)
         };
-        var result = orchestration.processStocks(TICKER, FIGI, candles, null);
+        orchestration.processStocks(TICKER, FIGI, candles, null, result);
         assertFalse(result.getIsDodge());
         assertFalse(result.getIsHammer());
     }
@@ -140,7 +145,8 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
     @Test
     @DisplayName("test null entry")
     void testNullProcessing() {
-        assertThrows(NullPointerException.class, () -> orchestration.processStocks(null, null, null, null));
+        assertThrows(NullPointerException.class,
+                () -> orchestration.processStocks(null, null, null, null, null));
     }
 
     private HashSet<ProcessingResult> mockResult(boolean isDodge, boolean isHammer, Candle candle) {

@@ -47,12 +47,12 @@ public class IndicatorOrchestration implements Orchestration {
                 indicator.getMacd(ticker, Interval.ONE_DAY, SeriesType.CLOSE)));
     }
 
-    public ProcessingResult processStocks(@NonNull String ticker, String figi, Candle[] candles, Candle candle) {
+    public void processStocks(@NonNull String ticker, String figi, Candle[] candles,
+                                          Candle candle, ProcessingResult processingResult) {
         Objects.requireNonNull(candle);
         if (!StringUtils.hasText(ticker)) {
             throw new ProcessingException("Received empty ticker");
         }
-        var processingResult = new ProcessingResult();
         initCandleData(candle, processingResult);
         processors.forEach(processor -> {
             var parsedIndicator = indicatorMap
@@ -60,7 +60,6 @@ public class IndicatorOrchestration implements Orchestration {
                     .apply(indicatorService, ticker);
             processor.processIndicator(parsedIndicator, candle, processingResult);
         });
-        return processingResult;
     }
 
     private void initCandleData(Candle candle, ProcessingResult processingResult) {

@@ -25,16 +25,14 @@ public class PatternOrchestration implements Orchestration {
                 .collect(Collectors.toMap(PatternProcessor::getType, Function.identity()));
     }
 
-    public ProcessingResult processStocks(@NonNull String ticker, @NonNull String figi,
-                                          Candle[] candles, Candle candle) {
-        var processingResult = new ProcessingResult();
+    public void processStocks(@NonNull String ticker, @NonNull String figi,
+                                          Candle[] candles, Candle candle, ProcessingResult processingResult) {
         processingResult.setFigi(figi);
         processingResult.setTicker(ticker);
         patternProcessors.forEach(stocksProcessor -> {
                     var isPattern = isPattern(figi, ticker, candles, stocksProcessor, processingResult);
                     processingResult.initField(isPattern, stocksProcessor);
         });
-        return processingResult;
     }
 
     private boolean isPattern(String figi, String ticker, Candle[] candles, PatternProcessor patternProcessor,

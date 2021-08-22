@@ -9,6 +9,6 @@ import lombok.NonNull;
  */
 public interface Orchestration {
 
-    ProcessingResult processStocks(@NonNull String ticker, @NonNull String figi,
-                                   Candle[] candles, Candle candle);
+    void processStocks(@NonNull String ticker, @NonNull String figi,
+                                   Candle[] candles, Candle candle, ProcessingResult processingResult);
 }

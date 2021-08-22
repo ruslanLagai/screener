@@ -51,7 +51,8 @@ class IndicatorOrchestrationTest extends AbstractProcessorTest {
     @Test
     @DisplayName("basic test")
     void processStock() {
-        var result = orchestration.processStocks(TICKER, "", null, candle);
+        var result = new ProcessingResult();
+        orchestration.processStocks(TICKER, "", null, candle, result);
         assertAll(() -> {
             assertEquals(candle.getC(), result.getClosePrice());
             assertEquals(candle.getO(), result.getOpenPrice());
@@ -68,13 +69,15 @@ class IndicatorOrchestrationTest extends AbstractProcessorTest {
     @Test
     @DisplayName("test candle is null")
     void processStockCandleNull() {
-        assertThrows(NullPointerException.class, () -> orchestration.processStocks(TICKER, "", null, null));
+        assertThrows(NullPointerException.class,
+                () -> orchestration.processStocks(TICKER, "", null, null, new ProcessingResult()));
     }
 
     @Test
     @DisplayName("test ticker is null")
     void processStockTickerNull() {
-        assertThrows(ProcessingException.class, () -> orchestration.processStocks("", "", null, candle));
+        assertThrows(ProcessingException.class,
+                () -> orchestration.processStocks("", "", null, candle, new ProcessingResult()));
     }
 
     /**

@@ -8,4 +8,5 @@ import java.time.LocalDateTime;
 
 public interface HammerRepository extends ElasticsearchRepository<HammerIndex, String> {
      HammerIndex getStocksByFigiAndCandleDateBetween(String figi, LocalDateTime start, LocalDateTime end);
+     HammerIndex getHammerIndexByTicker(String ticker);
 }
