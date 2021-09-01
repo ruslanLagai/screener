@@ -2,7 +2,7 @@ package com.home.project.stocks.client;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.home.project.stocks.model.candles.Candle;
+import com.home.project.stocks.model.aplha.vantage.Candle;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.processor.AbstractProcessorTest;
 import com.home.project.stocks.processor.PatternProcessor;
@@ -23,6 +23,7 @@ import org.springframework.util.MultiValueMap;
 
 import java.util.Collections;
 
+import static com.home.project.stocks.utils.Profiles.TEST_PROFILE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -30,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles(TEST_PROFILE)
 @ContextConfiguration(classes = FeingClientTest.Config.class)
 @EnableConfigurationProperties
 @Ignore("unused for now")

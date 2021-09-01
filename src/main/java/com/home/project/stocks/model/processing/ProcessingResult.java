@@ -1,7 +1,7 @@
 package com.home.project.stocks.model.processing;
 
+import com.home.project.stocks.model.aplha.vantage.Candle;
 import com.home.project.stocks.model.aplha.vantage.EmaPeriod;
-import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.processor.DodgeProcessor;
 import com.home.project.stocks.processor.HammerProcessor;
 import com.home.project.stocks.processor.PatternProcessor;

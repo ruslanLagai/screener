@@ -23,7 +23,7 @@ spring:
 
 indicator:
   ema:
-    threshold: 3
+    threshold: 0.05
   rsi:
     columnsNumber: 3
   macd:

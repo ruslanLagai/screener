@@ -25,16 +25,20 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static com.home.project.stocks.utils.Profiles.TEST_PROFILE;
+import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("Test Ema service")
+/**
+ * Class to test {@link AlphaVantageService}
+ */
+@DisplayName("Test Indicators service")
 @ExtendWith(SpringExtension.class)
-@ActiveProfiles("test")
-@ContextConfiguration(classes = {IndicatorServiceImplTest.Config.class })
+@ActiveProfiles(TEST_PROFILE)
+@ContextConfiguration(classes = {AlphaVantageServiceImplTest.Config.class })
 @Import({FeignAutoConfiguration.class, HttpMessageConvertersAutoConfiguration.class})
 @EnableConfigurationProperties
 @TestPropertySource("classpath:sandbox.properties")
-class IndicatorServiceImplTest {
+class AlphaVantageServiceImplTest {
 
     private static final String TICKER = "IBM";
 
@@ -44,12 +48,12 @@ class IndicatorServiceImplTest {
     }
 
     @Autowired
-    private IndicatorService indicatorServiceImpl;
+    private AlphaVantageService alphaVantageServiceImpl;
 
     @Test
     @DisplayName("Ema - Basic test")
     void getEma() {
-        var ema = indicatorServiceImpl.getEma(TICKER, Interval.ONE_DAY, EmaPeriod.ONE_HUNDRED, SeriesType.OPEN);
+        var ema = alphaVantageServiceImpl.getEma(TICKER, Interval.ONE_DAY, EmaPeriod.ONE_HUNDRED, SeriesType.OPEN);
         assertFalse(ema.getIndicatorData().isEmpty());
     }
 
@@ -57,14 +61,14 @@ class IndicatorServiceImplTest {
     @ParameterizedTest
     @EnumSource(value = Interval.class, names = {"ONE_HOUR", "ONE_WEEK"})
     void testParametrizedInterval(Interval interval) {
-        var ema = indicatorServiceImpl.getEma(TICKER, interval, EmaPeriod.ONE_HUNDRED, SeriesType.OPEN);
+        var ema = alphaVantageServiceImpl.getEma(TICKER, interval, EmaPeriod.ONE_HUNDRED, SeriesType.OPEN);
         assertFalse(ema.getIndicatorData().isEmpty());
     }
 
     @Test
     @DisplayName("Rsi - Basic test")
     void getRsi() {
-        var ema = indicatorServiceImpl.getRsi(TICKER, Interval.ONE_DAY, RsiPeriod.NINE, SeriesType.CLOSE);
+        var ema = alphaVantageServiceImpl.getRsi(TICKER, Interval.ONE_DAY, RsiPeriod.NINE, SeriesType.CLOSE);
         assertFalse(ema.getIndicatorData().isEmpty());
     }
 
@@ -72,14 +76,14 @@ class IndicatorServiceImplTest {
     @ParameterizedTest
     @EnumSource(value = RsiPeriod.class, names = {"FOURTEEN", "TWENTY_FOUR"})
     void testRsiParametrizedInterval(RsiPeriod rsiPeriod) {
-        var ema = indicatorServiceImpl.getRsi(TICKER, Interval.ONE_DAY, rsiPeriod, SeriesType.OPEN);
+        var ema = alphaVantageServiceImpl.getRsi(TICKER, Interval.ONE_DAY, rsiPeriod, SeriesType.OPEN);
         assertFalse(ema.getIndicatorData().isEmpty());
     }
 
     @Test
     @DisplayName("Macd - Basic test")
     void getMacd() {
-        var ema = indicatorServiceImpl.getMacd(TICKER, Interval.ONE_DAY, SeriesType.CLOSE);
+        var ema = alphaVantageServiceImpl.getMacd(TICKER, Interval.ONE_DAY, SeriesType.CLOSE);
         assertFalse(ema.getMacdData().isEmpty());
     }
 
@@ -87,8 +91,21 @@ class IndicatorServiceImplTest {
     @ParameterizedTest
     @EnumSource(value = Interval.class, names = {"ONE_HOUR", "ONE_WEEK"})
     void testRsiParametrizedInterval(Interval interval) {
-        var ema = indicatorServiceImpl.getMacd(TICKER, interval, SeriesType.OPEN);
+        var ema = alphaVantageServiceImpl.getMacd(TICKER, interval, SeriesType.OPEN);
         assertFalse(ema.getMacdData().isEmpty());
+    }
+
+    @DisplayName("Candles - Basic test")
+    @Test
+    void testCandles() {
+        var candles = alphaVantageServiceImpl.getDailyCandles(TICKER);
+        assertAll(() -> {
+            assertEquals(TICKER, candles.getMetadata().getSymbol());
+            assertEquals("Compact", candles.getMetadata().getOutputSize());
+            assertEquals("US/Eastern", candles.getMetadata().getTimeZone());
+            assertFalse(candles.getCandles().isEmpty());
+            assertEquals(100, candles.getCandles().size());
+        });
     }
 
     @TestConfiguration
@@ -96,8 +113,8 @@ class IndicatorServiceImplTest {
     static class Config {
 
         @Bean
-        IndicatorService emaService() {
-            return new IndicatorServiceImpl();
+        AlphaVantageService emaService() {
+            return new AlphaVantageServiceImpl();
         }
 
         @Bean

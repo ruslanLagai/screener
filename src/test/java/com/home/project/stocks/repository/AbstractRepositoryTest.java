@@ -1,6 +1,7 @@
 package com.home.project.stocks.repository;
 
 import com.home.project.stocks.processor.AbstractProcessorTest;
+import com.home.project.stocks.service.RepositoryService;
 import com.home.project.stocks.utils.LongToDateTimeConverter;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,6 +19,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 
+import java.time.Duration;
 import java.util.Collections;
 
 @ContextConfiguration(classes = AbstractRepositoryTest.Config.class)
@@ -41,6 +43,14 @@ public class AbstractRepositoryTest extends AbstractProcessorTest {
     @ComponentScan(basePackages = "com.home.project.stocks.repository")
     @EnableElasticsearchRepositories(basePackages = "com.home.project.stocks.repository")
     static class Config extends AbstractElasticsearchConfiguration {
+
+        @Bean
+        public RepositoryService repositoryService(CandleRepository candleRepository,
+                                                   DodgeRepository dodgeRepository,
+                                                   HammerRepository hammerRepository,
+                                                   IndicatorRepository indicatorRepository) {
+            return new RepositoryService(candleRepository, dodgeRepository, hammerRepository, indicatorRepository);
+        }
 
         @Bean
         public RestHighLevelClient elasticsearchClient() {

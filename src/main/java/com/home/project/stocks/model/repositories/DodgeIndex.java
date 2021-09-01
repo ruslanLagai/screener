@@ -9,6 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Data
@@ -25,11 +26,8 @@ public class DodgeIndex {
     @Field(type = FieldType.Text)
     private String ticker;
 
-    @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "uuuu-MM-dd'T'HH:mm:ss.Z")
-    private LocalDateTime date;
-
-    @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "uuuu-MM-dd'T'HH:mm:ss.Z")
-    private LocalDateTime candleDate;
+    @Field(type = FieldType.Date)
+    private Date date;
 
     @Field(type = FieldType.Text)
     private String candleId;

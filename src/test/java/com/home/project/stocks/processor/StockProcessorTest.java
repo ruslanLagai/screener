@@ -1,14 +1,16 @@
 package com.home.project.stocks.processor;
 
+import com.home.project.stocks.helpers.YamlPropertySourceFactory;
 import com.home.project.stocks.model.aplha.vantage.EmaPeriod;
 import com.home.project.stocks.model.aplha.vantage.Interval;
 import com.home.project.stocks.model.aplha.vantage.RsiPeriod;
 import com.home.project.stocks.model.aplha.vantage.SeriesType;
-import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import com.home.project.stocks.repository.*;
-import com.home.project.stocks.service.IndicatorService;
+import com.home.project.stocks.service.AlphaVantageService;
 import com.home.project.stocks.utils.DateTimeParser;
+import com.home.project.stocks.utils.Profiles;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,9 +18,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.testcontainers.elasticsearch.ElasticsearchContainer;
 
+import java.time.Instant;
+import java.time.Period;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +38,7 @@ import static org.mockito.Mockito.mock;
 
 @DisplayName("Test stock processing")
 @ExtendWith(SpringExtension.class)
+@ActiveProfiles(Profiles.TEST_PROFILE)
 @ContextConfiguration(classes = StockProcessorTest.Config.class)
 class StockProcessorTest extends AbstractRepositoryTest {
 
@@ -54,32 +63,44 @@ class StockProcessorTest extends AbstractRepositoryTest {
     void processStock() {
         var candle1 = generateCandle(10, 20, 21, 9, 15);
         var candle2 = generateCandle(10, 20, 21, 9, 15);
-        candle1.setFigi("figi1");
-        candle2.setFigi("figi1");
+        var candle3 = generateCandle(10, 20, 21, 9, 15);
+        var candle4 = generateCandle(10, 20, 21, 9, 15);
+        var candle5 = generateCandle(10, 20, 21, 9, 15);
+        var candle6 = generateCandle(10, 20, 21, 9, 15);
 
-        stockProcessor.processStock(AAPL, "figi1", new Candle[]{candle1, candle2});
+        stockProcessor.processStock(AAPL, "figi1", Map.of(
+                Date.from(Instant.now()), candle1,
+                Date.from(Instant.now().minus(Period.ofDays(1))), candle2,
+                Date.from(Instant.now().minus(Period.ofDays(2))), candle3,
+                Date.from(Instant.now().minus(Period.ofDays(3))), candle4,
+                Date.from(Instant.now().minus(Period.ofDays(4))), candle5,
+                Date.from(Instant.now().minus(Period.ofDays(5))), candle6
+        ));
 
         var dodge = dodgeRepository.getDodgeIndexByTicker(AAPL);
         var hammer = hammerRepository.getHammerIndexByTicker(AAPL);
         var indicator = indicatorRepository.getByTicker(AAPL);
-        var candle = candleRepository.findCandleIndexByFigi("figi1");
+        var candle = candleRepository.findCandleIndexByTicker(AAPL);
 
         assertAll(() -> {
             assertNull(dodge);
             assertNull(hammer);
             assertEquals(AAPL, indicator.getTicker());
-            assertEquals(candle.getL(), 9);
+            assertEquals(candle.getLow(), 9);
             assertEquals(candle.getId(), indicator.getCandleId());
         });
     }
 
     @TestConfiguration
-    @ComponentScan(basePackages = "com.home.project.stocks.processor")
+    @ComponentScan(basePackages = "com.home.project.stocks.processor",
+            excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
+            value = {PatternOrchestrationTest.Config.class, IndicatorOrchestrationTest.Config.class}) })
+    @PropertySource(value = "classpath:application-test.yml", factory = YamlPropertySourceFactory.class)
     static class Config {
 
         @Bean
-        IndicatorService indicatorService() {
-            var indicatorService = mock(IndicatorService.class);
+        AlphaVantageService indicatorService() {
+            var indicatorService = mock(AlphaVantageService.class);
 
             Map<Date, Double> indicatorData = new HashMap<>();
             indicatorData.put(DateTimeParser.parseDate("2021-07-22"), 15.0);

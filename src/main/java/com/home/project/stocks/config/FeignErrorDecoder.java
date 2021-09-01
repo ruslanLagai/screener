@@ -4,10 +4,12 @@ import feign.Response;
 import feign.RetryableException;
 import feign.codec.ErrorDecoder;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 
 /**
  * Custom error decoding for enabling retry
  */
+@Component
 public class FeignErrorDecoder implements ErrorDecoder {
 
     private final ErrorDecoder defaultErrorDecoder = new Default();

@@ -10,15 +10,16 @@ import java.util.stream.Stream;
 
 @AllArgsConstructor
 @Getter
-public enum Indicator {
+public enum Function {
     EMA("EMA"),
     MACD("MACD"),
-    RSI("RSI");
+    RSI("RSI"),
+    TIME_SERIES_DAILY("TIME_SERIES_DAILY_ADJUSTED");
 
     private final String indicator;
 
     @JsonCreator
-    public static Indicator parse(String value) {
+    public static Function parse(String value) {
         return Stream.of(values())
                 .filter(period -> Objects.equals(value, period.toString()))
                 .findFirst().orElseThrow(IllegalArgumentException::new);

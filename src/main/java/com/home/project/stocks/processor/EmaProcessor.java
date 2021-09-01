@@ -1,7 +1,7 @@
 package com.home.project.stocks.processor;
 
+import com.home.project.stocks.model.aplha.vantage.Candle;
 import com.home.project.stocks.model.aplha.vantage.EmaPeriod;
-import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import lombok.extern.log4j.Log4j2;
@@ -25,8 +25,8 @@ public abstract class EmaProcessor implements IndicatorProcessor {
     public void processIndicator(ParsedIndicator indicator, Candle candle, ProcessingResult processingResult) {
         var lastDate = indicator.getIndicatorData().keySet().stream().max(Date::compareTo).orElse(null);
         var emaValue = indicator.getIndicatorData().get(lastDate);
-        var isSupportLevel = isSupportLevel(candle.getH(), emaValue);
-        var difference = calculateDifference(isSupportLevel ? candle.getL() : candle.getH(), emaValue);
+        var isSupportLevel = isSupportLevel(candle.getHigh(), emaValue);
+        var difference = calculateDifference(isSupportLevel ? candle.getLow() : candle.getHigh(), emaValue);
         processingResult.getEmaValue().put(this.emaPeriod, initEmaData(emaValue, difference, isCloseToEma(difference),
                 isSupportLevel ? ProcessingResult.LevelType.SUPPORT
                         : ProcessingResult.LevelType.RESISTANCE));

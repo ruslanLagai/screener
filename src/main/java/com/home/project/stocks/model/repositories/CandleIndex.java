@@ -1,6 +1,6 @@
 package com.home.project.stocks.model.repositories;
 
-import com.home.project.stocks.model.candles.Candle;
+import com.home.project.stocks.model.aplha.vantage.Candle;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Builder
@@ -19,40 +19,38 @@ public class CandleIndex {
     private String id;
 
     @Field(type = FieldType.Text)
-    private String figi;
+    private String ticker;
 
     @Field(type = FieldType.Text)
     private String interval;
 
     @Field(type = FieldType.Double)
-    private double o;
+    private double open;
 
     @Field(type = FieldType.Double)
-    private double c;
+    private double close;
 
     @Field(type = FieldType.Double)
-    private double h;
+    private double high;
 
     @Field(type = FieldType.Double)
-    private double l;
+    private double low;
 
     @Field(type = FieldType.Double)
-    private double v;
+    private double volume;
 
     @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "uuuu-MM-dd'T'HH:mm:ss.Z")
-    private LocalDateTime time;
+    private Date time;
 
-    public static CandleIndex populateFields(Candle candle) {
+    public static CandleIndex populateFields(Candle candle, String ticker) {
         return CandleIndex.builder()
-                .o(candle.getO())
-                .c(candle.getC())
-                .h(candle.getH())
-                .l(candle.getL())
-                .v(candle.getV())
-                .figi(candle.getFigi())
-                .interval(candle.getInterval())
-                .time(candle.getTime())
+                .open(candle.getOpen())
+                .close(candle.getClose())
+                .high(candle.getHigh())
+                .low(candle.getLow())
+                .volume(candle.getVolume())
+                .time(candle.getDate())
+                .ticker(ticker)
                 .build();
-
     }
 }

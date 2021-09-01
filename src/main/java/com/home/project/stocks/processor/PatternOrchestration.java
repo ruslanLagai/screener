@@ -1,12 +1,13 @@
 package com.home.project.stocks.processor;
 
-import com.home.project.stocks.model.candles.Candle;
+import com.home.project.stocks.model.aplha.vantage.Candle;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -26,7 +27,7 @@ public class PatternOrchestration implements Orchestration {
     }
 
     public void processStocks(@NonNull String ticker, @NonNull String figi,
-                                          Candle[] candles, Candle candle, ProcessingResult processingResult) {
+                              Map<Date, Candle> candles, Date lastDate, ProcessingResult processingResult) {
         processingResult.setFigi(figi);
         processingResult.setTicker(ticker);
         patternProcessors.forEach(stocksProcessor -> {
@@ -35,7 +36,7 @@ public class PatternOrchestration implements Orchestration {
         });
     }
 
-    private boolean isPattern(String figi, String ticker, Candle[] candles, PatternProcessor patternProcessor,
+    private boolean isPattern(String figi, String ticker, Map<Date, Candle> candles, PatternProcessor patternProcessor,
                               ProcessingResult processingResult) {
         var procResult = patternProcessor.processStock(figi, ticker, candles);
         var isPattern = !procResult.isEmpty();

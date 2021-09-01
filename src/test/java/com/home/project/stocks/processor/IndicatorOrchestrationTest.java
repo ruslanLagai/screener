@@ -1,17 +1,14 @@
 package com.home.project.stocks.processor;
 
-import com.home.project.stocks.exceptions.ProcessingException;
-import com.home.project.stocks.helpers.YamlPropertySourceFactory;
-import com.home.project.stocks.model.aplha.vantage.EmaPeriod;
-import com.home.project.stocks.model.aplha.vantage.Interval;
-import com.home.project.stocks.model.aplha.vantage.RsiPeriod;
-import com.home.project.stocks.model.aplha.vantage.SeriesType;
-import com.home.project.stocks.model.candles.Candle;
-import com.home.project.stocks.model.processing.ProcessingResult;
-import com.home.project.stocks.model.indicators.ParsedIndicator;
-import com.home.project.stocks.service.IndicatorService;
-import com.home.project.stocks.service.RepositoryService;
-import com.home.project.stocks.utils.DateTimeParser;
+import java.time.Instant;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,19 +18,20 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import static com.home.project.stocks.model.indicators.ParsedIndicator.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
+import com.home.project.stocks.exceptions.ProcessingException;
+import com.home.project.stocks.helpers.YamlPropertySourceFactory;
+import com.home.project.stocks.model.aplha.vantage.*;
+import com.home.project.stocks.model.processing.ProcessingResult;
+import com.home.project.stocks.model.indicators.ParsedIndicator;
+import com.home.project.stocks.service.AlphaVantageService;
+import com.home.project.stocks.service.RepositoryService;
+import com.home.project.stocks.utils.DateTimeParser;
 
 /**
  * Class to test {@link IndicatorOrchestration}
@@ -52,13 +50,14 @@ class IndicatorOrchestrationTest extends AbstractProcessorTest {
     @DisplayName("basic test")
     void processStock() {
         var result = new ProcessingResult();
-        orchestration.processStocks(TICKER, "", null, candle, result);
+        var date = Date.from(Instant.now());
+        orchestration.processStocks(TICKER, "", Map.of(date, candle), date, result);
         assertAll(() -> {
-            assertEquals(candle.getC(), result.getClosePrice());
-            assertEquals(candle.getO(), result.getOpenPrice());
-            assertEquals(candle.getH(), result.getMaxPrice());
-            assertEquals(candle.getL(), result.getMinPrice());
-            assertEquals(candle.getV(), result.getVolume());
+            assertEquals(candle.getClose(), result.getClosePrice());
+            assertEquals(candle.getOpen(), result.getOpenPrice());
+            assertEquals(candle.getHigh(), result.getMaxPrice());
+            assertEquals(candle.getLow(), result.getMinPrice());
+            assertEquals(candle.getVolume(), result.getVolume());
             assertEquals(ProcessingResult.RsiSign.OVERSOLD, result.getRsiSign());
             assertEquals(ProcessingResult.Trend.NO_SIGN, result.getMacdSignalTrend());
             assertEquals(ProcessingResult.Trend.DESCENDING, result.getMacdBarTrend());
@@ -77,24 +76,25 @@ class IndicatorOrchestrationTest extends AbstractProcessorTest {
     @DisplayName("test ticker is null")
     void processStockTickerNull() {
         assertThrows(ProcessingException.class,
-                () -> orchestration.processStocks("", "", null, candle, new ProcessingResult()));
+                () -> orchestration.processStocks("", "", null, null, new ProcessingResult()));
     }
 
     /**
      * Config class
      */
     @TestConfiguration
-    @ComponentScan(basePackages = {"com.home.project.stocks.processor"})
+    @ComponentScan(basePackages = {"com.home.project.stocks.processor"},
+            excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
+                    value = {PatternOrchestrationTest.Config.class, StockProcessorTest.Config.class})})
     @PropertySource(value = "classpath:application-test.yml", factory = YamlPropertySourceFactory.class)
-
     static class Config {
 
         @MockBean
         RepositoryService repositoryService;
 
         @Bean
-        IndicatorService indicatorService() {
-            var indicatorService = mock(IndicatorService.class);
+        AlphaVantageService indicatorService() {
+            var indicatorService = mock(AlphaVantageService.class);
 
             Map<Date, Double> indicatorData = new HashMap<>();
             indicatorData.put(DateTimeParser.parseDate("2021-07-22"), 15.0);

@@ -1,6 +1,6 @@
 package com.home.project.stocks.processor;
 
-import com.home.project.stocks.model.candles.Candle;
+import com.home.project.stocks.model.aplha.vantage.Candle;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import lombok.extern.log4j.Log4j2;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class RsiProcessor implements IndicatorProcessor {
 
     private static final double RSI_LOWER_LIMIT = 30;
-    private static final double RSI_UPPER_LIMIT = 50;
+    private static final double RSI_UPPER_LIMIT = 70;
 
     @Value("${indicator.rsi.columnsNumber}")
     private int columnsNumber;

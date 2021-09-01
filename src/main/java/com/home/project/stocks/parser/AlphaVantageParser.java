@@ -5,6 +5,9 @@ import com.home.project.stocks.model.aplha.vantage.CommonIndicator;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import lombok.extern.log4j.Log4j2;
 
+import java.time.Instant;
+import java.time.Period;
+import java.time.temporal.TemporalAmount;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +38,10 @@ public class AlphaVantageParser {
 
     private static void extractData(Map<Date, Double> data, String date,
                                       CommonIndicator.IndicatorData indicatorData) {
-        data.put(parseDate(date), indicatorData.getIndicator());
+        var parsedDate = parseDate(date);
+        if (parsedDate != null && parsedDate.after(Date.from(Instant.now().minus(Period.ofDays(14))))) {
+            data.put(parseDate(date), indicatorData.getIndicator());
+        }
     }
 
     private static void extractMacdData(Map<Date, Map<String, Double>> data, String date,

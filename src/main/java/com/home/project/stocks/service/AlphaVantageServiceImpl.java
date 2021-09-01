@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service to get data from Alpha Vantage
+ */
 @Service
-public class IndicatorServiceImpl implements IndicatorService {
+public class AlphaVantageServiceImpl implements AlphaVantageService {
 
     private AlphaVantageApiClient alphaVantageApiClient;
     @Value("${alpha.vantage.key}")
@@ -21,8 +24,9 @@ public class IndicatorServiceImpl implements IndicatorService {
         this.alphaVantageApiClient = alphaVantageApiClient;
     }
 
+    @Override
     public ParsedIndicator getEma(String ticker, Interval interval, EmaPeriod emaPeriod, SeriesType seriesType) {
-        var ema = alphaVantageApiClient.getEma(Indicator.EMA.getIndicator(), ticker,
+        var ema = alphaVantageApiClient.getEma(Function.EMA.getIndicator(), ticker,
                 interval.getInterval(), emaPeriod.getPeriod(), seriesType.getPeriod(), key);
         if (ema == null) {
             throw new IndicatorParsingException(String.format("Retrieved null response on ema, ticker %s", ticker));
@@ -30,8 +34,9 @@ public class IndicatorServiceImpl implements IndicatorService {
         return AlphaVantageParser.parseIndicator(ema);
     }
 
+    @Override
     public ParsedIndicator getRsi(String ticker, Interval interval, RsiPeriod rsiPeriod, SeriesType seriesType) {
-        var rsi = alphaVantageApiClient.getRsi(Indicator.RSI.getIndicator(), ticker,
+        var rsi = alphaVantageApiClient.getRsi(Function.RSI.getIndicator(), ticker,
                 interval.getInterval(), rsiPeriod.getPeriod(), seriesType.getPeriod(), key);
         if (rsi == null) {
             throw new IndicatorParsingException(String.format("Retrieved null response on rsi, ticker %s", ticker));
@@ -39,12 +44,23 @@ public class IndicatorServiceImpl implements IndicatorService {
         return AlphaVantageParser.parseIndicator(rsi);
     }
 
+    @Override
     public ParsedIndicator getMacd(String ticker, Interval interval, SeriesType seriesType) {
-        var macd = alphaVantageApiClient.getMacd(Indicator.MACD.getIndicator(), ticker,
+        var macd = alphaVantageApiClient.getMacd(Function.MACD.getIndicator(), ticker,
                 interval.getInterval(), seriesType.getPeriod(), key);
         if (macd == null) {
             throw new IndicatorParsingException(String.format("Retrieved null response on macd, ticker %s", ticker));
         }
         return AlphaVantageParser.parseMacd(macd);
+    }
+
+    @Override
+    public Candles getDailyCandles(String ticker) {
+        var candles = alphaVantageApiClient.getCandles(Function.TIME_SERIES_DAILY.getIndicator(),
+                ticker, key);
+        if (candles == null) {
+            throw new IndicatorParsingException(String.format("Retrieved null response on candles, ticker %s", ticker));
+        }
+        return candles;
     }
 }

@@ -1,31 +1,30 @@
 package com.home.project.stocks.repository;
 
+import com.home.project.stocks.model.aplha.vantage.Candle;
 import com.home.project.stocks.model.aplha.vantage.EmaPeriod;
-import com.home.project.stocks.model.candles.Candle;
-import com.home.project.stocks.model.candles.Interval;
 import com.home.project.stocks.model.processing.ProcessingResult;
+import com.home.project.stocks.service.RepositoryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Class to test {@link RepositorySaver}
+ * Class to test {@link RepositoryService}
  */
 @ExtendWith(SpringExtension.class)
-class RepositorySaverTest extends AbstractRepositoryTest {
+class RepositoryServiceTest extends AbstractRepositoryTest {
 
     @Autowired
-    RepositorySaver repositorySaver;
+    RepositoryService repositoryService;
 
     @Autowired
     HammerRepository hammerRepository;
@@ -39,7 +38,7 @@ class RepositorySaverTest extends AbstractRepositoryTest {
         //given
         var processingResult = new ProcessingResult();
         processingResult.setFigi("figi");
-        processingResult.setTicker("ticker");
+        processingResult.setTicker("ticker3");
         processingResult.setIsDodge(true);
         processingResult.setIsHammer(true);
         processingResult.setVolume(10);
@@ -65,30 +64,27 @@ class RepositorySaverTest extends AbstractRepositoryTest {
                         .isCloseToEma(true).build()
         ));
         var candle = new Candle();
-        candle.setV(processingResult.getVolume());
-        candle.setL(processingResult.getMinPrice());
-        candle.setH(processingResult.getMaxPrice());
-        candle.setO(processingResult.getOpenPrice());
-        candle.setC(processingResult.getClosePrice());
-        candle.setInterval(Interval.ONE_DAY.getPeriod());
-        candle.setTime(LocalDateTime.now());
+        candle.setVolume(processingResult.getVolume());
+        candle.setLow(processingResult.getMinPrice());
+        candle.setHigh(processingResult.getMaxPrice());
+        candle.setOpen(processingResult.getOpenPrice());
+        candle.setClose(processingResult.getClosePrice());
+        candle.setDate(Date.from(Instant.now()));
 
         //when
-        repositorySaver.populateIndexes(processingResult, candle);
+        repositoryService.populateIndexes(processingResult, candle);
 
         //then
-        var dodges = dodgeRepository.findAll();
-        var hammers = hammerRepository.findAll();
+        var dodges = dodgeRepository.getDodgeIndexByTicker(processingResult.getTicker());
+        var hammers = hammerRepository.getHammerIndexByTicker(processingResult.getTicker());
         var indicators = indicatorRepository.findAll();
 
         assertAll(() -> {
-            assertTrue(dodges.iterator().hasNext());
-            assertTrue(hammers.iterator().hasNext());
             assertTrue(indicators.iterator().hasNext());
 
-            assertEquals("ticker", dodges.iterator().next().getTicker());
-            assertEquals("ticker", hammers.iterator().next().getTicker());
-            assertEquals("ticker", indicators.iterator().next().getTicker());
+            assertEquals("ticker3", dodges.getTicker());
+            assertEquals("ticker3", hammers.getTicker());
+            assertEquals("ticker3", indicators.iterator().next().getTicker());
             assertEquals(ProcessingResult.RsiSign.OVERBOUGHT.name(), indicators.iterator().next().getRsiSign());
             assertEquals(ProcessingResult.Trend.ASCENDING.name(), indicators.iterator().next().getMacdBarTrend());
             assertEquals(ProcessingResult.Trend.ASCENDING.name(), indicators.iterator().next().getMacdSignalTrend());
@@ -96,7 +92,6 @@ class RepositorySaverTest extends AbstractRepositoryTest {
             assertEquals(ProcessingResult.LevelType.SUPPORT.name(),
                     indicators.iterator().next().getEmaData().get(0).getLevelType());
             assertTrue(indicators.iterator().next().getEmaData().get(1).isCloseToEma());
-            assertEquals(candle.getTime(), indicators.iterator().next().getDate());
         });
     }
 

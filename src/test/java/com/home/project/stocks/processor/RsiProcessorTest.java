@@ -72,9 +72,9 @@ class RsiProcessorTest extends AbstractProcessorTest {
     @DisplayName("RSI processor - overbought")
     void testOverbought() {
         Map<Date, Double> indicatorData = new HashMap<>();
-        indicatorData.put(DateTimeParser.parseDate("2021-07-22"), 67.8841);
-        indicatorData.put(DateTimeParser.parseDate("2021-07-21"), 65.6213);
-        indicatorData.put(DateTimeParser.parseDate("2021-07-20"), 56.9468);
+        indicatorData.put(DateTimeParser.parseDate("2021-07-22"), 75.8841);
+        indicatorData.put(DateTimeParser.parseDate("2021-07-21"), 74.6213);
+        indicatorData.put(DateTimeParser.parseDate("2021-07-20"), 70.9468);
         indicatorData.put(DateTimeParser.parseDate("2021-07-19"), 30.2937);
 
         var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10);
@@ -84,7 +84,7 @@ class RsiProcessorTest extends AbstractProcessorTest {
         rsiProcessor.processIndicator(parsedIndicator, candle, processingResult);
         assertAll(() -> {
             assertEquals(ProcessingResult.RsiSign.OVERBOUGHT, processingResult.getRsiSign());
-            assertEquals(Arrays.asList(67.8841, 65.6213, 56.9468), processingResult.getRsiValues());
+            assertEquals(Arrays.asList(75.8841, 74.6213, 70.9468), processingResult.getRsiValues());
         });
     }
 }

@@ -1,6 +1,7 @@
 package com.home.project.stocks.client;
 
 import com.home.project.stocks.config.FeingConfig;
+import com.home.project.stocks.model.aplha.vantage.Candles;
 import com.home.project.stocks.model.aplha.vantage.CommonIndicator;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,10 @@ public interface AlphaVantageApiClient {
     CommonIndicator getMacd(@RequestParam String function, @RequestParam(value = "symbol") String ticker,
                            @RequestParam String interval, @RequestParam(value = "series_type") String seriesType,
                            @RequestParam String apikey);
+
+    @GetMapping
+    Candles getCandles(@RequestParam String function, @RequestParam(value = "symbol") String ticker,
+                       @RequestParam String apikey);
 
 }
 

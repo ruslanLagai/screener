@@ -1,13 +1,18 @@
 package com.home.project.stocks.repository;
 
+import java.util.Date;
 
-import com.home.project.stocks.model.repositories.DodgeIndex;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
-import java.time.LocalDateTime;
+import com.home.project.stocks.model.repositories.DodgeIndex;
 
+/**
+ * Dodge repository
+ */
 public interface DodgeRepository extends ElasticsearchRepository<DodgeIndex, String> {
-     DodgeIndex getStocksByFigiAndCandleDateBetween(String figi, LocalDateTime start, LocalDateTime end);
+     DodgeIndex getStocksByFigiAndDateBetween(String figi, Date start, Date end);
+
+     DodgeIndex getStocksByTickerAndDateBetween(String ticker, Date start, Date end);
 
      DodgeIndex getDodgeIndexByTicker(String ticker);
 }

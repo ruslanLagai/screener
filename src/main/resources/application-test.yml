@@ -2,7 +2,8 @@ spring:
   elasticsearch:
     rest:
       uris: localhost:9200
-
+      username: stockAdmin
+      password: $tockAdm!n
 notifier:
   url: localhost:8070
 alpha:
@@ -15,12 +16,10 @@ feign:
     config:
       default:
         loggerLevel: full
-        encoder: com.example.SimpleEncoder
-        decoder: com.example.SimpleDecoder
 
 indicator:
   ema:
-    threshold: 3
+    threshold: 0.05
   rsi:
     columnsNumber: 3
   macd:

@@ -11,6 +11,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -49,10 +50,10 @@ public class IndicatorsIndex {
     private String candleId;
 
     @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "uuuu-MM-dd'T'HH:mm:ss.Z")
-    private LocalDateTime date;
+    private Date date;
 
     public static IndicatorsIndex populateFields(ProcessingResult processingResult, String candleId,
-                                                 LocalDateTime dateTime) {
+                                                 Date date) {
         List<EmaIndex> emaIndices = new ArrayList<>();
         if (processingResult.getEmaValue() != null) {
             processingResult.getEmaValue().forEach((k, v) ->
@@ -60,7 +61,7 @@ public class IndicatorsIndex {
         }
         return IndicatorsIndex.builder()
                 .candleId(candleId)
-                .date(dateTime)
+                .date(date)
                 .macdBarValue(processingResult.getMacdBarValues())
                 .rsiValue(processingResult.getRsiValues())
                 .ticker(processingResult.getTicker())
