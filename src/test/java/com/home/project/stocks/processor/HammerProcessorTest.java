@@ -6,12 +6,14 @@ import java.util.Date;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 /**
  * Class to test {@link HammerProcessor}
  */
-class HammerProcessorTest extends AbstractProcessorTest{
+class HammerProcessorTest extends AbstractProcessorTest {
 
     HammerProcessor hammerProcessor = new HammerProcessor();
 

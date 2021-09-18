@@ -94,7 +94,7 @@ class StockProcessorTest extends AbstractRepositoryTest {
     @TestConfiguration
     @ComponentScan(basePackages = "com.home.project.stocks.processor",
             excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
-            value = {PatternOrchestrationTest.Config.class, IndicatorOrchestrationTest.Config.class}) })
+                    value = {PatternOrchestrationTest.Config.class, IndicatorOrchestrationTest.Config.class})})
     @PropertySource(value = "classpath:application-test.yml", factory = YamlPropertySourceFactory.class)
     static class Config {
 

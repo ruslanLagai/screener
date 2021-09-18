@@ -7,6 +7,7 @@ import com.home.project.stocks.model.indicators.ParsedIndicator;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.Range;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 
@@ -23,6 +24,11 @@ public abstract class EmaProcessor implements IndicatorProcessor {
 
     @Override
     public void processIndicator(ParsedIndicator indicator, Candle candle, ProcessingResult processingResult) {
+        if (CollectionUtils.isEmpty(indicator.getIndicatorData())) {
+            log.warn(String.format("Stock hasn't enough historical data to calculate %s ema, ticker %s",
+                    emaPeriod.getPeriod(), indicator.getTicker()));
+            return;
+        }
         var lastDate = indicator.getIndicatorData().keySet().stream().max(Date::compareTo).orElse(null);
         var emaValue = indicator.getIndicatorData().get(lastDate);
         var isSupportLevel = isSupportLevel(candle.getHigh(), emaValue);
@@ -36,8 +42,9 @@ public abstract class EmaProcessor implements IndicatorProcessor {
      * Calculate distance to ema in %
      * if price is higher > 1
      * if price is lower < 1
+     *
      * @param price - stock price
-     * @param ema - ema
+     * @param ema   - ema
      * @return - percentage
      */
     protected double calculateDifference(double price, double ema) {

@@ -16,18 +16,17 @@ import static com.home.project.stocks.model.indicators.ParsedIndicator.*;
 
 /**
  * Processor for MACD indicator
- *
+ * <p>
  * sing as ascending if:
- *      - hist asc over last 3 days
- *      - MACD crosses signal line above
+ * - hist asc over last 3 days
+ * - MACD crosses signal line above
  * sign as descending if:
- *      - hist desc over last 3 days
- *      - MACD crosses signal line below
- *
+ * - hist desc over last 3 days
+ * - MACD crosses signal line below
+ * <p>
  * Note:
- *  - barValues, macdValues contain last 3 values starting from the latest one,
- *      i.e. latest value at index 0
- *
+ * - barValues, macdValues contain last 3 values starting from the latest one,
+ * i.e. latest value at index 0
  */
 @Component
 @Log4j2
@@ -77,7 +76,7 @@ public class MacdProcessor implements IndicatorProcessor {
             trend = current > next && (trend == ProcessingResult.Trend.DESCENDING || trend == null)
                     ? ProcessingResult.Trend.DESCENDING :
                     current < next && (trend == ProcessingResult.Trend.ASCENDING || trend == null)
-                    ? ProcessingResult.Trend.ASCENDING : ProcessingResult.Trend.NO_SIGN;
+                            ? ProcessingResult.Trend.ASCENDING : ProcessingResult.Trend.NO_SIGN;
         }
         return trend;
     }

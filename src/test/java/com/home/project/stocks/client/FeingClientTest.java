@@ -45,9 +45,9 @@ public class FeingClientTest extends AbstractProcessorTest {
 
     public void setUp() {
         wireMockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/notify"))
-            .willReturn(WireMock.aResponse()
-                .withStatus(HttpStatus.OK.value())
-                .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+                .willReturn(WireMock.aResponse()
+                        .withStatus(HttpStatus.OK.value())
+                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
     }
 
 

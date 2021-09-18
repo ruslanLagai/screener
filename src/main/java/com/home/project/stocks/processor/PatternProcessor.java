@@ -8,6 +8,7 @@ import java.util.Map;
 
 public interface PatternProcessor {
     MultiValueMap<Processors, Candle> processStock(String figi, String ticker, Map<Date, Candle> candles);
+
     default String getType() {
         return this.getClass().getName();
     }

@@ -9,6 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static com.home.project.stocks.model.indicators.ParsedIndicator.*;
+
 import com.home.project.stocks.exceptions.ProcessingException;
 import com.home.project.stocks.helpers.YamlPropertySourceFactory;
 import com.home.project.stocks.model.aplha.vantage.*;

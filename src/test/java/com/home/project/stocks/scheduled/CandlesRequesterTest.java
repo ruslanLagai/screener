@@ -23,10 +23,10 @@ import static com.home.project.stocks.utils.Profiles.TEST_PROFILE;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-//@ExtendWith(SpringExtension.class)
-//@ActiveProfiles(TEST_PROFILE)
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@Testcontainers
+@ExtendWith(SpringExtension.class)
+@ActiveProfiles(TEST_PROFILE)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Testcontainers
 class CandlesRequesterTest {
 
     @Autowired
@@ -54,7 +54,7 @@ class CandlesRequesterTest {
     }
 
 
-//    @Test
+    @Test
     @DisplayName("test getting all stocks")
     void requestData() {
         candlesRequester.requestData();

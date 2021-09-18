@@ -25,4 +25,5 @@
       "type": "java.lang.String",
       "description": "Number of bars in MACD histogram to take into account."
     }
-  ] }
+  ]
+}

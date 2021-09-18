@@ -21,11 +21,11 @@ class DodgeProcessorTest extends AbstractProcessorTest {
     @DisplayName("Common check")
     void processStock() {
         var candles = Map.of(
-            Date.from(Instant.now()), generateCandle(30.1, 25.2, 31, 24, 10),
-            Date.from(Instant.now().minus(Period.ofDays(1))), generateCandle(25.2, 20.4, 27, 19, 9),
-            Date.from(Instant.now().minus(Period.ofDays(2))), generateCandle(20.1, 20.5, 28, 14, 5),
-            Date.from(Instant.now().minus(Period.ofDays(3))), generateCandle(20.5, 22.6, 24, 17, 5),
-            Date.from(Instant.now().minus(Period.ofDays(4))), generateCandle(22.6, 26.9, 28, 18, 5)
+                Date.from(Instant.now()), generateCandle(30.1, 25.2, 31, 24, 10),
+                Date.from(Instant.now().minus(Period.ofDays(1))), generateCandle(25.2, 20.4, 27, 19, 9),
+                Date.from(Instant.now().minus(Period.ofDays(2))), generateCandle(20.1, 20.5, 28, 14, 5),
+                Date.from(Instant.now().minus(Period.ofDays(3))), generateCandle(20.5, 22.6, 24, 17, 5),
+                Date.from(Instant.now().minus(Period.ofDays(4))), generateCandle(22.6, 26.9, 28, 18, 5)
         );
         var result = dodgeProcessor.processStock(FIGI, "", candles);
         assertFalse(result.isEmpty());

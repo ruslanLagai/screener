@@ -14,6 +14,7 @@ import com.home.project.stocks.model.aplha.vantage.Candle;
 import com.home.project.stocks.model.processing.Trend;
 
 import lombok.extern.log4j.Log4j2;
+
 /**
  * Class to process dodge pattern.
  * MIN_INTERVAL, MAX_INTERVAL can be adjusted to check candle body
@@ -49,10 +50,11 @@ public class DodgeProcessor implements PatternProcessor {
 
     /**
      * Check if there is dodge pattern:
-     *  - hasShadow
-     *  - clear trend
-     *  - small body
-     * @param candles sequence of candles
+     * - hasShadow
+     * - clear trend
+     * - small body
+     *
+     * @param candles       sequence of candles
      * @param dateToProcess which candle to check on dodge
      * @return isDodge
      */
@@ -83,7 +85,8 @@ public class DodgeProcessor implements PatternProcessor {
     /**
      * Check if candles have trend: ASC -> DESC / DESC -> ASC
      * 2 Candles are considered
-     * @param first - first candle
+     *
+     * @param first  - first candle
      * @param second - second candle
      * @return Trend
      */
@@ -99,6 +102,7 @@ public class DodgeProcessor implements PatternProcessor {
 
     /**
      * Check if candle has shadows: upper and lower
+     *
      * @param candle - candle to process
      * @return does candle have shadow
      */
@@ -110,6 +114,7 @@ public class DodgeProcessor implements PatternProcessor {
 
     /**
      * Check that candle has small body
+     *
      * @param candle - candle to process
      * @return does candle have small body
      */

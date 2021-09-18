@@ -22,7 +22,7 @@ import java.util.stream.Stream;
  */
 @Component
 @Log4j2
-public class CandlesRequester implements ScheduledRequester{
+public class CandlesRequester implements ScheduledRequester {
 
     private final TinkoffRestClient client;
     private final StockProcessor stockProcessor;

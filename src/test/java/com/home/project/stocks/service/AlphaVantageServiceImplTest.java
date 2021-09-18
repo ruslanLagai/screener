@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Test Indicators service")
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles(TEST_PROFILE)
-@ContextConfiguration(classes = {AlphaVantageServiceImplTest.Config.class })
+@ContextConfiguration(classes = {AlphaVantageServiceImplTest.Config.class})
 @Import({FeignAutoConfiguration.class, HttpMessageConvertersAutoConfiguration.class})
 @EnableConfigurationProperties
 @TestPropertySource("classpath:sandbox.properties")
@@ -113,7 +113,7 @@ class AlphaVantageServiceImplTest {
     static class Config {
 
         @Bean
-        AlphaVantageService emaService() {
+        AlphaVantageService alphaVantageService() {
             return new AlphaVantageServiceImpl();
         }
 

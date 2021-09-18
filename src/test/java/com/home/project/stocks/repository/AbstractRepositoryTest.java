@@ -61,7 +61,7 @@ public class AbstractRepositoryTest extends AbstractProcessorTest {
             return RestClients.create(clientConfiguration).rest();
         }
 
-        @Bean(name = { "elasticsearchOperations", "elasticsearchTemplate" })
+        @Bean(name = {"elasticsearchOperations", "elasticsearchTemplate"})
         public ElasticsearchOperations elasticsearchOperations() {
             return new ElasticsearchRestTemplate(elasticsearchClient());
         }

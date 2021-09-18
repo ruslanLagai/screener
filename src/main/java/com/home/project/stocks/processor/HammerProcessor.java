@@ -15,7 +15,6 @@ import java.util.stream.Stream;
 
 /**
  * Class to process Hammer pattern
- *
  */
 @Component
 @Log4j2
@@ -51,6 +50,7 @@ public class HammerProcessor implements PatternProcessor {
 
     /**
      * Check if candle has long lower shadow
+     *
      * @param candle candle
      * @return hasShadow
      */
@@ -60,6 +60,7 @@ public class HammerProcessor implements PatternProcessor {
 
     /**
      * Check if candle has body
+     *
      * @param candle candle to process
      * @return hasBody
      */
@@ -71,6 +72,7 @@ public class HammerProcessor implements PatternProcessor {
 
     /**
      * Check if candle candle has long lower shadow
+     *
      * @param candle candle to process
      * @return isUpperPart
      */

@@ -31,8 +31,8 @@ public class PatternOrchestration implements Orchestration {
         processingResult.setFigi(figi);
         processingResult.setTicker(ticker);
         patternProcessors.forEach(stocksProcessor -> {
-                    var isPattern = isPattern(figi, ticker, candles, stocksProcessor, processingResult);
-                    processingResult.initField(isPattern, stocksProcessor);
+            var isPattern = isPattern(figi, ticker, candles, stocksProcessor, processingResult);
+            processingResult.initField(isPattern, stocksProcessor);
         });
     }
 

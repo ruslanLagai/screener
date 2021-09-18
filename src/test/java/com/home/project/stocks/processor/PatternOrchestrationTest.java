@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.elasticsearch.common.collect.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,6 +24,7 @@ import com.home.project.stocks.model.aplha.vantage.Candle;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.service.NotifierService;
 import com.home.project.stocks.service.RepositoryService;
+
 /**
  * Class to test {@link PatternOrchestration}
  */
@@ -153,7 +155,9 @@ class PatternOrchestrationTest extends AbstractProcessorTest {
         @Bean
         HammerProcessor hammerProcessor() {
             return new HammerProcessor();
-        };
+        }
+
+        ;
 
         @MockBean
         AlphaVantageApiClient alphaVantageApiClient;

@@ -4,6 +4,7 @@ import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.hamcrest.Matchers;
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.DisplayName;
@@ -77,16 +78,16 @@ class SandboxClientTest {
         assertThat(body.getPayload().getCandles().length, Matchers.equalTo(5));
 
         Stream.of(body.getPayload().getCandles()).forEach(candle ->
-            assertAll(() -> {
-                assertThat(candle.getInterval(), Matchers.equalTo(Interval.ONE_HOUR.getPeriod()));
-                assertThat(candle.getFigi(), Matchers.equalTo("BBG000B9XRY4"));
-                assertNotEquals(candle.getL(), 0);
-                assertNotEquals(candle.getC(), 0);
-                assertNotEquals(candle.getH(), 0);
-                assertNotEquals(candle.getO(), 0);
-                assertNotEquals(candle.getV(), 0);
-                assertNotNull(candle.getTime());
-        }));
+                assertAll(() -> {
+                    assertThat(candle.getInterval(), Matchers.equalTo(Interval.ONE_HOUR.getPeriod()));
+                    assertThat(candle.getFigi(), Matchers.equalTo("BBG000B9XRY4"));
+                    assertNotEquals(candle.getL(), 0);
+                    assertNotEquals(candle.getC(), 0);
+                    assertNotEquals(candle.getH(), 0);
+                    assertNotEquals(candle.getO(), 0);
+                    assertNotEquals(candle.getV(), 0);
+                    assertNotNull(candle.getTime());
+                }));
     }
 
     @Test

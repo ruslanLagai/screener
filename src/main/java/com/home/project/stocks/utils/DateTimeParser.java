@@ -11,11 +11,12 @@ public class DateTimeParser {
     public static Date parseDate(String date) {
         var formatter = date.contains(":") ?
                 new SimpleDateFormat("yyyy-MM-dd hh:mm") :
-                new SimpleDateFormat("yyyy-MM-dd");
+                new SimpleDateFormat("yyyy-MM-ddXXX");
         try {
             return formatter.parse(date);
         } catch (ParseException e) {
             log.error("Failed to parse date in response. " + e.getMessage());
         }
         return null;
-    }}
+    }
+}
