@@ -57,3 +57,11 @@ dependencyManagement {
 test {
     useJUnitPlatform()
 }
+
+springBoot {
+    buildInfo()
+}
+
+bootJar {
+    archiveFileName = "${project.name}" + "." + bootJar.getArchiveExtension().get()
+}
