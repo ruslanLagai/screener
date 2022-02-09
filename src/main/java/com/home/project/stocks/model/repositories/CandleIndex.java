@@ -1,6 +1,6 @@
 package com.home.project.stocks.model.repositories;
 
-import com.home.project.stocks.model.aplha.vantage.Candle;
+import com.home.project.stocks.model.candles.Candle;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -9,6 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -40,16 +41,16 @@ public class CandleIndex {
     private double volume;
 
     @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "uuuu-MM-dd'T'HH:mm:ss.Z")
-    private Date time;
+    private LocalDateTime time;
 
     public static CandleIndex populateFields(Candle candle, String ticker) {
         return CandleIndex.builder()
-                .open(candle.getOpen())
-                .close(candle.getClose())
-                .high(candle.getHigh())
-                .low(candle.getLow())
-                .volume(candle.getVolume())
-                .time(candle.getDate())
+                .open(candle.getO())
+                .close(candle.getC())
+                .high(candle.getH())
+                .low(candle.getL())
+                .volume(candle.getV())
+                .time(candle.getTime())
                 .ticker(ticker)
                 .build();
     }

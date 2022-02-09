@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +52,7 @@ class MacdProcessorTest extends AbstractProcessorTest {
                 "MACD_Signal", -0.7182,
                 "MACD_Hist", 0.4227));
 
-        var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10);
+        var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10, LocalDateTime.now());
         var processingResult = new ProcessingResult();
         var parsedIndicator = new ParsedIndicator(null, indicatorData, "IBM", "daily");
 
@@ -87,7 +88,7 @@ class MacdProcessorTest extends AbstractProcessorTest {
                 "MACD_Signal", -0.7182,
                 "MACD_Hist", 0.4227));
 
-        var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10);
+        var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10, LocalDateTime.now());
         var processingResult = new ProcessingResult();
         var parsedIndicator = new ParsedIndicator(null, indicatorData, "IBM", "daily");
 
@@ -123,7 +124,7 @@ class MacdProcessorTest extends AbstractProcessorTest {
                 "MACD_Signal", -0.7182,
                 "MACD_Hist", 0.5227));
 
-        var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10);
+        var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10, LocalDateTime.now());
         var processingResult = new ProcessingResult();
         var parsedIndicator = new ParsedIndicator(null, indicatorData, "IBM", "daily");
 

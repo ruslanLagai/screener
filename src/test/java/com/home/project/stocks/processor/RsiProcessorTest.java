@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ class RsiProcessorTest extends AbstractProcessorTest {
         indicatorData.put(DateTimeParser.parseDate("2021-07-20"), 29.9468);
         indicatorData.put(DateTimeParser.parseDate("2021-07-19"), 29.2937);
 
-        var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10);
+        var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10, LocalDateTime.now());
 
         var processingResult = new ProcessingResult();
         var parsedIndicator = new ParsedIndicator(indicatorData, null, "IBM", "daily");
@@ -57,7 +58,7 @@ class RsiProcessorTest extends AbstractProcessorTest {
         indicatorData.put(DateTimeParser.parseDate("2021-07-20"), 19.9468);
         indicatorData.put(DateTimeParser.parseDate("2021-07-19"), 30.2937);
 
-        var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10);
+        var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10, LocalDateTime.now());
 
         var processingResult = new ProcessingResult();
         var parsedIndicator = new ParsedIndicator(indicatorData, null, "IBM", "daily");
@@ -77,7 +78,7 @@ class RsiProcessorTest extends AbstractProcessorTest {
         indicatorData.put(DateTimeParser.parseDate("2021-07-20"), 70.9468);
         indicatorData.put(DateTimeParser.parseDate("2021-07-19"), 30.2937);
 
-        var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10);
+        var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10, LocalDateTime.now());
 
         var processingResult = new ProcessingResult();
         var parsedIndicator = new ParsedIndicator(indicatorData, null, "IBM", "daily");

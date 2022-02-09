@@ -1,7 +1,9 @@
 package com.home.project.stocks.processor;
 
 
-import com.home.project.stocks.model.aplha.vantage.Candle;
+import com.home.project.stocks.model.candles.Candle;
+
+import java.time.LocalDateTime;
 
 public class AbstractProcessorTest {
 
@@ -9,13 +11,14 @@ public class AbstractProcessorTest {
     protected static final String TICKER = "ticker";
 
     protected static Candle generateCandle(double open, double close, double max, double min,
-                                           double volume) {
+                                           double volume, LocalDateTime localDateTime) {
         var candle = new Candle();
-        candle.setClose(close);
-        candle.setOpen(open);
-        candle.setHigh(max);
-        candle.setLow(min);
-        candle.setVolume(volume);
+        candle.setC(close);
+        candle.setO(open);
+        candle.setH(max);
+        candle.setL(min);
+        candle.setV(volume);
+        candle.setTime(localDateTime);
         return candle;
     }
 }

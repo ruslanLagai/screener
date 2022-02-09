@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,8 +30,8 @@ class EmaProcessorTest extends AbstractProcessorTest {
 
     @BeforeEach
     public void setUp() {
-        ReflectionTestUtils.setField(ema200Processor, "threshold", 3);
-        ReflectionTestUtils.setField(ema1000Processor, "threshold", 3);
+        ReflectionTestUtils.setField(ema200Processor, "threshold", 0.05);
+        ReflectionTestUtils.setField(ema1000Processor, "threshold", 0.05);
     }
 
     @Test
@@ -42,7 +43,7 @@ class EmaProcessorTest extends AbstractProcessorTest {
         indicatorData.put(DateTimeParser.parseDate("2021-07-20"), 149.9468);
         indicatorData.put(DateTimeParser.parseDate("2021-07-19"), 150.2937);
 
-        var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10);
+        var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10, LocalDateTime.now());
         var processingResult = new ProcessingResult();
         var parsedIndicator = new ParsedIndicator(indicatorData, null, "IBM", "daily");
 
@@ -52,7 +53,7 @@ class EmaProcessorTest extends AbstractProcessorTest {
             assertEquals(146.8841, processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).getEmaValue());
             assertEquals(ProcessingResult.LevelType.RESISTANCE,
                     processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).getLevelType());
-            assertEquals(146.8841 / 141.7, processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).getDifference());
+            assertEquals(Math.abs(146.8841 - 141.7) / 141.7, processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).getDifference());
             assertTrue(processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).isCloseToEma());
         });
 
@@ -63,7 +64,7 @@ class EmaProcessorTest extends AbstractProcessorTest {
             assertEquals(146.8841, processingResult1000.getEmaValue().get(EmaPeriod.ONE_THOUSAND).getEmaValue());
             assertEquals(ProcessingResult.LevelType.RESISTANCE,
                     processingResult1000.getEmaValue().get(EmaPeriod.ONE_THOUSAND).getLevelType());
-            assertEquals(146.8841 / 141.7, processingResult1000.getEmaValue().get(EmaPeriod.ONE_THOUSAND).getDifference());
+            assertEquals(Math.abs(146.8841 - 141.7) / 141.7, processingResult1000.getEmaValue().get(EmaPeriod.ONE_THOUSAND).getDifference());
             assertTrue(processingResult1000.getEmaValue().get(EmaPeriod.ONE_THOUSAND).isCloseToEma());
         });
     }
@@ -77,7 +78,7 @@ class EmaProcessorTest extends AbstractProcessorTest {
         indicatorData.put(DateTimeParser.parseDate("2021-07-20"), 149.9468);
         indicatorData.put(DateTimeParser.parseDate("2021-07-19"), 150.2937);
 
-        var candle = generateCandle(150.9, 148.34, 151.7, 148.3, 10);
+        var candle = generateCandle(150.9, 148.34, 151.7, 148.3, 10, LocalDateTime.now());
         var processingResult = new ProcessingResult();
         var parsedIndicator = new ParsedIndicator(indicatorData, null, "IBM", "daily");
 
@@ -87,7 +88,7 @@ class EmaProcessorTest extends AbstractProcessorTest {
             assertEquals(146.8841, processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).getEmaValue());
             assertEquals(ProcessingResult.LevelType.SUPPORT,
                     processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).getLevelType());
-            assertEquals(146.8841 / 148.3, processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).getDifference());
+            assertEquals(Math.abs(146.8841 - 148.3) / 148.3, processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).getDifference());
             assertTrue(processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).isCloseToEma());
         });
 
@@ -98,7 +99,7 @@ class EmaProcessorTest extends AbstractProcessorTest {
             assertEquals(146.8841, processingResult1000.getEmaValue().get(EmaPeriod.ONE_THOUSAND).getEmaValue());
             assertEquals(ProcessingResult.LevelType.SUPPORT,
                     processingResult1000.getEmaValue().get(EmaPeriod.ONE_THOUSAND).getLevelType());
-            assertEquals(146.8841 / 148.3, processingResult1000.getEmaValue().get(EmaPeriod.ONE_THOUSAND).getDifference());
+            assertEquals(Math.abs(146.8841 - 148.3) / 148.3, processingResult1000.getEmaValue().get(EmaPeriod.ONE_THOUSAND).getDifference());
             assertTrue(processingResult1000.getEmaValue().get(EmaPeriod.ONE_THOUSAND).isCloseToEma());
         });
     }

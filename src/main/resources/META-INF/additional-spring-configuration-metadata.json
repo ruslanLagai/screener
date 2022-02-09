@@ -24,6 +24,11 @@
       "name": "indicator.macd.columnsNumber",
       "type": "java.lang.String",
       "description": "Number of bars in MACD histogram to take into account."
+    },
+    {
+      "name": "tinkoff.api.url",
+      "type": "java.lang.String",
+      "description": "tinkoff api url."
     }
   ]
 }

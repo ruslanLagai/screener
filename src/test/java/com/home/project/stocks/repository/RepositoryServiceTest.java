@@ -1,18 +1,18 @@
 package com.home.project.stocks.repository;
 
-import com.home.project.stocks.model.aplha.vantage.Candle;
 import com.home.project.stocks.model.aplha.vantage.EmaPeriod;
+import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.service.RepositoryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Class to test {@link RepositoryService}
  */
 @ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = AbstractRepositoryTest.Config.class)
 class RepositoryServiceTest extends AbstractRepositoryTest {
 
     @Autowired
@@ -32,6 +33,13 @@ class RepositoryServiceTest extends AbstractRepositoryTest {
     @Autowired
     IndicatorRepository indicatorRepository;
 
+    @Autowired
+    DodgeRepository dodgeRepository;
+
+    static {
+        container.start();
+    }
+
     @Test
     @DisplayName("test save")
     void populateIndexes() {
@@ -39,8 +47,6 @@ class RepositoryServiceTest extends AbstractRepositoryTest {
         var processingResult = new ProcessingResult();
         processingResult.setFigi("figi");
         processingResult.setTicker("ticker3");
-        processingResult.setIsDodge(true);
-        processingResult.setIsHammer(true);
         processingResult.setVolume(10);
         processingResult.setClosePrice(11);
         processingResult.setOpenPrice(9);
@@ -64,15 +70,15 @@ class RepositoryServiceTest extends AbstractRepositoryTest {
                         .isCloseToEma(true).build()
         ));
         var candle = new Candle();
-        candle.setVolume(processingResult.getVolume());
-        candle.setLow(processingResult.getMinPrice());
-        candle.setHigh(processingResult.getMaxPrice());
-        candle.setOpen(processingResult.getOpenPrice());
-        candle.setClose(processingResult.getClosePrice());
-        candle.setDate(Date.from(Instant.now()));
+        candle.setV(processingResult.getVolume());
+        candle.setL(processingResult.getMinPrice());
+        candle.setH(processingResult.getMaxPrice());
+        candle.setO(processingResult.getOpenPrice());
+        candle.setC(processingResult.getClosePrice());
+        candle.setTime(LocalDateTime.now());
 
         //when
-        repositoryService.populateIndexes(processingResult, candle);
+        repositoryService.populateIndicatorIndexes(processingResult, candle);
 
         //then
         var dodges = dodgeRepository.getDodgeIndexByTicker(processingResult.getTicker());
@@ -82,8 +88,6 @@ class RepositoryServiceTest extends AbstractRepositoryTest {
         assertAll(() -> {
             assertTrue(indicators.iterator().hasNext());
 
-            assertEquals("ticker3", dodges.getTicker());
-            assertEquals("ticker3", hammers.getTicker());
             assertEquals("ticker3", indicators.iterator().next().getTicker());
             assertEquals(ProcessingResult.RsiSign.OVERBOUGHT.name(), indicators.iterator().next().getRsiSign());
             assertEquals(ProcessingResult.Trend.ASCENDING.name(), indicators.iterator().next().getMacdBarTrend());

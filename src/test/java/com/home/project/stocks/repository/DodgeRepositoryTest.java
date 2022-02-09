@@ -5,17 +5,30 @@ import com.home.project.stocks.model.repositories.DodgeIndex;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @DisplayName("Test dodge repo")
+@ContextConfiguration(classes = AbstractRepositoryTest.Config.class)
 public class DodgeRepositoryTest extends AbstractRepositoryTest {
+
+    @Autowired
+    CandleRepository candleRepository;
+
+    @Autowired
+    DodgeRepository dodgeRepository;
+
+    static {
+        container.start();
+    }
 
     @Test
     @DisplayName("test find pattern for period")
@@ -23,41 +36,38 @@ public class DodgeRepositoryTest extends AbstractRepositoryTest {
 
         //given
         //should be found
-        var candle = generateCandle(1, 2, 3, 4, 5);
-        candle.setDate(Date.from(Instant.from(Instant.now())));
+        var candle = generateCandle(1, 2, 3, 4, 5, LocalDateTime.now());
         var shouldBeFoundCandle = candleRepository.save(CandleIndex.populateFields(candle, "ticker"));
         shouldBeFoundCandle = candleRepository.findById(shouldBeFoundCandle.getId())
                 .orElseThrow(() -> new AssertionError("candle is not found"));
 
         var shouldBeFoundDodge = dodgeRepository.save(DodgeIndex.builder()
                 .candleId(shouldBeFoundCandle.getId())
-                .date(Date.from(Instant.now()))
+                .date(LocalDateTime.now())
                 .figi("figi")
                 .ticker("ticker1")
                 .build());
 
         //should not be found
-        candle = generateCandle(1, 2, 3, 4, 5);
-        candle.setDate(Date.from(Instant.now()));
+        candle = generateCandle(1, 2, 3, 4, 5, LocalDateTime.now());
         var shouldNotBeFoundCandle = candleRepository.save(CandleIndex.populateFields(candle, "ticker"));
         shouldNotBeFoundCandle = candleRepository.findById(shouldNotBeFoundCandle.getId())
                 .orElseThrow(() -> new AssertionError("candle is not found"));
         dodgeRepository.save(DodgeIndex.builder()
                 .candleId(shouldNotBeFoundCandle.getId())
-                .date(Date.from(Instant.now().minus(Period.ofDays(5))))
+                .date(LocalDateTime.now().minus(Period.ofDays(5)))
                 .figi("figi")
                 .ticker("ticker2")
                 .build());
 
         //when
         var result = dodgeRepository.getStocksByTickerAndDateBetween(shouldBeFoundDodge.getTicker(),
-                Date.from(Instant.now().minus(Period.ofDays(1))),
-                Date.from(Instant.now().plus(Period.ofDays(1))));
+                LocalDateTime.now().minusDays(1), LocalDateTime.now().plusDays(1));
 
         //then
         assertEquals(shouldBeFoundDodge.getId(), result.getId());
         assertEquals(shouldBeFoundDodge.getFigi(), result.getFigi());
-        assertEquals(shouldBeFoundDodge.getDate(), result.getDate());
+        assertEquals(shouldBeFoundDodge.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")), result.getDate().toString());
         assertEquals(shouldBeFoundDodge.getCandleId(), result.getCandleId());
         assertEquals(shouldBeFoundDodge.getTicker(), result.getTicker());
     }
@@ -68,7 +78,7 @@ public class DodgeRepositoryTest extends AbstractRepositoryTest {
 
         var dodgeToSave = DodgeIndex.builder()
                 .candleId("sdfaljva")
-                .date(Date.from(Instant.now()))
+                .date(LocalDateTime.now())
                 .figi("figu")
                 .ticker("ticker3")
                 .build();
@@ -78,7 +88,7 @@ public class DodgeRepositoryTest extends AbstractRepositoryTest {
 
         assertEquals(dodgeToSave.getId(), result.getId());
         assertEquals(dodgeToSave.getFigi(), result.getFigi());
-        assertEquals(dodgeToSave.getDate(), result.getDate());
+        assertEquals(dodgeToSave.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")), result.getDate().toString());
         assertEquals(dodgeToSave.getCandleId(), result.getCandleId());
         assertEquals(dodgeToSave.getTicker(), result.getTicker());
     }

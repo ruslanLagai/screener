@@ -7,10 +7,11 @@ import com.home.project.stocks.model.aplha.vantage.RsiPeriod;
 import com.home.project.stocks.model.aplha.vantage.SeriesType;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import com.home.project.stocks.repository.*;
-import com.home.project.stocks.service.AlphaVantageService;
+import com.home.project.stocks.service.IndicatorScanService;
+import com.home.project.stocks.service.IndicatorService;
+import com.home.project.stocks.service.RepositoryService;
 import com.home.project.stocks.utils.DateTimeParser;
 import com.home.project.stocks.utils.Profiles;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,12 +24,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.testcontainers.elasticsearch.ElasticsearchContainer;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.home.project.stocks.model.indicators.ParsedIndicator.*;
@@ -36,15 +37,19 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
-@DisplayName("Test stock processing")
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles(Profiles.TEST_PROFILE)
-@ContextConfiguration(classes = StockProcessorTest.Config.class)
-class StockProcessorTest extends AbstractRepositoryTest {
+@ContextConfiguration(classes = {IndicatorScanServiceTest.Config.class, AbstractRepositoryTest.Config.class})
+class IndicatorScanServiceTest extends AbstractRepositoryTest {
 
     public static final String AAPL = "aapl";
+
+    static {
+        container.start();
+    }
+
     @Autowired
-    StockProcessor stockProcessor;
+    IndicatorScanService indicatorScanService;
 
     @Autowired
     HammerRepository hammerRepository;
@@ -61,21 +66,14 @@ class StockProcessorTest extends AbstractRepositoryTest {
     @Test
     @DisplayName("Basic test")
     void processStock() {
-        var candle1 = generateCandle(10, 20, 21, 9, 15);
-        var candle2 = generateCandle(10, 20, 21, 9, 15);
-        var candle3 = generateCandle(10, 20, 21, 9, 15);
-        var candle4 = generateCandle(10, 20, 21, 9, 15);
-        var candle5 = generateCandle(10, 20, 21, 9, 15);
-        var candle6 = generateCandle(10, 20, 21, 9, 15);
+        var candle1 = generateCandle(10, 20, 21, 9, 15, LocalDateTime.now());
+        var candle2 = generateCandle(10, 20, 21, 9, 15, LocalDateTime.now().minus(Period.ofDays(1)));
+        var candle3 = generateCandle(10, 20, 21, 9, 15, LocalDateTime.now().minus(Period.ofDays(2)));
+        var candle4 = generateCandle(10, 20, 21, 9, 15, LocalDateTime.now().minus(Period.ofDays(3)));
+        var candle5 = generateCandle(10, 20, 21, 9, 15, LocalDateTime.now().minus(Period.ofDays(4)));
+        var candle6 = generateCandle(10, 20, 21, 9, 15, LocalDateTime.now().minus(Period.ofDays(5)));
 
-        stockProcessor.processStock(AAPL, "figi1", Map.of(
-                Date.from(Instant.now()), candle1,
-                Date.from(Instant.now().minus(Period.ofDays(1))), candle2,
-                Date.from(Instant.now().minus(Period.ofDays(2))), candle3,
-                Date.from(Instant.now().minus(Period.ofDays(3))), candle4,
-                Date.from(Instant.now().minus(Period.ofDays(4))), candle5,
-                Date.from(Instant.now().minus(Period.ofDays(5))), candle6
-        ));
+        indicatorScanService.processStock(AAPL, "figi1", List.of(candle1, candle2, candle3, candle4, candle5, candle6));
 
         var dodge = dodgeRepository.getDodgeIndexByTicker(AAPL);
         var hammer = hammerRepository.getHammerIndexByTicker(AAPL);
@@ -99,8 +97,14 @@ class StockProcessorTest extends AbstractRepositoryTest {
     static class Config {
 
         @Bean
-        AlphaVantageService indicatorService() {
-            var indicatorService = mock(AlphaVantageService.class);
+        IndicatorScanService indicatorScanService(List<HourlyProcessingOrchestrator> processingOrchestrators,
+                                                  RepositoryService repositoryService) {
+            return new IndicatorScanService(processingOrchestrators, repositoryService);
+        }
+
+        @Bean
+        IndicatorService indicatorService() {
+            var indicatorService = mock(IndicatorService.class);
 
             Map<Date, Double> indicatorData = new HashMap<>();
             indicatorData.put(DateTimeParser.parseDate("2021-07-22"), 15.0);

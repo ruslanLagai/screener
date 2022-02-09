@@ -54,7 +54,7 @@ class CandlesRequesterTest {
     }
 
 
-    @Test
+//    @Test
     @DisplayName("test getting all stocks")
     void requestData() {
         candlesRequester.requestData();

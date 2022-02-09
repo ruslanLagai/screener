@@ -29,16 +29,15 @@ import static com.home.project.stocks.utils.Profiles.TEST_PROFILE;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Class to test {@link AlphaVantageService}
+ * Class to test {@link IndicatorService}
  */
-@DisplayName("Test Indicators service")
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles(TEST_PROFILE)
-@ContextConfiguration(classes = {AlphaVantageServiceImplTest.Config.class})
+@ContextConfiguration(classes = {AlphaVantageServiceTest.Config.class})
 @Import({FeignAutoConfiguration.class, HttpMessageConvertersAutoConfiguration.class})
 @EnableConfigurationProperties
 @TestPropertySource("classpath:sandbox.properties")
-class AlphaVantageServiceImplTest {
+class AlphaVantageServiceTest {
 
     private static final String TICKER = "IBM";
 
@@ -48,7 +47,7 @@ class AlphaVantageServiceImplTest {
     }
 
     @Autowired
-    private AlphaVantageService alphaVantageServiceImpl;
+    private IndicatorService alphaVantageServiceImpl;
 
     @Test
     @DisplayName("Ema - Basic test")
@@ -113,8 +112,8 @@ class AlphaVantageServiceImplTest {
     static class Config {
 
         @Bean
-        AlphaVantageService alphaVantageService() {
-            return new AlphaVantageServiceImpl();
+        IndicatorService alphaVantageService() {
+            return new AlphaVantageService();
         }
 
         @Bean

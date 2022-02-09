@@ -50,10 +50,10 @@ public class IndicatorsIndex {
     private String candleId;
 
     @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "uuuu-MM-dd'T'HH:mm:ss.Z")
-    private Date date;
+    private LocalDateTime date;
 
     public static IndicatorsIndex populateFields(ProcessingResult processingResult, String candleId,
-                                                 Date date) {
+                                                 LocalDateTime date) {
         List<EmaIndex> emaIndices = new ArrayList<>();
         if (processingResult.getEmaValue() != null) {
             processingResult.getEmaValue().forEach((k, v) ->

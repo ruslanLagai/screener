@@ -1,17 +1,13 @@
 package com.home.project.stocks.processor;
 
-import com.home.project.stocks.model.aplha.vantage.Candle;
+import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.processing.Trend;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.Range;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
-import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Class to process Hammer pattern
@@ -20,31 +16,29 @@ import java.util.stream.Stream;
 @Log4j2
 public class HammerProcessor implements PatternProcessor {
 
-    private static final double LOWER_SHADOW_RATIO = 1.1;
-    private static final double LOWER_CANDLE_BODY_RATIO = 0.6;
-    private static final double UPPER_CANDLE_BODY_RATIO = 0.95;
+    private static final double UPPER_SHADOW_RATIO = 0.006;
+    private static final double LOWER_SHADOW_RATIO = 0.02;
+    private static final double LOWER_CANDLE_BODY_RATIO = 1;
+    private static final double UPPER_CANDLE_BODY_RATIO = 10;
 
+    //TODO move to us candles
     @Override
-    public MultiValueMap<Processors, Candle> processStock(String figi, String ticker,
-                                                          Map<Date, Candle> candles) {
+    public Map<Processors, Candle> processStock(String figi, String ticker,
+                                                          List<Candle> candles) {
         log.info("Processing stock, ticker: " + ticker);
-        MultiValueMap<Processors, Candle> hammers = new LinkedMultiValueMap<>();
-        if (candles == null || candles.size() < 5) {
+        Map<Processors, Candle> hammers = new HashMap<>();
+        if (candles == null || candles.size() < 4) {
             log.warn(String.format("Not enough candles, ticker %s", ticker));
             return hammers;
         }
-        var sorted = candles.keySet().stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList());
-        var dateToProcess = sorted.get(sorted.size() - 2);
-        Optional.ofNullable(candles.get(dateToProcess))
-                .filter(candle -> {
-                    var isPrevDesc = isPrevDesc(candles, dateToProcess);
-                    var isNextAsc = isNextAsc(candles, dateToProcess);
-                    return isNextAsc && isPrevDesc;
-                })
+        var sorted = candles.stream().sorted(Comparator.comparing(Candle::getTime)).collect(Collectors.toList());
+        Optional.of(sorted.get(sorted.size() - 1))
+                .filter(candle -> isPrevDesc(sorted))
                 .filter(HammerProcessor::hasBody)
                 .filter(HammerProcessor::isUpperPart)
                 .filter(HammerProcessor::hasShadow)
-                .ifPresent(candle -> hammers.addIfAbsent(Processors.HAMMER, candle));
+                .filter(HammerProcessor::noUpperShadow)
+                .ifPresent(candle -> hammers.put(Processors.HAMMER, candle));
         return hammers;
     }
 
@@ -55,7 +49,17 @@ public class HammerProcessor implements PatternProcessor {
      * @return hasShadow
      */
     private static boolean hasShadow(Candle candle) {
-        return candle.getOpen() / candle.getLow() > LOWER_SHADOW_RATIO;
+        return Math.abs(candle.getO() - candle.getL()) / candle.getL() >= LOWER_SHADOW_RATIO;
+    }
+
+    /**
+     * Check if candle has no upper shadow
+     *
+     * @param candle candle
+     * @return hasShadow
+     */
+    private static boolean noUpperShadow(Candle candle) {
+        return Math.abs(candle.getH() - candle.getC()) / candle.getL() <= UPPER_SHADOW_RATIO;
     }
 
     /**
@@ -65,58 +69,39 @@ public class HammerProcessor implements PatternProcessor {
      * @return hasBody
      */
     private static boolean hasBody(Candle candle) {
-        var body = Math.abs(candle.getOpen() / candle.getClose());
+        var body = Math.abs(candle.getO() - candle.getC());
+
         var range = Range.between(LOWER_CANDLE_BODY_RATIO, UPPER_CANDLE_BODY_RATIO);
-        return range.contains(body);
+        return range.contains(body / candle.getC() * 100);
     }
 
     /**
-     * Check if candle candle has long lower shadow
+     * Check if candle has long lower shadow
      *
      * @param candle candle to process
      * @return isUpperPart
      */
     private static boolean isUpperPart(Candle candle) {
-        var middle = (candle.getHigh() - candle.getLow()) / 2 + candle.getLow();
-        return candle.getOpen() > middle;
+        var middle = (candle.getH() - candle.getL()) / 2 + candle.getL();
+        return candle.getO() >= middle;
     }
 
-    private static boolean isPrevDesc(Map<Date, Candle> candles, Date dateToProcess) {
-        var sorted = candles.keySet().stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList());
-        var processIndex = sorted.indexOf(dateToProcess);
-        if (candles.size() < 5 || processIndex < 3) {
-            log.error("Index out of bound");
-            return false;
-        }
+    private static boolean isPrevDesc(List<Candle> candles) {
         var trend = extractTrend(
-                candles.get(sorted.get(processIndex - 3)),
-                candles.get(sorted.get(processIndex - 2)),
-                candles.get(sorted.get(processIndex - 1))
+                candles.get(candles.size() - 4),
+                candles.get(candles.size() - 3),
+                candles.get(candles.size() - 2)
         );
         return trend != null && trend != Trend.ASCENDING;
     }
 
-    private static boolean isNextAsc(Map<Date, Candle> candles, Date dateToProcess) {
-        if (candles.size() < 5) {
-            return false;
-        }
-        var sorted = candles.keySet().stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList());
-        var processIndex = sorted.indexOf(dateToProcess);
-        if (candles.size() < 5 || processIndex > candles.size() - 2) {
-            log.error("Index out of bound");
-            return false;
-        }
-        var candle = candles.get(sorted.get(processIndex + 1));
-        return candle.getClose() - candle.getOpen() > 0;
-    }
-
     private static Trend extractTrend(Candle first, Candle second, Candle third) {
         Trend result = null;
-        if (first.getClose() > first.getOpen() && second.getClose() > second.getOpen()
-                && third.getClose() > third.getOpen()) {
+        if (first.getC() > first.getO() && second.getC() > second.getO()
+                && third.getC() > third.getO()) {
             result = Trend.ASCENDING;
-        } else if (first.getClose() < first.getOpen() && second.getClose() < second.getOpen()
-                && third.getClose() < third.getOpen()) {
+        } else if (first.getC() < first.getO() && second.getC() < second.getO()
+                && third.getC() < third.getO()) {
             result = Trend.DESCENDING;
         }
         return result;

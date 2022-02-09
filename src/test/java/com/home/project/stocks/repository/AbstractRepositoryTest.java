@@ -18,31 +18,21 @@ import org.springframework.data.elasticsearch.core.convert.ElasticsearchCustomCo
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
+import org.testcontainers.junit.jupiter.Container;
 
 import java.time.Duration;
 import java.util.Collections;
 
-@ContextConfiguration(classes = AbstractRepositoryTest.Config.class)
-@TestConfiguration
 public class AbstractRepositoryTest extends AbstractProcessorTest {
 
-    protected static ElasticsearchContainer container;
+    @Container
+    protected static ElasticsearchContainer container = new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:7.13.0");
 
-    @Autowired
-    CandleRepository candleRepository;
 
-    @Autowired
-    DodgeRepository dodgeRepository;
-
-    @BeforeAll
-    public static void setUp() {
-        container = new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:7.13.0");
-        container.start();
-    }
-
+    @TestConfiguration
     @ComponentScan(basePackages = "com.home.project.stocks.repository")
     @EnableElasticsearchRepositories(basePackages = "com.home.project.stocks.repository")
-    static class Config extends AbstractElasticsearchConfiguration {
+    public static class Config extends AbstractElasticsearchConfiguration {
 
         @Bean
         public RepositoryService repositoryService(CandleRepository candleRepository,

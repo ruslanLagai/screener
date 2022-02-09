@@ -1,13 +1,11 @@
 package com.home.project.stocks.model.processing;
 
-import com.home.project.stocks.model.aplha.vantage.Candle;
 import com.home.project.stocks.model.aplha.vantage.EmaPeriod;
+import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.processor.DodgeProcessor;
 import com.home.project.stocks.processor.HammerProcessor;
 import com.home.project.stocks.processor.PatternProcessor;
 import lombok.*;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,9 +26,9 @@ public class ProcessingResult {
     private String figi;
     private Boolean isDodge;
     private Boolean isHammer;
-    private MultiValueMap<PatternProcessor.Processors, Candle> processedCandles = new LinkedMultiValueMap<>();
-    private Map<EmaPeriod, EmaData> emaValue;
-    private List<Double> macdBarValues;
+    private Map<PatternProcessor.Processors, Candle> processedCandles = new HashMap<>();
+    private Map<EmaPeriod, EmaData> emaValue = new HashMap<>();;
+    private List<Double> macdBarValues = new ArrayList<>();
     private List<Double> rsiValues;
     private double minPrice;
     private double closePrice;
@@ -41,11 +39,6 @@ public class ProcessingResult {
     private Trend macdBarTrend;
     private RsiSign rsiSign;
     private String ticker;
-
-    public ProcessingResult() {
-        emaValue = new HashMap<>();
-        macdBarValues = new ArrayList<>();
-    }
 
     @SneakyThrows
     public void initField(boolean value, PatternProcessor patternProcessor) {

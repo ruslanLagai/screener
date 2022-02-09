@@ -26,8 +26,8 @@ public class DodgeIndex {
     @Field(type = FieldType.Text)
     private String ticker;
 
-    @Field(type = FieldType.Date)
-    private Date date;
+    @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime date;
 
     @Field(type = FieldType.Text)
     private String candleId;

@@ -28,3 +28,7 @@ indicator:
     columnsNumber: 3
   macd:
     columnsNumber: 3
+
+tinkoff:
+  api:
+    url: https://api-invest.tinkoff.ru/openapi

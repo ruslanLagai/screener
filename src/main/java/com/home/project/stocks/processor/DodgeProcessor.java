@@ -1,19 +1,17 @@
 package com.home.project.stocks.processor;
 
-import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+import com.home.project.stocks.model.candles.Candle;
 import org.apache.commons.lang3.Range;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
-import com.home.project.stocks.model.aplha.vantage.Candle;
 import com.home.project.stocks.model.processing.Trend;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.util.MultiValueMap;
 
 /**
  * Class to process dodge pattern.
@@ -25,24 +23,25 @@ public class DodgeProcessor implements PatternProcessor {
 
     private static final double MIN_INTERVAL = 0.97;
     private static final double MAX_INTERVAL = 1.03;
+    private static final Range<Double> range = Range.between(MIN_INTERVAL, MAX_INTERVAL);
 
     @Override
-    public MultiValueMap<Processors, Candle> processStock(String figi, String ticker,
-                                                          Map<Date, Candle> candles) {
+    public HashMap<Processors, Candle> processStock(String figi, String ticker,
+                                                          List<Candle> candles) {
         log.info("Processing stock, ticker: " + ticker);
-        MultiValueMap<Processors, Candle> dodges = new LinkedMultiValueMap<>();
-        if (candles == null || candles.size() < 5) {
+        HashMap<Processors, Candle> dodges = new HashMap<>();
+        if (candles == null || candles.size() < 4) {
             log.warn(String.format("Not enough candles, ticker %s", ticker));
             return dodges;
         }
-        var sorted = candles.keySet().stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList());
-        var dateToProcess = sorted.get(sorted.size() - 3);
-        Optional.ofNullable(candles.get(dateToProcess))
+        var sorted = candles.stream().sorted(Comparator.comparing(Candle::getTime)).collect(Collectors.toList());
+        var candleToProcess = sorted.get(sorted.size() - 1);
+        Optional.of(candleToProcess)
                 .filter(DodgeProcessor::checkDifference)
                 .ifPresent(candle -> {
-                    if (isDodge(candles, dateToProcess)) {
+                    if (isDodge(sorted)) {
                         log.info(String.format("Stock has dodge pattern, ticker %s", ticker));
-                        dodges.addIfAbsent(Processors.DODGE, candle);
+                        dodges.put(Processors.DODGE, candle);
                     }
                 });
         return dodges;
@@ -55,30 +54,20 @@ public class DodgeProcessor implements PatternProcessor {
      * - small body
      *
      * @param candles       sequence of candles
-     * @param dateToProcess which candle to check on dodge
      * @return isDodge
      */
-    private boolean isDodge(Map<Date, Candle> candles, Date dateToProcess) {
-        if (candles.size() < 5) {
+    private boolean isDodge(List<Candle> candles) {
+        if (candles.size() < 3) {
             log.info("Not enough candles");
             return false;
         }
-        var sorted = candles.keySet().stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList());
-        var processIndex = sorted.indexOf(dateToProcess);
-        if (processIndex < 2 || processIndex > candles.size() - 3) {
-            log.error("Index out of bound");
-        }
 
         var prevTrend = checkTrend(
-                candles.get(sorted.get(processIndex - 1)),
-                candles.get(sorted.get(processIndex - 2))
+                candles.get(candles.size() - 2),
+                candles.get(candles.size() - 3)
         );
-        var followingTrend = checkTrend(
-                candles.get(sorted.get(processIndex + 1)),
-                candles.get(sorted.get(processIndex + 2))
-        );
-        var isClearTrend = followingTrend != null && prevTrend != followingTrend;
-        var hasShadow = checkShadow(candles.get(dateToProcess));
+        var isClearTrend = prevTrend != null;
+        var hasShadow = checkShadow(candles.get(candles.size() - 1));
         return isClearTrend && hasShadow;
     }
 
@@ -92,9 +81,9 @@ public class DodgeProcessor implements PatternProcessor {
      */
     private static Trend checkTrend(Candle first, Candle second) {
         Trend result = null;
-        if (first.getClose() > first.getOpen() && second.getClose() > second.getOpen()) {
+        if (first.getC() > first.getO() && second.getC() > second.getO()) {
             result = Trend.ASCENDING;
-        } else if (first.getClose() < first.getOpen() && second.getClose() < second.getOpen()) {
+        } else if (first.getC() < first.getO() && second.getC() < second.getO()) {
             result = Trend.DESCENDING;
         }
         return result;
@@ -107,8 +96,8 @@ public class DodgeProcessor implements PatternProcessor {
      * @return does candle have shadow
      */
     private static boolean checkShadow(Candle candle) {
-        var up = candle.getHigh() / candle.getClose() > 1.1;
-        var down = candle.getLow() / candle.getClose() < 0.9;
+        var up = candle.getH() / Double.max(candle.getC(), candle.getO()) > 1.03;
+        var down = candle.getL() / Double.min(candle.getC(), candle.getO()) < 0.97;
         return up && down;
     }
 
@@ -119,7 +108,6 @@ public class DodgeProcessor implements PatternProcessor {
      * @return does candle have small body
      */
     private static boolean checkDifference(Candle candle) {
-        var range = Range.between(MIN_INTERVAL, MAX_INTERVAL);
-        return range.contains(candle.getOpen() / candle.getClose());
+        return range.contains(candle.getO() / candle.getC());
     }
 }

@@ -1,16 +1,19 @@
 package com.home.project.stocks.processor;
 
 import com.home.project.stocks.exceptions.ProcessingException;
-import com.home.project.stocks.model.aplha.vantage.*;
+import com.home.project.stocks.model.aplha.vantage.EmaPeriod;
+import com.home.project.stocks.model.aplha.vantage.Interval;
+import com.home.project.stocks.model.aplha.vantage.RsiPeriod;
+import com.home.project.stocks.model.aplha.vantage.SeriesType;
+import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import com.home.project.stocks.model.processing.ProcessingResult;
-import com.home.project.stocks.service.AlphaVantageService;
+import com.home.project.stocks.service.IndicatorService;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,17 +24,17 @@ import java.util.function.BiFunction;
  */
 @Component
 @Log4j2
-public class IndicatorOrchestration implements Orchestration {
+public class IndicatorOrchestration implements HourlyProcessingOrchestrator {
 
     private final List<IndicatorProcessor> processors;
-    private final AlphaVantageService alphaVantageService;
+    private final IndicatorService alphaVantageService;
     private final Map<Class<? extends IndicatorProcessor>,
-            BiFunction<AlphaVantageService, String, ParsedIndicator>> indicatorMap = new HashMap<>();
+            BiFunction<IndicatorService, String, ParsedIndicator>> indicatorMap = new HashMap<>();
 
     public IndicatorOrchestration(List<IndicatorProcessor> processors,
-                                  AlphaVantageService alphaVantageService) {
+                                  IndicatorService indicatorService) {
         this.processors = processors;
-        this.alphaVantageService = alphaVantageService;
+        this.alphaVantageService = indicatorService;
 
         indicatorMap.put(Ema1000Processor.class, ((indicator, ticker) ->
                 indicator.getEma(ticker, Interval.ONE_DAY, EmaPeriod.ONE_THOUSAND, SeriesType.CLOSE)));
@@ -43,26 +46,28 @@ public class IndicatorOrchestration implements Orchestration {
                 indicator.getMacd(ticker, Interval.ONE_DAY, SeriesType.CLOSE)));
     }
 
-    public void processStocks(@NonNull String ticker, String figi, Map<Date, Candle> candles,
-                              Date lastDate, ProcessingResult processingResult) {
+    public void processStocks(@NonNull String ticker, String figi, List<Candle> candles,
+                              Candle lastCandle, ProcessingResult processingResult) {
         if (!StringUtils.hasText(ticker)) {
             throw new ProcessingException("Received empty ticker");
         }
-        initCandleData(candles.get(lastDate), processingResult);
+        initCandleData(lastCandle, processingResult);
         processors.forEach(processor -> {
             var parsedIndicator = indicatorMap
                     .get(processor.getClass())
                     .apply(alphaVantageService, ticker);
-            processor.processIndicator(parsedIndicator, candles.get(lastDate), processingResult);
+            if (parsedIndicator != null) {
+                processor.processIndicator(parsedIndicator, lastCandle, processingResult);
+            }
         });
     }
 
     private void initCandleData(Candle candle, ProcessingResult processingResult) {
-        processingResult.setMinPrice(candle.getLow());
-        processingResult.setMaxPrice(candle.getHigh());
-        processingResult.setOpenPrice(candle.getOpen());
-        processingResult.setClosePrice(candle.getClose());
-        processingResult.setVolume(candle.getVolume());
+        processingResult.setMinPrice(candle.getL());
+        processingResult.setMaxPrice(candle.getH());
+        processingResult.setOpenPrice(candle.getO());
+        processingResult.setClosePrice(candle.getC());
+        processingResult.setVolume(candle.getV());
     }
 
 }

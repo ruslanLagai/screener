@@ -1,6 +1,6 @@
 package com.home.project.stocks.processor;
 
-import com.home.project.stocks.model.aplha.vantage.Candle;
+import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import lombok.extern.log4j.Log4j2;
@@ -53,7 +53,7 @@ public class MacdProcessor implements IndicatorProcessor {
         lastDates = indicator.getMacdData().keySet().stream()
                 .sorted(Comparator.reverseOrder())
                 .limit(columnsNumber)
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
     }
 
     private void extractLastValues(ParsedIndicator indicator) {

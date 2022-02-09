@@ -1,6 +1,6 @@
 package com.home.project.stocks.service;
 
-import com.home.project.stocks.model.aplha.vantage.Candle;
+import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.model.repositories.CandleIndex;
 import com.home.project.stocks.model.repositories.DodgeIndex;
@@ -38,22 +38,21 @@ public class RepositoryService {
         this.indicatorRepository = indicatorRepository;
     }
 
-    public void populateIndexes(ProcessingResult processingResult, Candle candle) {
+    public void populateIndicatorIndexes(ProcessingResult processingResult, Candle candle) {
+        Objects.requireNonNull(processingResult);
+        Objects.requireNonNull(candle);
+        var savedCandle = candleRepository.save(CandleIndex
+                .populateFields(candle, processingResult.getTicker()));
+        indicatorRepository.save(IndicatorsIndex
+                .populateFields(processingResult, savedCandle.getId(), savedCandle.getTime()));
+    }
+
+    public void populatePatternIndexes(ProcessingResult processingResult, Candle candle) {
         Objects.requireNonNull(processingResult);
         Objects.requireNonNull(candle);
         var savedCandle = candleRepository.save(CandleIndex.populateFields(candle,
                 processingResult.getTicker()));
-        populatePatternIndexes(processingResult, savedCandle);
-        populateIndicatorIndex(processingResult, savedCandle);
-    }
-
-    private void populateIndicatorIndex(ProcessingResult processingResult, CandleIndex savedCandle) {
-        indicatorRepository
-                .save(IndicatorsIndex.populateFields(processingResult, savedCandle.getId(), savedCandle.getTime()));
-    }
-
-    private void populatePatternIndexes(ProcessingResult processingResult, CandleIndex savedCandle) {
-        var currentDate = Date.from(Instant.now());
+        var currentDate = LocalDateTime.now();
         if (processingResult.getIsDodge()) {
             dodgeRepository.save(DodgeIndex.builder()
                     .figi(processingResult.getFigi())

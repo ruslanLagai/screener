@@ -26,7 +26,7 @@ public class HammerIndex {
     private String ticker;
 
     @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "uuuu-MM-dd'T'HH:mm:ss.Z")
-    private Date date;
+    private LocalDateTime date;
 
     @Field(type = FieldType.Text)
     private String candleId;

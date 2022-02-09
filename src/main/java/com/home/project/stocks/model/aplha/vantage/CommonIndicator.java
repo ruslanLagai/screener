@@ -3,6 +3,7 @@ package com.home.project.stocks.model.aplha.vantage;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.joda.time.DateTime;
 
 import java.util.Date;
 import java.util.Map;
@@ -13,7 +14,7 @@ public class CommonIndicator {
     protected Metadata metadata;
     @JsonProperty("Technical Analysis: EMA")
     @JsonAlias(value = {"Technical Analysis: RSI", "Technical Analysis: MACD"})
-    private Map<Date, IndicatorData> dates;
+    private Map<String, IndicatorData> dates;
 
     @Data
     public static class IndicatorData {

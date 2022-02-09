@@ -11,7 +11,7 @@ public class DateTimeParser {
     public static Date parseDate(String date) {
         var formatter = date.contains(":") ?
                 new SimpleDateFormat("yyyy-MM-dd hh:mm") :
-                new SimpleDateFormat("yyyy-MM-ddXXX");
+                new SimpleDateFormat("yyyy-MM-dd");
         try {
             return formatter.parse(date);
         } catch (ParseException e) {
