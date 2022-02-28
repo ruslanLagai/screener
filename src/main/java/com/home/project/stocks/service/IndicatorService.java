@@ -13,6 +13,4 @@ public interface IndicatorService {
     ParsedIndicator getRsi(String ticker, Interval interval, RsiPeriod rsiPeriod, SeriesType seriesType);
 
     ParsedIndicator getMacd(String ticker, Interval interval, SeriesType seriesType);
-
-    Candles getDailyCandles(String ticker);
 }

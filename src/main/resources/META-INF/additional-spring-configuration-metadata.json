@@ -29,6 +29,21 @@
       "name": "tinkoff.api.url",
       "type": "java.lang.String",
       "description": "tinkoff api url."
+    },
+    {
+      "name": "twelvedata.api.url",
+      "type": "java.lang.String",
+      "description": "Twelvedata api url."
+    },
+    {
+      "name": "twelvedata.api.key",
+      "type": "java.lang.String",
+      "description": "Twelvedata api key."
+    },
+    {
+      "name": "screener.pattern.cron",
+      "type": "java.lang.String",
+      "description": "Cron for pattern detection."
     }
   ]
 }

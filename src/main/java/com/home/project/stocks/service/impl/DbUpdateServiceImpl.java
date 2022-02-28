@@ -1,0 +1,143 @@
+package com.home.project.stocks.service.impl;
+
+import com.home.project.stocks.model.entity.Candle;
+import com.home.project.stocks.model.entity.DailyIndicator;
+import com.home.project.stocks.model.entity.TelegramChatEntity;
+import com.home.project.stocks.model.telegram.ChatStatus;
+import com.home.project.stocks.repository.CandleRepository;
+import com.home.project.stocks.repository.ChatRepository;
+import com.home.project.stocks.repository.DailyEmaRepository;
+import com.home.project.stocks.repository.DailyIndicatorDataRepository;
+import com.home.project.stocks.repository.DailyRsiRepository;
+import com.home.project.stocks.service.DbUpdateService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.Update;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.transaction.Transactional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.exact;
+
+/**
+ * Service to populate db in separate thread
+ *
+ * @author rlagay
+ */
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class DbUpdateServiceImpl implements DbUpdateService {
+
+    private final DailyIndicatorDataRepository dailyIndicatorDataRepository;
+    private final DailyEmaRepository dailyEmaRepository;
+    private final DailyRsiRepository dailyRsiRepository;
+    private final CandleRepository candleRepository;
+    private final ChatRepository chatRepository;
+
+    private ExecutorService executorService;
+
+    @PostConstruct
+    public void init() {
+        executorService = Executors.newFixedThreadPool(5);
+    }
+
+    @Transactional
+    public void savePattern(Candle candle) {
+        executorService.execute(() -> candleRepository.save(candle));
+    }
+
+    @Override
+    @Transactional
+    public void activateTelegramChat(Update update) {
+        var chatId = update.getMessage().getChatId();
+        executorService.execute(() -> {
+            if (!chatRepository.existsById(chatId)) {
+                chatRepository.save(TelegramChatEntity.builder()
+                        .id(chatId)
+                        .firstName(update.getMessage().getFrom().getFirstName())
+                        .lastName(update.getMessage().getFrom().getLastName())
+                        .userName(update.getMessage().getFrom().getUserName())
+                        .status(ChatStatus.ACTIVE)
+                        .build());
+            } else {
+                chatRepository.findById(chatId).ifPresent(chatEntity -> {
+                    chatEntity.setStatus(ChatStatus.ACTIVE);
+                    chatRepository.save(chatEntity);
+                });
+            }
+        });
+    }
+
+    @Override
+    public void stopTelegramChat(Update update) {
+        var chatId = update.getMessage().getChatId();
+        executorService.execute(() -> {
+            if (chatRepository.existsById(chatId)) {
+                chatRepository.save(TelegramChatEntity.builder()
+                        .id(chatId)
+                        .firstName(update.getMessage().getFrom().getFirstName())
+                        .lastName(update.getMessage().getFrom().getLastName())
+                        .userName(update.getMessage().getFrom().getUserName())
+                        .status(ChatStatus.STOPPED)
+                        .build());
+            }
+        });
+    }
+
+    @Transactional
+    public void updateEmaOnDailyIndicator(DailyIndicator indicator) {
+        executorService.execute(() -> {
+            var existed = dailyIndicatorDataRepository.exists(Example.of(indicator, getExampleMatcher()));
+            if (existed) {
+                indicator.getEmaData().forEach(dailyEma ->
+                        dailyEmaRepository.insertEmaData(dailyEma.getEmaType(), dailyEma.getEmaValue(),
+                                dailyEma.getDatetime(), indicator.getId()));
+            } else {
+                dailyIndicatorDataRepository.save(indicator);
+            }
+        });
+    }
+
+    @Transactional
+    public void updateRsiOnDailyIndicator(DailyIndicator indicator) {
+        executorService.execute(() -> {
+            var existed = dailyIndicatorDataRepository.exists(Example.of(indicator, getExampleMatcher()));
+            if (existed) {
+                indicator.getRsiData().forEach(dailyRsi ->
+                        dailyRsiRepository.insertEmaData(dailyRsi.getRsiValue(), dailyRsi.getDatetime(), indicator.getId()));
+            } else {
+                dailyIndicatorDataRepository.save(indicator);
+            }
+        });
+    }
+
+
+
+    private ExampleMatcher getExampleMatcher() {
+        return ExampleMatcher.matching()
+                .withIgnoreCase("id")
+                .withMatcher("ticker", exact())
+                .withMatcher("date", exact())
+                .withMatcher("timeframe", exact());
+    }
+
+    @PreDestroy
+    public void stop() {
+        executorService.shutdown();
+        try {
+            if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
+                executorService.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            executorService.shutdownNow();
+        }
+    }
+}

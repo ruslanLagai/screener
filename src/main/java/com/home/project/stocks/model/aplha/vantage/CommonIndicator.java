@@ -2,19 +2,21 @@ package com.home.project.stocks.model.aplha.vantage;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.home.project.stocks.model.indicators.Indicator;
 import lombok.Data;
-import org.joda.time.DateTime;
 
-import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Data
 public class CommonIndicator {
     @JsonProperty("Meta Data")
+    @JsonAlias("meta")
     protected Metadata metadata;
     @JsonProperty("Technical Analysis: EMA")
     @JsonAlias(value = {"Technical Analysis: RSI", "Technical Analysis: MACD"})
     private Map<String, IndicatorData> dates;
+    private List<Indicator> values;
 
     @Data
     public static class IndicatorData {

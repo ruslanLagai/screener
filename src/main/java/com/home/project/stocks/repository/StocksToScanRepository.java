@@ -1,8 +1,8 @@
 package com.home.project.stocks.repository;
 
-import com.home.project.stocks.model.repositories.StocksToScanIndex;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import com.home.project.stocks.model.entity.StocksToScan;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface StocksToScanRepository extends ElasticsearchRepository<StocksToScanIndex, String> {
-    StocksToScanIndex findCandleIndexByTicker(String ticker);
+public interface StocksToScanRepository extends JpaRepository<StocksToScan, String> {
+    StocksToScan findCandleIndexByTicker(String ticker);
 }

@@ -1,5 +1,6 @@
 package com.home.project.stocks.model.aplha.vantage;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -8,10 +9,12 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Metadata {
     @JsonProperty("1: Symbol")
+    @JsonAlias("symbol")
     private String symbol;
     @JsonProperty("2: Indicator")
     private String indicator;
     @JsonProperty("4: Interval")
+    @JsonAlias("interval")
     private String interval;
     @JsonProperty("5: Time Period")
     private int timePeriod;
@@ -25,4 +28,8 @@ public class Metadata {
     private String seriesType;
     @JsonProperty("7: Time Zone")
     private String timeZone;
+    private String exchange;
+    private String type;
+    @JsonProperty("indicator")
+    private IndicatorMetadata indicatorMetadataData;
 }

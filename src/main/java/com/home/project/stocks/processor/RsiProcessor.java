@@ -1,6 +1,7 @@
 package com.home.project.stocks.processor;
 
 import com.home.project.stocks.model.candles.Candle;
+import com.home.project.stocks.model.entity.DailyRsi;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import lombok.extern.log4j.Log4j2;
@@ -26,12 +27,12 @@ public class RsiProcessor implements IndicatorProcessor {
 
     @Override
     public void processIndicator(ParsedIndicator indicator, Candle candle, ProcessingResult processingResult) {
-        var lastDates = indicator.getIndicatorData().keySet().stream()
-                .sorted(Comparator.reverseOrder())
+        var lastRsi = indicator.getRsi().stream()
+                .sorted(Comparator.comparing(DailyRsi::getDatetime, Comparator.reverseOrder()))
                 .limit(columnsNumber)
                 .collect(Collectors.toList());
-        var lastValues = lastDates.stream()
-                .map(date -> indicator.getIndicatorData().get(date))
+        var lastValues = lastRsi.stream()
+                .map(DailyRsi::getRsiValue)
                 .collect(Collectors.toUnmodifiableList());
         processingResult.setRsiSign(checkCondition(lastValues));
         processingResult.setRsiValues(lastValues);

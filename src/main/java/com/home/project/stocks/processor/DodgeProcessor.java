@@ -26,23 +26,24 @@ public class DodgeProcessor implements PatternProcessor {
     private static final Range<Double> range = Range.between(MIN_INTERVAL, MAX_INTERVAL);
 
     @Override
-    public HashMap<Processors, Candle> processStock(String figi, String ticker,
-                                                          List<Candle> candles) {
+    public HashMap<Processors, Candle> processStock(String figi, String ticker, List<Candle> candles) {
         log.info("Processing stock, ticker: " + ticker);
         HashMap<Processors, Candle> dodges = new HashMap<>();
+
         if (candles == null || candles.size() < 4) {
             log.warn(String.format("Not enough candles, ticker %s", ticker));
             return dodges;
         }
-        var sorted = candles.stream().sorted(Comparator.comparing(Candle::getTime)).collect(Collectors.toList());
-        var candleToProcess = sorted.get(sorted.size() - 1);
+        var sorted = candles.stream()
+                .sorted(Comparator.comparing(Candle::getDatetime, Comparator.reverseOrder()))
+                .collect(Collectors.toList());
+        var candleToProcess = sorted.get(0);
         Optional.of(candleToProcess)
                 .filter(DodgeProcessor::checkDifference)
+                .filter(candle -> isDodge(sorted))
                 .ifPresent(candle -> {
-                    if (isDodge(sorted)) {
-                        log.info(String.format("Stock has dodge pattern, ticker %s", ticker));
-                        dodges.put(Processors.DODGE, candle);
-                    }
+                    log.info("Stock has dodge pattern, ticker {}", ticker);
+                    dodges.put(Processors.DODGE, candle);
                 });
         return dodges;
     }
@@ -63,11 +64,11 @@ public class DodgeProcessor implements PatternProcessor {
         }
 
         var prevTrend = checkTrend(
-                candles.get(candles.size() - 2),
-                candles.get(candles.size() - 3)
+                candles.get(1),
+                candles.get(2)
         );
         var isClearTrend = prevTrend != null;
-        var hasShadow = checkShadow(candles.get(candles.size() - 1));
+        var hasShadow = checkShadow(candles.get(0));
         return isClearTrend && hasShadow;
     }
 

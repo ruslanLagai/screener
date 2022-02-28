@@ -1,67 +1,56 @@
 package com.home.project.stocks.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.home.project.stocks.config.DbConfig;
+import com.home.project.stocks.helpers.YamlPropertySourceFactory;
 import com.home.project.stocks.processor.AbstractProcessorTest;
-import com.home.project.stocks.service.RepositoryService;
-import com.home.project.stocks.utils.LongToDateTimeConverter;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.junit.jupiter.api.BeforeAll;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.elasticsearch.client.ClientConfiguration;
-import org.springframework.data.elasticsearch.client.RestClients;
-import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfiguration;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
-import org.springframework.data.elasticsearch.core.convert.ElasticsearchCustomConversions;
-import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
-import org.springframework.test.context.ContextConfiguration;
-import org.testcontainers.elasticsearch.ElasticsearchContainer;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
-
-import java.time.Duration;
-import java.util.Collections;
 
 public class AbstractRepositoryTest extends AbstractProcessorTest {
 
     @Container
-    protected static ElasticsearchContainer container = new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:7.13.0");
+    protected static MySQLContainer<?> container = new MySQLContainer<>("mysql:8");
 
 
     @TestConfiguration
     @ComponentScan(basePackages = "com.home.project.stocks.repository")
-    @EnableElasticsearchRepositories(basePackages = "com.home.project.stocks.repository")
-    public static class Config extends AbstractElasticsearchConfiguration {
+    @EnableJpaRepositories(basePackages = "com.home.project.stocks.repository")
+    @Import(value = {DbConfig.class, DataSourceAutoConfiguration.class})
+    @PropertySource(value = "classpath:application.yml", factory = YamlPropertySourceFactory.class)
+    public static class Config implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
         @Bean
-        public RepositoryService repositoryService(CandleRepository candleRepository,
-                                                   DodgeRepository dodgeRepository,
-                                                   HammerRepository hammerRepository,
-                                                   IndicatorRepository indicatorRepository) {
-            return new RepositoryService(candleRepository, dodgeRepository, hammerRepository, indicatorRepository);
+        public ObjectMapper objectMapper() {
+            var mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+            return mapper;
         }
 
-        @Bean
-        public RestHighLevelClient elasticsearchClient() {
-            ClientConfiguration clientConfiguration
-                    = ClientConfiguration.builder()
-                    .connectedTo(container.getHttpHostAddress())
-                    .build();
-            return RestClients.create(clientConfiguration).rest();
-        }
-
-        @Bean(name = {"elasticsearchOperations", "elasticsearchTemplate"})
-        public ElasticsearchOperations elasticsearchOperations() {
-            return new ElasticsearchRestTemplate(elasticsearchClient());
-        }
-
-
-        @Bean
         @Override
-        public ElasticsearchCustomConversions elasticsearchCustomConversions() {
-            return new ElasticsearchCustomConversions(Collections.singleton(new LongToDateTimeConverter()));
+        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+            final var values =
+                    TestPropertyValues.of(
+                            "spring.datasource.driver-class-name=" + container.getDriverClassName(),
+                            "spring.datasource.url=" + container.getJdbcUrl(),
+                            "spring.datasource.username=" + container.getUsername(),
+                            "spring.datasource.password=" + container.getPassword(),
+                            "spring.datasource.type=com.mysql.cj.jdbc.MysqlConnectionPoolDataSource"
+                    );
+            values.applyTo(configurableApplicationContext);
         }
-
     }
 }

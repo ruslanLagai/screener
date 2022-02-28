@@ -6,21 +6,6 @@ feign:
       default:
         connectTimeout: 5000
         readTimeout: 5000
-        loggerLevel: basic
-
-spring:
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ruslanlagai@gmail.com
-    password: irbxjcfpxsdythly
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-
 indicator:
   ema:
     threshold: 0.05
@@ -32,3 +17,44 @@ indicator:
 tinkoff:
   api:
     url: https://api-invest.tinkoff.ru/openapi
+alpha:
+  vantage:
+    url: https://www.alphavantage.co/query
+    key: 1PA3VZKFACQRRVMA
+twelvedata:
+  api:
+    url: https://api.twelvedata.com
+    key: b7e76a8b950e427daafdf6d939e4dd82
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.mysql.cj.jdbc.MysqlConnectionPoolDataSource
+    url: jdbc:mysql://localhost:3307/screener?allowPublicKeyRetrieval=true
+    username: root
+    password: j&4>TqA2
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+    hibernate:
+      ddl-auto: create-drop
+      use-new-id-generator-mappings: true
+    database: mysql
+  main:
+    allow-bean-definition-overriding: true
+  flyway:
+    enabled: false
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+    schemas: screener
+
+telegram:
+  bot:
+    token: 5081330144:AAGJ1KNQynA1lTkkygt5TEVbNGs1ZVBJ7-U
+    username: gap_screener_bot
+
+screener:
+  pattern:
+    cron: 0 0 10 * * MON-FRI

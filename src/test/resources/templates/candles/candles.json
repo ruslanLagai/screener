@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "symbol": "AMZN",
+    "interval": "1day",
+    "currency": "USD",
+    "exchange_timezone": "America/New_York",
+    "exchange": "NASDAQ",
+    "type": "Common Stock"
+  },
+  "values": [
+    {
+      "datetime": "2022-02-18",
+      "open": "3109.98999",
+      "high": "3109.98999",
+      "low": "3017.86011",
+      "close": "3053.41992",
+      "volume": "3168200"
+    },
+    {
+      "datetime": "2022-02-17",
+      "open": "3162.91992",
+      "high": "3206.97998",
+      "low": "3090.00000",
+      "close": "3093.05005",
+      "volume": "3201600"
+    },
+    {
+      "datetime": "2022-02-16",
+      "open": "3115.81006",
+      "high": "3176.67993",
+      "low": "3094.68994",
+      "close": "3162.01001",
+      "volume": "2635200"
+    },
+    {
+      "datetime": "2022-02-15",
+      "open": "3152.11011",
+      "high": "3160.13989",
+      "low": "3092.75000",
+      "close": "3130.20996",
+      "volume": "2848500"
+    },
+    {
+      "datetime": "2022-02-14",
+      "open": "3035.02002",
+      "high": "3168.96997",
+      "low": "3033.00000",
+      "close": "3103.34009",
+      "volume": "4161500"
+    }
+  ],
+  "status": "ok"
+}

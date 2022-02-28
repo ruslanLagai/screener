@@ -2,7 +2,7 @@ package com.home.project.stocks.processor;
 
 import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
-import com.home.project.stocks.utils.DateTimeParser;
+import com.home.project.stocks.model.entity.DailyRsi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,16 +11,17 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 class RsiProcessorTest extends AbstractProcessorTest {
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     RsiProcessor rsiProcessor = new RsiProcessor();
 
@@ -32,16 +33,29 @@ class RsiProcessorTest extends AbstractProcessorTest {
     @Test
     @DisplayName("RSI processor - no sign")
     void processIndicator() {
-        Map<Date, Double> indicatorData = new HashMap<>();
-        indicatorData.put(DateTimeParser.parseDate("2021-07-22"), 46.8841);
-        indicatorData.put(DateTimeParser.parseDate("2021-07-21"), 49.6213);
-        indicatorData.put(DateTimeParser.parseDate("2021-07-20"), 29.9468);
-        indicatorData.put(DateTimeParser.parseDate("2021-07-19"), 29.2937);
+        var list = List.of(
+                DailyRsi.builder()
+                        .rsiValue(29.2937)
+                        .datetime(LocalDateTime.parse("2021-08-09 15:00:00", FORMATTER))
+                        .build(),
+                DailyRsi.builder()
+                        .rsiValue(29.9468)
+                        .datetime(LocalDateTime.parse("2021-08-09 16:00:00", FORMATTER))
+                        .build(),
+                DailyRsi.builder()
+                        .rsiValue(49.6213)
+                        .datetime(LocalDateTime.parse("2021-08-09 17:00:00", FORMATTER))
+                        .build(),
+                DailyRsi.builder()
+                        .rsiValue(46.8841)
+                        .datetime(LocalDateTime.parse("2021-08-09 18:00:00", FORMATTER))
+                        .build()
+        );
 
         var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10, LocalDateTime.now());
 
         var processingResult = new ProcessingResult();
-        var parsedIndicator = new ParsedIndicator(indicatorData, null, "IBM", "daily");
+        var parsedIndicator = ParsedIndicator.builder().ticker("AAPL").interval("1hour").rsi(list).build();
         rsiProcessor.processIndicator(parsedIndicator, candle, processingResult);
         assertAll(() -> {
             assertEquals(ProcessingResult.RsiSign.NO_SIGN, processingResult.getRsiSign());
@@ -52,16 +66,29 @@ class RsiProcessorTest extends AbstractProcessorTest {
     @Test
     @DisplayName("RSI processor - oversold")
     void testOversold() {
-        Map<Date, Double> indicatorData = new HashMap<>();
-        indicatorData.put(DateTimeParser.parseDate("2021-07-22"), 14.8841);
-        indicatorData.put(DateTimeParser.parseDate("2021-07-21"), 16.6213);
-        indicatorData.put(DateTimeParser.parseDate("2021-07-20"), 19.9468);
-        indicatorData.put(DateTimeParser.parseDate("2021-07-19"), 30.2937);
+        var list = List.of(
+                DailyRsi.builder()
+                        .rsiValue(30.2937)
+                        .datetime(LocalDateTime.parse("2021-08-09 15:00:00", FORMATTER))
+                        .build(),
+                DailyRsi.builder()
+                        .rsiValue(19.9468)
+                        .datetime(LocalDateTime.parse("2021-08-09 16:00:00", FORMATTER))
+                        .build(),
+                DailyRsi.builder()
+                        .rsiValue(16.6213)
+                        .datetime(LocalDateTime.parse("2021-08-09 17:00:00", FORMATTER))
+                        .build(),
+                DailyRsi.builder()
+                        .rsiValue(14.8841)
+                        .datetime(LocalDateTime.parse("2021-08-09 18:00:00", FORMATTER))
+                        .build()
+        );
 
         var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10, LocalDateTime.now());
 
         var processingResult = new ProcessingResult();
-        var parsedIndicator = new ParsedIndicator(indicatorData, null, "IBM", "daily");
+        var parsedIndicator = ParsedIndicator.builder().ticker("AAPL").interval("1hour").rsi(list).build();
         rsiProcessor.processIndicator(parsedIndicator, candle, processingResult);
         assertAll(() -> {
             assertEquals(ProcessingResult.RsiSign.OVERSOLD, processingResult.getRsiSign());
@@ -72,16 +99,29 @@ class RsiProcessorTest extends AbstractProcessorTest {
     @Test
     @DisplayName("RSI processor - overbought")
     void testOverbought() {
-        Map<Date, Double> indicatorData = new HashMap<>();
-        indicatorData.put(DateTimeParser.parseDate("2021-07-22"), 75.8841);
-        indicatorData.put(DateTimeParser.parseDate("2021-07-21"), 74.6213);
-        indicatorData.put(DateTimeParser.parseDate("2021-07-20"), 70.9468);
-        indicatorData.put(DateTimeParser.parseDate("2021-07-19"), 30.2937);
+        var list = List.of(
+                DailyRsi.builder()
+                        .rsiValue(75.8841)
+                        .datetime(LocalDateTime.parse("2021-08-10 15:00:00", FORMATTER))
+                        .build(),
+                DailyRsi.builder()
+                        .rsiValue(74.6213)
+                        .datetime(LocalDateTime.parse("2021-08-09 16:00:00", FORMATTER))
+                        .build(),
+                DailyRsi.builder()
+                        .rsiValue(70.9468)
+                        .datetime(LocalDateTime.parse("2021-08-08 17:00:00", FORMATTER))
+                        .build(),
+                DailyRsi.builder()
+                        .rsiValue(30.2937)
+                        .datetime(LocalDateTime.parse("2021-08-07 18:00:00", FORMATTER))
+                        .build()
+        );
 
         var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10, LocalDateTime.now());
 
         var processingResult = new ProcessingResult();
-        var parsedIndicator = new ParsedIndicator(indicatorData, null, "IBM", "daily");
+        var parsedIndicator = ParsedIndicator.builder().ticker("AAPL").interval("1day").rsi(list).build();
         rsiProcessor.processIndicator(parsedIndicator, candle, processingResult);
         assertAll(() -> {
             assertEquals(ProcessingResult.RsiSign.OVERBOUGHT, processingResult.getRsiSign());

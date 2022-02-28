@@ -11,4 +11,4 @@ Support/resistance + macd + momentum on hour candles
 dodge & hammer on daily candles
 
 ## strategy 4
-macd + 200 ema on hour candles
+macd + 200 ema + rsi/mom on 5 min candles

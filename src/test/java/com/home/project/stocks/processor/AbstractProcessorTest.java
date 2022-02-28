@@ -18,7 +18,7 @@ public class AbstractProcessorTest {
         candle.setH(max);
         candle.setL(min);
         candle.setV(volume);
-        candle.setTime(localDateTime);
+        candle.setDatetime(localDateTime);
         return candle;
     }
 }

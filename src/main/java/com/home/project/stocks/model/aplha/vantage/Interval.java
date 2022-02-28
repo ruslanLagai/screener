@@ -15,9 +15,13 @@ public enum Interval {
     FIVE_MIN("5min"),
     FIFTEEN_MIN("15min"),
     THIRTY_MIN("30min"),
-    ONE_HOUR("60min"),
+    SIXTY_MIN("60min"),
     ONE_DAY("daily"),
     ONE_WEEK("weekly"),
+    TWELVE_DATA_ONE_HOUR("1h"),
+    TWELVE_DATA_FOUR_HOUR("4h"),
+    TWELVE_DATA_ONE_DAY("1day"),
+    TWELVE_DATA_ONE_WEEK("1week"),
     ONE_MONTH("monthly");
 
     private final String interval;

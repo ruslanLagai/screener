@@ -1,8 +1,8 @@
 package com.home.project.stocks.repository;
 
-import com.home.project.stocks.model.repositories.IndicatorsIndex;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import com.home.project.stocks.model.entity.ProcessedIndicators;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IndicatorRepository extends ElasticsearchRepository<IndicatorsIndex, String> {
-    IndicatorsIndex getByTicker(String ticker);
+public interface IndicatorRepository extends JpaRepository<ProcessedIndicators, String> {
+    ProcessedIndicators getByTicker(String ticker);
 }

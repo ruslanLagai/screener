@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "symbol": "FB",
+    "interval": "1day",
+    "currency": "USD",
+    "exchange_timezone": "America/New_York",
+    "exchange": "NASDAQ",
+    "type": "Common Stock"
+  },
+  "values": [
+    {
+      "datetime": "2022-02-18",
+      "open": "209.39000",
+      "high": "210.00000",
+      "low": "200.17999",
+      "close": "206.17999",
+      "volume": "37049400"
+    },
+    {
+      "datetime": "2022-02-17",
+      "open": "211.02000",
+      "high": "217.50000",
+      "low": "207.16000",
+      "close": "209.71001",
+      "volume": "38747500"
+    },
+    {
+      "datetime": "2022-02-16",
+      "open": "214.41000",
+      "high": "217.46001",
+      "low": "212.36000",
+      "close": "211.53999",
+      "volume": "45817500"
+    },
+    {
+      "datetime": "2022-02-15",
+      "open": "216.47000",
+      "high": "221.14999",
+      "low": "215.06000",
+      "close": "214.00000",
+      "volume": "42685500"
+    },
+    {
+      "datetime": "2022-02-14",
+      "open": "219.31000",
+      "high": "221.00000",
+      "low": "214.78000",
+      "close": "217.70000",
+      "volume": "38184000"
+    }
+  ],
+  "status": "ok"
+}

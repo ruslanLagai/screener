@@ -19,7 +19,7 @@ class HammerProcessorTest extends AbstractProcessorTest {
     @DisplayName("Hammer test")
     void processStock() {
         var candles = List.of(
-                generateCandle(20.5, 22.5, 22.6, 18, 5, LocalDateTime.now()),
+                generateCandle(20.5, 22.5, 22.6, 17, 5, LocalDateTime.now()),
                 generateCandle(20.9, 20.6, 22, 16, 5,  LocalDateTime.now().minusDays(1)),
                 generateCandle(21.8, 21.0, 23, 16, 5,  LocalDateTime.now().minusDays(2)),
                 generateCandle(22.9, 21.9, 21, 16, 5,  LocalDateTime.now().minusDays(3)),
@@ -33,7 +33,7 @@ class HammerProcessorTest extends AbstractProcessorTest {
             assertEquals(22.5, result.get(PatternProcessor.Processors.HAMMER).getC());
             assertEquals(20.5, result.get(PatternProcessor.Processors.HAMMER).getO());
             assertEquals(22.6, result.get(PatternProcessor.Processors.HAMMER).getH());
-            assertEquals(18, result.get(PatternProcessor.Processors.HAMMER).getL());
+            assertEquals(17, result.get(PatternProcessor.Processors.HAMMER).getL());
             assertEquals(5, result.get(PatternProcessor.Processors.HAMMER).getV());
         });
     }

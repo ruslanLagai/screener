@@ -1,23 +1,33 @@
 package com.home.project.stocks.utils;
 
-import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
-public class DateTimeDeserializer extends StdDeserializer<DateTime> {
+/**
+ * Custom date deserializer need to parse date with & w/o time
+ */
+public class DateTimeDeserializer extends StdDeserializer<LocalDateTime> {
 
-    private static final DateTime FORMAT = new DateTime("yyyy-MM-dd'T'hh:mm:ss");
+    public DateTimeDeserializer() {
+        super(LocalDateTime.class);
+    }
 
     protected DateTimeDeserializer(Class<?> vc) {
         super(vc);
     }
 
     @Override
-    public DateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-        return DateTime.parse(p.getText());
+    public LocalDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+        var formatter = p.getText().contains(":") ? "yyyy-MM-dd HH:mm:ss" : "yyyy-MM-dd";
+        return p.getText().contains(":") ? LocalDateTime.parse(p.getText(), DateTimeFormatter.ofPattern(formatter)).plusHours(8)
+                : LocalDate.parse(p.getText(), DateTimeFormatter.ofPattern(formatter)).atTime(23, 59);
     }
 }

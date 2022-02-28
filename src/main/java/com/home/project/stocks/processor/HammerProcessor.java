@@ -16,12 +16,11 @@ import java.util.stream.Collectors;
 @Log4j2
 public class HammerProcessor implements PatternProcessor {
 
-    private static final double UPPER_SHADOW_RATIO = 0.006;
-    private static final double LOWER_SHADOW_RATIO = 0.02;
+    private static final double UPPER_SHADOW_RATIO = 0.2;
+    private static final double LOWER_SHADOW_RATIO = 1.5;
     private static final double LOWER_CANDLE_BODY_RATIO = 1;
     private static final double UPPER_CANDLE_BODY_RATIO = 10;
 
-    //TODO move to us candles
     @Override
     public Map<Processors, Candle> processStock(String figi, String ticker,
                                                           List<Candle> candles) {
@@ -31,7 +30,7 @@ public class HammerProcessor implements PatternProcessor {
             log.warn(String.format("Not enough candles, ticker %s", ticker));
             return hammers;
         }
-        var sorted = candles.stream().sorted(Comparator.comparing(Candle::getTime)).collect(Collectors.toList());
+        var sorted = candles.stream().sorted(Comparator.comparing(Candle::getDatetime)).collect(Collectors.toList());
         Optional.of(sorted.get(sorted.size() - 1))
                 .filter(candle -> isPrevDesc(sorted))
                 .filter(HammerProcessor::hasBody)
@@ -49,7 +48,8 @@ public class HammerProcessor implements PatternProcessor {
      * @return hasShadow
      */
     private static boolean hasShadow(Candle candle) {
-        return Math.abs(candle.getO() - candle.getL()) / candle.getL() >= LOWER_SHADOW_RATIO;
+        return (Math.min(candle.getC(), candle.getO()) - candle.getL()) / Math.abs(candle.getO() - candle.getC())
+                >= LOWER_SHADOW_RATIO;
     }
 
     /**
@@ -59,7 +59,8 @@ public class HammerProcessor implements PatternProcessor {
      * @return hasShadow
      */
     private static boolean noUpperShadow(Candle candle) {
-        return Math.abs(candle.getH() - candle.getC()) / candle.getL() <= UPPER_SHADOW_RATIO;
+        return Math.abs(candle.getH() - Math.max(candle.getC(), candle.getO())) / Math.abs(candle.getO() - candle.getC())
+                <= UPPER_SHADOW_RATIO;
     }
 
     /**
