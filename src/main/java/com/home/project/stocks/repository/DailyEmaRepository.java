@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public interface DailyEmaRepository extends JpaRepository<DailyEma, Long> {
 
     @Query(value = "insert into daily_ema(datetime, emaType, emaValue, daily_indicator_id)" +
-            " values (:dateTime, :emaType, :ema, :indicatorId)", nativeQuery = true)
+            " values (:date, :emaType, :ema, :indicatorId)", nativeQuery = true)
     @Modifying
     void insertEmaData(@Param("emaType") String emaType, @Param("ema") double ema,
                        @Param("date") LocalDateTime dateTime, @Param("indicatorId") long indicatorId);

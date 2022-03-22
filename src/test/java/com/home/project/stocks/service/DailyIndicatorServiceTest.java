@@ -17,6 +17,7 @@ import com.home.project.stocks.service.impl.DbUpdateServiceImpl;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ class DailyIndicatorServiceTest extends AbstractRepositoryTest {
     @Autowired
     DailyIndicatorDataRepository indicatorDataRepository;
 
-//    @Test
+    @Test
     @DisplayName("Test get ema")
     void a1GetEma() throws InterruptedException {
         var ema = dailyIndicatorService.getEma(AAPL, Interval.TWELVE_DATA_ONE_DAY, EmaPeriod.TWO_HUNDRED, SeriesType.CLOSE);
@@ -87,7 +88,7 @@ class DailyIndicatorServiceTest extends AbstractRepositoryTest {
         });
     }
 
-//    @Test
+    @Test
     @DisplayName("Test get rsi")
     void a2GetRsi() throws InterruptedException {
         var rsi = dailyIndicatorService.getRsi(AAPL, Interval.TWELVE_DATA_ONE_DAY, RsiPeriod.NINE, SeriesType.CLOSE);
@@ -110,6 +111,7 @@ class DailyIndicatorServiceTest extends AbstractRepositoryTest {
                 assertEquals(EmaPeriod.TWO_HUNDRED.getPeriod(), indicator.getEmaType());
                 assertNotEquals(null, indicator.getDatetime());
             });
+            assertEquals(5, saved.getRsiData().size());
             saved.getRsiData().forEach(indicator -> {
                 assertNotEquals(0.0, indicator.getRsiValue());
                 assertNotEquals(null, indicator.getDatetime());

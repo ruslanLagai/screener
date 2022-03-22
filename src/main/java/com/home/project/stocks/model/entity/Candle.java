@@ -47,6 +47,20 @@ public class Candle {
     private boolean isDodge;
     private boolean isHammer;
 
+    @Override
+    public String toString() {
+        var isDodge = this.isDodge ? "" : "\ud83d\ude80";
+        var isHammer = this.isHammer ? "" : "\uD83D\uDED1";
+
+        return "Тикер: " + ticker + "\n" +
+                "Цена открытия: " + open + "\n" +
+                "Цена закрытия: " + close + "\n" +
+                "Макс цена: " + high + "\n" +
+                "Мин цена: " + low + "\n" +
+                "Паттерн доджи: " + isDodge + "\n" +
+                "Паттерн молот = " + isHammer;
+    }
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime time;
 

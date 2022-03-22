@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Class that starts processing on schedule
  */
@@ -17,12 +19,12 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class CandlesRequester implements ScheduledRequester {
 
-    private final DailyScanService dailyScanService;
+    private final List<DailyScanService> dailyScanService;
     private final StocksToScanRepository stocksToScanRepository;
     private final TelegramBot telegramBot;
 
     @Autowired
-    public CandlesRequester(DailyScanService dailyScanService,
+    public CandlesRequester(List<DailyScanService> dailyScanService,
                             StocksToScanRepository stocksToScanRepository,
                             TelegramBot telegramBot) {
         this.dailyScanService = dailyScanService;
@@ -38,8 +40,8 @@ public class CandlesRequester implements ScheduledRequester {
         var stocks = stocksToScanRepository.findAll();
 
         stocks.forEach(stock -> {
-            log.info(String.format("Start processing stock, ticker %s", stock.getTicker()));
-            dailyScanService.processStock(stock.getTicker(), stock.getFigi());
+            log.info("Start processing stock, ticker {}", stock.getTicker());
+            dailyScanService.forEach(service -> service.processStock(stock.getTicker(), stock.getFigi()));
             try {
                 Thread.sleep(8000);
             } catch (InterruptedException e) {
