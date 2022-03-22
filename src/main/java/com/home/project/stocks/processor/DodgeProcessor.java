@@ -21,8 +21,8 @@ import org.springframework.util.MultiValueMap;
 @Log4j2
 public class DodgeProcessor implements PatternProcessor {
 
-    private static final double MIN_INTERVAL = 0.97;
-    private static final double MAX_INTERVAL = 1.03;
+    private static final double MIN_INTERVAL = 0.99;
+    private static final double MAX_INTERVAL = 1.01;
     private static final Range<Double> range = Range.between(MIN_INTERVAL, MAX_INTERVAL);
 
     @Override

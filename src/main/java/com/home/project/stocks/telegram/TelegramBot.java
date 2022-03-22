@@ -10,10 +10,10 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import javax.annotation.PostConstruct;
@@ -21,7 +21,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -83,22 +82,28 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
         var stocksWithPattern = candleRepository.findByTimeAfter(dayOfWeek.equals(DayOfWeek.MONDAY)
                 ? LocalDateTime.now().minusDays(3) : LocalDateTime.now().minusDays(1));
 
+        log.info("Found {} stocks with pattern", stocksWithPattern.size());
+        if (CollectionUtils.isEmpty(stocksWithPattern)) {
+            return;
+        }
+
         chatRepository.findByStatus(ChatStatus.ACTIVE).stream()
                 .map(TelegramChatEntity::getId)
                 .collect(Collectors.toSet())
-                .forEach(chatId -> stocksWithPattern
-                        .forEach(candle -> {
-                            var request = new SendMessage(chatId.toString(), candle.toString());
-                            request.disableWebPagePreview();
-                            request.disableNotification();
-                            request.enableHtml(true);
-                            request.setReplyMarkup(new InlineKeyboardMarkup());
-                            try {
-                                execute(request);
-                            } catch (TelegramApiException e) {
-                                log.error("Failed to notify user, chatId {}", chatId);
-                            }
-                        }));
+                .forEach(chatId -> {
+                    var message = new StringBuilder().append("\uD83D\uDFE2 Stocks from S&P with patterns: \n\n");
+                    stocksWithPattern
+                            .forEach(candle -> message.append("\ud83d\ude80 ").append(candle.toString()).append("\n\n"));
+                    var request = new SendMessage(chatId.toString(), message.toString());
+                    request.disableWebPagePreview();
+                    request.enableMarkdown(true);
+                    try {
+                        execute(request);
+                    } catch (TelegramApiException e) {
+                        log.error("Failed to notify user, chatId {}", chatId, e);
+                    }
+                });
+
     }
 
     @Override
@@ -108,11 +113,12 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
             var chatId = message.getChatId();
             var reply = telegramCommands.containsKey(message.getText())
                     ? telegramCommands.get(message.getText()).apply(update)
-                    : "No suitable command found. Available commands are: " + Arrays.toString(COMMANDS.toArray());
+                    : "\u2139 No suitable command found. Available commands are: " + Arrays.toString(COMMANDS.toArray());
 
 
             var sm = new SendMessage();
             sm.setChatId(chatId.toString());
+            sm.enableMarkdown(true);
             sm.setText(reply);
 
             try {

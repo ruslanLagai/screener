@@ -12,7 +12,6 @@ import com.home.project.stocks.repository.DailyRsiRepository;
 import com.home.project.stocks.service.DbUpdateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -20,6 +19,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.transaction.Transactional;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -51,72 +51,94 @@ public class DbUpdateServiceImpl implements DbUpdateService {
 
     @Transactional
     public void savePattern(Candle candle) {
-        executorService.execute(() -> candleRepository.save(candle));
+        try {
+            executorService.submit(() -> candleRepository.save(candle)).get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("Failed to save candle", e);
+        }
     }
 
     @Override
     @Transactional
     public void activateTelegramChat(Update update) {
         var chatId = update.getMessage().getChatId();
-        executorService.execute(() -> {
-            if (!chatRepository.existsById(chatId)) {
-                chatRepository.save(TelegramChatEntity.builder()
-                        .id(chatId)
-                        .firstName(update.getMessage().getFrom().getFirstName())
-                        .lastName(update.getMessage().getFrom().getLastName())
-                        .userName(update.getMessage().getFrom().getUserName())
-                        .status(ChatStatus.ACTIVE)
-                        .build());
-            } else {
-                chatRepository.findById(chatId).ifPresent(chatEntity -> {
-                    chatEntity.setStatus(ChatStatus.ACTIVE);
-                    chatRepository.save(chatEntity);
-                });
-            }
-        });
+        try {
+            executorService.submit(() -> {
+                if (!chatRepository.existsById(chatId)) {
+                    chatRepository.save(TelegramChatEntity.builder()
+                            .id(chatId)
+                            .firstName(update.getMessage().getFrom().getFirstName())
+                            .lastName(update.getMessage().getFrom().getLastName())
+                            .userName(update.getMessage().getFrom().getUserName())
+                            .status(ChatStatus.ACTIVE)
+                            .build());
+                } else {
+                    chatRepository.findById(chatId).ifPresent(chatEntity -> {
+                        chatEntity.setStatus(ChatStatus.ACTIVE);
+                        chatRepository.save(chatEntity);
+                    });
+                }
+            }).get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("Failed to activate telegram chat with id {}", chatId, e);
+        }
     }
 
     @Override
     public void stopTelegramChat(Update update) {
         var chatId = update.getMessage().getChatId();
-        executorService.execute(() -> {
-            if (chatRepository.existsById(chatId)) {
-                chatRepository.save(TelegramChatEntity.builder()
-                        .id(chatId)
-                        .firstName(update.getMessage().getFrom().getFirstName())
-                        .lastName(update.getMessage().getFrom().getLastName())
-                        .userName(update.getMessage().getFrom().getUserName())
-                        .status(ChatStatus.STOPPED)
-                        .build());
-            }
-        });
+        try {
+            executorService.submit(() -> {
+                if (chatRepository.existsById(chatId)) {
+                    chatRepository.save(TelegramChatEntity.builder()
+                            .id(chatId)
+                            .firstName(update.getMessage().getFrom().getFirstName())
+                            .lastName(update.getMessage().getFrom().getLastName())
+                            .userName(update.getMessage().getFrom().getUserName())
+                            .status(ChatStatus.STOPPED)
+                            .build());
+                }
+            }).get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("Failed to deactivate telegram chat with id {}", chatId, e);
+        }
     }
 
     @Transactional
     public void updateEmaOnDailyIndicator(DailyIndicator indicator) {
-        executorService.execute(() -> {
-            var existed = dailyIndicatorDataRepository.exists(Example.of(indicator, getExampleMatcher()));
-            if (existed) {
-                indicator.getEmaData().forEach(dailyEma ->
-                        dailyEmaRepository.insertEmaData(dailyEma.getEmaType(), dailyEma.getEmaValue(),
-                                dailyEma.getDatetime(), indicator.getId()));
-            } else {
-                dailyIndicatorDataRepository.save(indicator);
-            }
-        });
+        try {
+            executorService.submit(() -> {
+                var saved = dailyIndicatorDataRepository.getByTickerAndDateAndTimeframe(
+                        indicator.getTicker(), indicator.getDate(), indicator.getTimeframe());
+                if (saved != null) {
+                    indicator.getEmaData().forEach(dailyEma ->
+                            dailyEmaRepository.insertEmaData(dailyEma.getEmaType(), dailyEma.getEmaValue(),
+                                    dailyEma.getDatetime(), saved.getId()));
+                } else {
+                    dailyIndicatorDataRepository.save(indicator);
+                }
+            }).get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("Failed to save daily ema, " + e.getMessage(), e);
+        }
     }
 
     @Transactional
     public void updateRsiOnDailyIndicator(DailyIndicator indicator) {
-        executorService.execute(() -> {
-            var existed = dailyIndicatorDataRepository.exists(Example.of(indicator, getExampleMatcher()));
-            if (existed) {
-                indicator.getRsiData().forEach(dailyRsi ->
-                        dailyRsiRepository.insertEmaData(dailyRsi.getRsiValue(), dailyRsi.getDatetime(), indicator.getId()));
-            } else {
-                dailyIndicatorDataRepository.save(indicator);
-            }
-        });
+        try {
+            executorService.submit(() -> {
+                var saved = dailyIndicatorDataRepository.getByTickerAndDateAndTimeframe(
+                        indicator.getTicker(), indicator.getDate(), indicator.getTimeframe());
+                if (saved != null) {
+                    indicator.getRsiData().forEach(dailyRsi ->
+                            dailyRsiRepository.insertRsiData(dailyRsi.getRsiValue(), dailyRsi.getDatetime(), saved.getId()));
+                } else {
+                    dailyIndicatorDataRepository.save(indicator);
+                }
+            }).get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("Failed to save daily rsi, " + e.getMessage(), e);
+        }
     }
 
 

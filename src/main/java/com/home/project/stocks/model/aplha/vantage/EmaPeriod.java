@@ -11,6 +11,8 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @Getter
 public enum EmaPeriod {
+    TEN("10"),
+    TWENTY("20"),
     FIFTY("50"),
     ONE_HUNDRED("100"),
     TWO_HUNDRED("200"),
