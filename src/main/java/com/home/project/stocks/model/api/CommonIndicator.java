@@ -1,6 +1,7 @@
-package com.home.project.stocks.model.aplha.vantage;
+package com.home.project.stocks.model.api;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.home.project.stocks.model.indicators.Indicator;
 import lombok.Data;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CommonIndicator {
     @JsonProperty("Meta Data")
     @JsonAlias("meta")

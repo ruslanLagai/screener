@@ -1,4 +1,4 @@
-package com.home.project.stocks.model.aplha.vantage;
+package com.home.project.stocks.model.api;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

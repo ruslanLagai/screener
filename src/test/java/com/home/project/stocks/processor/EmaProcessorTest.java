@@ -1,33 +1,43 @@
 package com.home.project.stocks.processor;
 
-import com.home.project.stocks.model.aplha.vantage.EmaPeriod;
+import com.home.project.stocks.model.api.EmaPeriod;
+import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import com.home.project.stocks.model.entity.DailyEma;
+import com.home.project.stocks.service.CandlesService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 
 /**
  * Class to test {@link EmaProcessor}
  */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Test EMA processing")
-@Disabled
 class EmaProcessorTest extends AbstractProcessorTest {
 
-    private final Ema200Processor ema200Processor = new Ema200Processor();
-    private final Ema1000Processor ema1000Processor = new Ema1000Processor();
+    @Mock
+    private CandlesService candlesService;
+    @InjectMocks
+    private Ema200Processor ema200Processor;
+    @InjectMocks
+    private Ema1000Processor ema1000Processor;
 
     @BeforeEach
     public void setUp() {
@@ -63,6 +73,7 @@ class EmaProcessorTest extends AbstractProcessorTest {
                 .ema(indicatorData)
                 .ticker("IBM")
                 .build();
+        when(candlesService.getHistoricalCandles(eq("IBM"), any(), eq(25))).thenReturn(mockCandles(148.2));
 
         ema200Processor.processIndicator(parsedIndicator, candle, processingResult);
         assertAll(() -> {
@@ -72,6 +83,7 @@ class EmaProcessorTest extends AbstractProcessorTest {
                     processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).getLevelType());
             assertEquals(Math.abs(146.8841 - 141.7) / 141.7, processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).getDifference());
             assertTrue(processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).isCloseToEma());
+            assertTrue(processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).isCloseRetest());
         });
 
         var processingResult1000 = new ProcessingResult();
@@ -83,6 +95,7 @@ class EmaProcessorTest extends AbstractProcessorTest {
                     processingResult1000.getEmaValue().get(EmaPeriod.ONE_THOUSAND).getLevelType());
             assertEquals(Math.abs(146.8841 - 141.7) / 141.7, processingResult1000.getEmaValue().get(EmaPeriod.ONE_THOUSAND).getDifference());
             assertTrue(processingResult1000.getEmaValue().get(EmaPeriod.ONE_THOUSAND).isCloseToEma());
+            assertTrue(processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).isCloseRetest());
         });
     }
 
@@ -114,6 +127,7 @@ class EmaProcessorTest extends AbstractProcessorTest {
                 .ticker("IBM")
                 .ema(indicatorData)
                 .build();
+        when(candlesService.getHistoricalCandles(eq("IBM"), any(), eq(25))).thenReturn(mockCandles(151.5));
 
         ema200Processor.processIndicator(parsedIndicator, candle, processingResult);
         assertAll(() -> {
@@ -123,6 +137,7 @@ class EmaProcessorTest extends AbstractProcessorTest {
                     processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).getLevelType());
             assertEquals(Math.abs(146.8841 - 148.3) / 148.3, processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).getDifference());
             assertTrue(processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).isCloseToEma());
+            assertFalse(processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).isCloseRetest());
         });
 
         var processingResult1000 = new ProcessingResult();
@@ -134,6 +149,20 @@ class EmaProcessorTest extends AbstractProcessorTest {
                     processingResult1000.getEmaValue().get(EmaPeriod.ONE_THOUSAND).getLevelType());
             assertEquals(Math.abs(146.8841 - 148.3) / 148.3, processingResult1000.getEmaValue().get(EmaPeriod.ONE_THOUSAND).getDifference());
             assertTrue(processingResult1000.getEmaValue().get(EmaPeriod.ONE_THOUSAND).isCloseToEma());
+            assertFalse(processingResult.getEmaValue().get(EmaPeriod.TWO_HUNDRED).isCloseRetest());
         });
+    }
+
+    private List<Candle> mockCandles(double value) {
+        List<Candle> candles = new ArrayList<>();
+        for (int i = 0; i < 25; i++) {
+            candles.add(Candle.builder()
+                    .c(value)
+                    .o(value)
+                    .l(value)
+                    .h(value)
+                    .build());
+        }
+        return candles;
     }
 }

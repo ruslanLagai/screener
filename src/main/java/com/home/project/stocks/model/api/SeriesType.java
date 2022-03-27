@@ -1,4 +1,4 @@
-package com.home.project.stocks.model.aplha.vantage;
+package com.home.project.stocks.model.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -10,24 +10,16 @@ import java.util.stream.Stream;
 
 @AllArgsConstructor
 @Getter
-public enum Interval {
-    ONE_MIN("1min"),
-    FIVE_MIN("5min"),
-    FIFTEEN_MIN("15min"),
-    THIRTY_MIN("30min"),
-    SIXTY_MIN("60min"),
-    ONE_DAY("daily"),
-    ONE_WEEK("weekly"),
-    TWELVE_DATA_ONE_HOUR("1h"),
-    TWELVE_DATA_FOUR_HOUR("4h"),
-    TWELVE_DATA_ONE_DAY("1day"),
-    TWELVE_DATA_ONE_WEEK("1week"),
-    ONE_MONTH("monthly");
+public enum SeriesType {
+    OPEN("open"),
+    CLOSE("close"),
+    HIGH("high"),
+    LOW("low");
 
-    private final String interval;
+    private final String period;
 
     @JsonCreator
-    public static Interval parse(String value) {
+    public static SeriesType parse(String value) {
         return Stream.of(values())
                 .filter(period -> Objects.equals(value, period.toString()))
                 .findFirst().orElseThrow(IllegalArgumentException::new);
@@ -36,6 +28,6 @@ public enum Interval {
     @Override
     @JsonValue
     public String toString() {
-        return interval;
+        return period;
     }
 }

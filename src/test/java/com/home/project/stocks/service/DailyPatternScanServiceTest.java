@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.home.project.stocks.client.TwelvedataApiClient;
-import com.home.project.stocks.model.aplha.vantage.Interval;
+import com.home.project.stocks.model.api.Interval;
 import com.home.project.stocks.processor.DodgeProcessor;
 import com.home.project.stocks.processor.HammerProcessor;
 import com.home.project.stocks.repository.AbstractRepositoryTest;

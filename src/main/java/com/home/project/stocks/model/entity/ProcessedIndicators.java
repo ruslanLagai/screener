@@ -8,13 +8,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,38 +30,68 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "processed_indicators")
+@Entity(name = "processed_indicator")
 public class ProcessedIndicators {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToMany
-    private List<DailyEma> emaData;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "processedIndicator")
+    private List<ProcessedEma> emaData;
 
     private double rsiValue;
     private String macdSignalTrend;
     private String macdBarTrend;
     private String rsiSign;
     private String ticker;
-    @Column(unique = true)
-    private long candleId;
+    private double closePrice;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
 
-    public static ProcessedIndicators populateFields(ProcessingResult processingResult, long candleId,
+    public static ProcessedIndicators populateFields(ProcessingResult processingResult,
                                                      LocalDateTime date) {
-        return ProcessedIndicators.builder()
-                .candleId(candleId)
+        var indicator = ProcessedIndicators.builder()
+                .closePrice(processingResult.getClosePrice())
                 .date(date)
                 .ticker(processingResult.getTicker())
-                .macdSignalTrend(processingResult.getMacdSignalTrend().name())
-                .macdBarTrend(processingResult.getMacdBarTrend().name())
-                .rsiSign(processingResult.getRsiSign().name())
+                .macdSignalTrend(processingResult.getMacdSignalTrend() != null
+                        ? processingResult.getMacdSignalTrend().name() : null)
+                .macdBarTrend(processingResult.getMacdBarTrend() != null
+                        ? processingResult.getMacdBarTrend().name() : null)
+                .rsiSign(processingResult.getRsiSign() != null
+                        ? processingResult.getRsiSign().name() : null)
                 .build();
+        List<ProcessedEma> emaList = Collections.synchronizedList(new ArrayList<>());
+        processingResult.getEmaValue().forEach(((emaPeriod, data) ->
+                emaList.add(ProcessedEma.builder()
+                        .difference(data.getDifference())
+                        .emaType(emaPeriod.getPeriod())
+                        .levelType(data.getLevelType())
+                        .emaValue(data.getEmaValue())
+                        .isCloseToEma(data.isCloseToEma())
+                        .processedIndicator(indicator)
+                        .datetime(date)
+                        .build()))
+        );
+        indicator.setEmaData(emaList);
+        return indicator;
 
+    }
+
+    @Override
+    public String toString() {
+        var stringBuilder = new StringBuilder();
+        emaData.forEach(emaData -> stringBuilder.append("Ема ").append(emaData.getEmaType())
+                .append(" на недельном ТФ: ").append(emaData.getEmaValue()).append("\n"));
+
+        return "Тикер: " + ticker + "\n" +
+                "Цена открытия: " + closePrice + "\n" +
+                (rsiSign != null ? "Rsi: " + rsiSign + ", " + rsiValue + "\n" : "") +
+                (macdBarTrend != null ? "Гистограмма macd: " + macdBarTrend + "\n" : "") +
+                (macdSignalTrend != null ? "Пересечение macd: " + macdSignalTrend + "\n" : "") +
+                stringBuilder;
     }
 }

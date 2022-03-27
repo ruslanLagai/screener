@@ -8,7 +8,7 @@ feign:
         readTimeout: 5000
 indicator:
   ema:
-    threshold: 0.05
+    threshold: 0.03
   rsi:
     columnsNumber: 3
   macd:
@@ -24,7 +24,10 @@ alpha:
 twelvedata:
   api:
     url: https://api.twelvedata.com
-    key: b7e76a8b950e427daafdf6d939e4dd82
+    key:
+      - b7e76a8b950e427daafdf6d939e4dd82
+      - 45cdc790f12540cabc0efdfa07e799dc
+      - 65901c0f82324bdc84816468b2aa0838
 
 spring:
   datasource:
@@ -57,7 +60,7 @@ telegram:
 
 screener:
   pattern:
-    cron: 0 40 09 * * MON-FRI
+    cron: 0 15 12 * * MON-FRI
 
 logging:
   level:

@@ -1,5 +1,6 @@
 package com.home.project.stocks.config;
 
+import com.home.project.stocks.config.properties.TwelveDataApiProperties;
 import feign.Logger;
 import feign.RequestInterceptor;
 import feign.Retryer;
@@ -30,8 +31,8 @@ public class TwelveDataFeignConfig {
     }
 
     @Bean
-    RequestInterceptor clientInterceptor() {
-        return new TwelveDataClientInterceptor();
+    RequestInterceptor clientInterceptor(TwelveDataApiProperties twelveDataApiProperties) {
+        return new TwelveDataClientInterceptor(twelveDataApiProperties);
     }
 
 }

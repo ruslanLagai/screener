@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 /**
@@ -16,6 +17,7 @@ public interface DailyRsiRepository extends JpaRepository<DailyRsi, Long> {
     @Query(value = "insert into daily_rsi(datetime, rsiValue, daily_indicator_id)" +
             " values (:date, :rsi, :indicatorId)", nativeQuery = true)
     @Modifying
+    @Transactional
     void insertRsiData(@Param("rsi") double rsi, @Param("date") LocalDateTime dateTime,
                        @Param("indicatorId") long indicatorId);
 }

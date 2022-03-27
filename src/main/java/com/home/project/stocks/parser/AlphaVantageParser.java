@@ -9,7 +9,7 @@ import java.util.Map;
 import static com.home.project.stocks.model.indicators.ParsedIndicator.*;
 
 import com.home.project.stocks.exceptions.IndicatorParsingException;
-import com.home.project.stocks.model.aplha.vantage.CommonIndicator;
+import com.home.project.stocks.model.api.CommonIndicator;
 import lombok.extern.slf4j.Slf4j;
 
 /**

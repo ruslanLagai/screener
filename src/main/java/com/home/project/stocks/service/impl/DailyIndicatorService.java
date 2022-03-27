@@ -2,10 +2,10 @@ package com.home.project.stocks.service.impl;
 
 import com.home.project.stocks.client.TwelvedataApiClient;
 import com.home.project.stocks.exceptions.IndicatorParsingException;
-import com.home.project.stocks.model.aplha.vantage.EmaPeriod;
-import com.home.project.stocks.model.aplha.vantage.Interval;
-import com.home.project.stocks.model.aplha.vantage.RsiPeriod;
-import com.home.project.stocks.model.aplha.vantage.SeriesType;
+import com.home.project.stocks.model.api.EmaPeriod;
+import com.home.project.stocks.model.api.Interval;
+import com.home.project.stocks.model.api.RsiPeriod;
+import com.home.project.stocks.model.api.SeriesType;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import com.home.project.stocks.model.entity.DailyIndicator;
 import com.home.project.stocks.parser.TwelveDataParser;

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 /**
@@ -16,6 +17,7 @@ public interface DailyEmaRepository extends JpaRepository<DailyEma, Long> {
     @Query(value = "insert into daily_ema(datetime, emaType, emaValue, daily_indicator_id)" +
             " values (:date, :emaType, :ema, :indicatorId)", nativeQuery = true)
     @Modifying
+    @Transactional
     void insertEmaData(@Param("emaType") String emaType, @Param("ema") double ema,
                        @Param("date") LocalDateTime dateTime, @Param("indicatorId") long indicatorId);
 }

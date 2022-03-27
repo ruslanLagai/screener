@@ -1,6 +1,6 @@
 package com.home.project.stocks.service.impl;
 
-import com.home.project.stocks.model.aplha.vantage.Interval;
+import com.home.project.stocks.model.api.Interval;
 import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.processor.PatternProcessor;
 import com.home.project.stocks.service.CandlesService;
