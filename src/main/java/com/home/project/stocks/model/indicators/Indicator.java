@@ -3,7 +3,7 @@ package com.home.project.stocks.model.indicators;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.home.project.stocks.model.aplha.vantage.EmaPeriod;
+import com.home.project.stocks.model.api.EmaPeriod;
 import com.home.project.stocks.utils.DateTimeDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

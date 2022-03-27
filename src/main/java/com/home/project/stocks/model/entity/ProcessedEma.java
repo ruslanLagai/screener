@@ -27,8 +27,8 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "daily_ema")
-public class DailyEma {
+@Entity(name = "processed_ema")
+public class ProcessedEma {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,14 +36,12 @@ public class DailyEma {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "daily_indicator_id", nullable = false)
-    private DailyIndicator dailyIndicator;
+    @JoinColumn(name = "processed_indicator_id", nullable = false)
+    private ProcessedIndicators processedIndicator;
 
     private double emaValue;
     private String emaType;
-    @Column(columnDefinition = "boolean default false")
     private boolean isCloseToEma;
-    @Column(columnDefinition = "double default 0.0")
     private double difference;
     @Enumerated(EnumType.STRING)
     private ProcessingResult.LevelType levelType;

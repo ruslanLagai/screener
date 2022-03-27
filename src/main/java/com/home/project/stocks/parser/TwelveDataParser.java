@@ -1,7 +1,7 @@
 package com.home.project.stocks.parser;
 
 import com.home.project.stocks.exceptions.IndicatorParsingException;
-import com.home.project.stocks.model.aplha.vantage.CommonIndicator;
+import com.home.project.stocks.model.api.CommonIndicator;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 import com.home.project.stocks.model.entity.DailyIndicator;
 import com.home.project.stocks.model.entity.DailyEma;
@@ -10,9 +10,7 @@ import com.home.project.stocks.model.entity.DailyRsi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**

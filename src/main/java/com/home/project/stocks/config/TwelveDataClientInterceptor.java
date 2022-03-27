@@ -1,19 +1,26 @@
 package com.home.project.stocks.config;
 
+import com.home.project.stocks.config.properties.TwelveDataApiProperties;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
+
+import java.util.Random;
 
 /**
  * Interceptor to add authorization header
  */
+@RequiredArgsConstructor
 public class TwelveDataClientInterceptor implements RequestInterceptor {
 
-    @Value("${twelvedata.api.key}")
-    private String token;
+    private final TwelveDataApiProperties twelveDataApiProperties;
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        requestTemplate.query("apikey", token);
+        var random= new Random();
+        var index  = random.ints(0, 2)
+                .findFirst()
+                .getAsInt();
+        requestTemplate.query("apikey", twelveDataApiProperties.getKey().get(index));
     }
 }

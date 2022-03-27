@@ -16,7 +16,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class TinkoffFeignConfig {
     @Bean
     Logger.Level feignLoggerLevel() {
-        return Logger.Level.BASIC;
+        return Logger.Level.FULL;
     }
 
     @Bean

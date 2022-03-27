@@ -22,7 +22,6 @@ public class ParsedIndicator {
     public static final String MACD_HIST = "MACD_Hist";
     public static final String MACD_SIGNAL = "MACD_Signal";
 
-    private Map<Date, Double> indicatorData;
     private Map<Date, Map<String, Double>> macdData;
     private final String ticker;
     private final String interval;

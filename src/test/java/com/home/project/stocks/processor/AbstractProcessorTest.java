@@ -18,6 +18,7 @@ public class AbstractProcessorTest {
         candle.setH(max);
         candle.setL(min);
         candle.setV(volume);
+        candle.setInterval("1day");
         candle.setDatetime(localDateTime);
         return candle;
     }

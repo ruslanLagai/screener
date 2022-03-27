@@ -1,6 +1,9 @@
 package com.home.project.stocks.service;
 
-import com.home.project.stocks.model.aplha.vantage.*;
+import com.home.project.stocks.model.api.EmaPeriod;
+import com.home.project.stocks.model.api.Interval;
+import com.home.project.stocks.model.api.RsiPeriod;
+import com.home.project.stocks.model.api.SeriesType;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
 
 /**

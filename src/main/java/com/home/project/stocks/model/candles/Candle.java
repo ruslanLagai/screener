@@ -2,14 +2,13 @@ package com.home.project.stocks.model.candles;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import com.home.project.stocks.utils.DateTimeDeserializer;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -17,6 +16,9 @@ import java.time.LocalDateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Candle {
     private String figi;
     private String interval;
@@ -30,9 +32,6 @@ public class Candle {
     private double l;
     @JsonAlias("volume")
     private double v;
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime time;
     @JsonDeserialize(using = DateTimeDeserializer.class)
     private LocalDateTime datetime;
 }

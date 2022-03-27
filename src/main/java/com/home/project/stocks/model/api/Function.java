@@ -1,4 +1,4 @@
-package com.home.project.stocks.model.aplha.vantage;
+package com.home.project.stocks.model.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -10,18 +10,16 @@ import java.util.stream.Stream;
 
 @AllArgsConstructor
 @Getter
-public enum EmaPeriod {
-    TEN("10"),
-    TWENTY("20"),
-    FIFTY("50"),
-    ONE_HUNDRED("100"),
-    TWO_HUNDRED("200"),
-    ONE_THOUSAND("1000");
+public enum Function {
+    EMA("EMA"),
+    MACD("MACD"),
+    RSI("RSI"),
+    TIME_SERIES_DAILY("TIME_SERIES_DAILY_ADJUSTED");
 
-    private final String period;
+    private final String indicator;
 
     @JsonCreator
-    public static EmaPeriod parse(String value) {
+    public static Function parse(String value) {
         return Stream.of(values())
                 .filter(period -> Objects.equals(value, period.toString()))
                 .findFirst().orElseThrow(IllegalArgumentException::new);
@@ -30,6 +28,6 @@ public enum EmaPeriod {
     @Override
     @JsonValue
     public String toString() {
-        return period;
+        return indicator;
     }
 }

@@ -1,0 +1,28 @@
+server:
+  shutdown: graceful
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.mysql.cj.jdbc.MysqlConnectionPoolDataSource
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+    hibernate:
+      ddl-auto: create-drop
+      use-new-id-generator-mappings: true
+    database: mysql
+  main:
+    allow-bean-definition-overriding: true
+  flyway:
+    enabled: false
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+    schemas: screener
+
+telegram:
+  bot:
+    token: 5081330144:AAGJ1KNQynA1lTkkygt5TEVbNGs1ZVBJ7-U
+    username: gap_screener_bot

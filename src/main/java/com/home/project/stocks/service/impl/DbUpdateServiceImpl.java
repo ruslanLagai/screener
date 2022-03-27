@@ -1,13 +1,18 @@
 package com.home.project.stocks.service.impl;
 
 import com.home.project.stocks.model.entity.Candle;
+import com.home.project.stocks.model.entity.DailyCandle;
 import com.home.project.stocks.model.entity.DailyIndicator;
+import com.home.project.stocks.model.entity.ProcessedIndicators;
 import com.home.project.stocks.model.entity.TelegramChatEntity;
+import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.model.telegram.ChatStatus;
 import com.home.project.stocks.repository.CandleRepository;
 import com.home.project.stocks.repository.ChatRepository;
+import com.home.project.stocks.repository.DailyCandleRepository;
 import com.home.project.stocks.repository.DailyEmaRepository;
 import com.home.project.stocks.repository.DailyIndicatorDataRepository;
+import com.home.project.stocks.repository.DailyProcessedIndicatorRepository;
 import com.home.project.stocks.repository.DailyRsiRepository;
 import com.home.project.stocks.service.DbUpdateService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +23,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -41,7 +47,8 @@ public class DbUpdateServiceImpl implements DbUpdateService {
     private final DailyRsiRepository dailyRsiRepository;
     private final CandleRepository candleRepository;
     private final ChatRepository chatRepository;
-
+    private final DailyCandleRepository dailyCandleRepository;
+    private final DailyProcessedIndicatorRepository indicatorRepository;
     private ExecutorService executorService;
 
     @PostConstruct
@@ -49,7 +56,6 @@ public class DbUpdateServiceImpl implements DbUpdateService {
         executorService = Executors.newFixedThreadPool(5);
     }
 
-    @Transactional
     public void savePattern(Candle candle) {
         try {
             executorService.submit(() -> candleRepository.save(candle)).get();
@@ -59,7 +65,6 @@ public class DbUpdateServiceImpl implements DbUpdateService {
     }
 
     @Override
-    @Transactional
     public void activateTelegramChat(Update update) {
         var chatId = update.getMessage().getChatId();
         try {
@@ -104,7 +109,34 @@ public class DbUpdateServiceImpl implements DbUpdateService {
         }
     }
 
-    @Transactional
+    @Override
+    public void saveDailyCandle(Set<DailyCandle> candle) {
+        try {
+            executorService.submit(() -> dailyCandleRepository.saveAll(candle)).get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("Failed to save daily candles", e);
+        }
+    }
+
+    @Override
+    public void saveIndicatorData(ProcessingResult processingResult) {
+        //todo filter based on indicators
+        // currently filtered by weekly ema
+        try {
+            executorService.submit(() -> {
+                var processedIndicator = ProcessedIndicators.populateFields(processingResult,
+                        LocalDateTime.now());
+                processingResult.getEmaValue().values().stream()
+                        .filter(ProcessingResult.EmaData::isCloseToEma)
+                        .filter(item -> !item.isCloseRetest())
+                        .findAny()
+                        .ifPresent(emaData -> indicatorRepository.save(processedIndicator));
+            }).get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("Failed to save daily candles", e);
+        }
+    }
+
     public void updateEmaOnDailyIndicator(DailyIndicator indicator) {
         try {
             executorService.submit(() -> {
@@ -123,7 +155,6 @@ public class DbUpdateServiceImpl implements DbUpdateService {
         }
     }
 
-    @Transactional
     public void updateRsiOnDailyIndicator(DailyIndicator indicator) {
         try {
             executorService.submit(() -> {
@@ -139,6 +170,10 @@ public class DbUpdateServiceImpl implements DbUpdateService {
         } catch (InterruptedException | ExecutionException e) {
             log.error("Failed to save daily rsi, " + e.getMessage(), e);
         }
+    }
+
+    public void updateMacdOnDailyIndicator(DailyIndicator indicator) {
+
     }
 
 

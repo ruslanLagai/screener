@@ -1,10 +1,9 @@
 package com.home.project.stocks.service;
 
 import com.home.project.stocks.client.TwelvedataApiClient;
-import com.home.project.stocks.model.aplha.vantage.Interval;
+import com.home.project.stocks.model.api.Interval;
 import com.home.project.stocks.processor.DodgeProcessor;
 import com.home.project.stocks.processor.HammerProcessor;
-import com.home.project.stocks.processor.PatternProcessor;
 import com.home.project.stocks.repository.AbstractRepositoryTest;
 import com.home.project.stocks.repository.CandleRepository;
 import com.home.project.stocks.service.impl.DailyPatternScanService;

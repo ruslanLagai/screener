@@ -1,16 +1,19 @@
 package com.home.project.stocks.service;
 
 import com.home.project.stocks.client.TwelvedataApiClient;
+import com.home.project.stocks.config.properties.TwelveDataApiProperties;
 import com.home.project.stocks.helpers.YamlPropertySourceFactory;
-import com.home.project.stocks.model.aplha.vantage.EmaPeriod;
-import com.home.project.stocks.model.aplha.vantage.Interval;
-import com.home.project.stocks.model.aplha.vantage.RsiPeriod;
-import com.home.project.stocks.model.aplha.vantage.SeriesType;
+import com.home.project.stocks.model.api.EmaPeriod;
+import com.home.project.stocks.model.api.Interval;
+import com.home.project.stocks.model.api.RsiPeriod;
+import com.home.project.stocks.model.api.SeriesType;
 import com.home.project.stocks.repository.AbstractRepositoryTest;
 import com.home.project.stocks.repository.CandleRepository;
 import com.home.project.stocks.repository.ChatRepository;
+import com.home.project.stocks.repository.DailyCandleRepository;
 import com.home.project.stocks.repository.DailyEmaRepository;
 import com.home.project.stocks.repository.DailyIndicatorDataRepository;
+import com.home.project.stocks.repository.DailyProcessedIndicatorRepository;
 import com.home.project.stocks.repository.DailyRsiRepository;
 import com.home.project.stocks.service.impl.DailyIndicatorService;
 import com.home.project.stocks.service.impl.DbUpdateServiceImpl;
@@ -22,10 +25,12 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ContextConfiguration;
@@ -119,7 +124,7 @@ class DailyIndicatorServiceTest extends AbstractRepositoryTest {
         });
     }
 
-//    @Test
+    @Test
     @DisplayName("Test get macd")
     void a3GetMacd() throws InterruptedException {
         var macd = dailyIndicatorService.getMacd(AAPL, Interval.TWELVE_DATA_ONE_DAY, SeriesType.CLOSE);
@@ -156,7 +161,7 @@ class DailyIndicatorServiceTest extends AbstractRepositoryTest {
         });
     }
 
-//    @Test
+    @Test
     @DisplayName("Test get ema - another period")
     void a4TestGetSaved() {
         var indicators = dailyIndicatorService.getEma(AAPL, Interval.TWELVE_DATA_ONE_DAY, EmaPeriod.FIFTY, SeriesType.CLOSE);
@@ -171,7 +176,7 @@ class DailyIndicatorServiceTest extends AbstractRepositoryTest {
     }
 
 
-//    @Test
+    @Test
     @DisplayName("Test get saved indicator")
     void a5TestGetSaved() {
         var indicators = dailyIndicatorService.getEma(AAPL, Interval.TWELVE_DATA_ONE_DAY, EmaPeriod.FIFTY, SeriesType.CLOSE);
@@ -197,6 +202,7 @@ class DailyIndicatorServiceTest extends AbstractRepositoryTest {
     }
 
     @TestConfiguration
+    @EnableConfigurationProperties
     @EnableFeignClients(clients = TwelvedataApiClient.class)
     @Import({FeignAutoConfiguration.class, HttpMessageConvertersAutoConfiguration.class})
     @PropertySource(value = "classpath:application.yml", factory = YamlPropertySourceFactory.class)
@@ -214,9 +220,16 @@ class DailyIndicatorServiceTest extends AbstractRepositoryTest {
                                         DailyEmaRepository dailyEmaRepository,
                                         DailyRsiRepository dailyRsiRepository,
                                         CandleRepository candleRepository,
-                                        ChatRepository chatRepository) {
+                                        ChatRepository chatRepository,
+                                        DailyCandleRepository dailyCandleRepository,
+                                        DailyProcessedIndicatorRepository processedIndicatorRepository) {
             return new DbUpdateServiceImpl(dailyIndicatorDataRepository, dailyEmaRepository, dailyRsiRepository,
-                    candleRepository, chatRepository);
+                    candleRepository, chatRepository, dailyCandleRepository, processedIndicatorRepository);
+        }
+
+        @Bean
+        TwelveDataApiProperties twelveDataApiProperties() {
+            return new TwelveDataApiProperties();
         }
 
     }
