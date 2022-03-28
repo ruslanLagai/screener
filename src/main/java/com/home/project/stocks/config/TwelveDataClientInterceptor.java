@@ -18,7 +18,7 @@ public class TwelveDataClientInterceptor implements RequestInterceptor {
     @Override
     public void apply(RequestTemplate requestTemplate) {
         var random= new Random();
-        var index  = random.ints(0, 2)
+        var index  = random.ints(0, 3)
                 .findFirst()
                 .getAsInt();
         requestTemplate.query("apikey", twelveDataApiProperties.getKey().get(index));

@@ -56,12 +56,14 @@ public class DailyCandlesService implements CandlesService {
             candles = Optional.ofNullable(twelvedataApiClient.getCandles(ticker, interval.getInterval(), total))
                     .map(TwelveDataCandles::getValues)
                     .orElse(Collections.emptyList());
+            candles.forEach(candle -> candle.setInterval(interval.getInterval()));
             dbUpdateService.saveDailyCandle(candles.stream()
                     .map(candle -> DailyCandle.toDbCandle(candle, ticker))
                     .collect(Collectors.toSet()));
         } catch (FeignException e) {
             log.error("Failed to retrieve candles for ticker {}, status {}", ticker, e.status());
+            candles = Collections.emptyList();
         }
-        return null;
+        return candles;
     }
 }

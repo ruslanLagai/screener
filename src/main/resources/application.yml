@@ -60,8 +60,4 @@ telegram:
 
 screener:
   pattern:
-    cron: 0 15 12 * * MON-FRI
-
-logging:
-  level:
-    feign: DEBUG
+    cron: 0 23 23 * * MON-FRI
