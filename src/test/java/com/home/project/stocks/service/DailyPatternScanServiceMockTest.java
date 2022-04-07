@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -57,11 +58,11 @@ class DailyPatternScanServiceMockTest extends AbstractRepositoryTest {
 
     @BeforeEach
     public void init() {
-        when(twelvedataApiClient.getCandles(eq(AAPL_DODGE), eq(Interval.TWELVE_DATA_ONE_DAY.getInterval())))
+        when(twelvedataApiClient.getCandles(eq(AAPL_DODGE), eq(Interval.TWELVE_DATA_ONE_DAY.getInterval()), anyInt()))
                 .thenReturn(readCandles("templates/candles/dodge.json"));
-        when(twelvedataApiClient.getCandles(eq(FB_HAMMER), eq(Interval.TWELVE_DATA_ONE_DAY.getInterval())))
+        when(twelvedataApiClient.getCandles(eq(FB_HAMMER), eq(Interval.TWELVE_DATA_ONE_DAY.getInterval()), anyInt()))
                 .thenReturn(readCandles("templates/candles/hammer.json"));
-        when(twelvedataApiClient.getCandles(eq(AMZN), eq(Interval.TWELVE_DATA_ONE_DAY.getInterval())))
+        when(twelvedataApiClient.getCandles(eq(AMZN), eq(Interval.TWELVE_DATA_ONE_DAY.getInterval()), anyInt()))
                 .thenReturn(readCandles("templates/candles/candles.json"));
     }
 
@@ -69,14 +70,14 @@ class DailyPatternScanServiceMockTest extends AbstractRepositoryTest {
     @DisplayName("dodge test")
     void processStocks() throws InterruptedException {
         dailyPatternScanService.processStock(AAPL_DODGE, null);
-        Thread.sleep(5000);
+        Thread.sleep(10000);
         var saved = candleRepository.findByTickerAndTimeAfter(AAPL_DODGE, LocalDateTime.now().minusYears(3));
 
         assertAll(() -> {
-            assertEquals(169.82001, saved.getOpen());
-            assertEquals(175.53999, saved.getHigh());
-            assertEquals(164.19000, saved.getLow());
-            assertEquals(169.30000, saved.getClose());
+            assertEquals(169.82, saved.getOpen());
+            assertEquals(175.54, saved.getHigh());
+            assertEquals(164.19, saved.getLow());
+            assertEquals(169.30, saved.getClose());
             assertTrue(saved.isDodge());
             assertFalse(saved.isHammer());
             assertEquals(Interval.TWELVE_DATA_ONE_DAY.getInterval(), saved.getInterval());
@@ -89,14 +90,14 @@ class DailyPatternScanServiceMockTest extends AbstractRepositoryTest {
     @DisplayName("hammer test")
     void testHammer() throws InterruptedException {
         dailyPatternScanService.processStock(FB_HAMMER, null);
-        Thread.sleep(4000);
+        Thread.sleep(10000);
         var saved = candleRepository.findByTickerAndTimeAfter(FB_HAMMER, LocalDateTime.now().minusYears(3));
 
         assertAll(() -> {
-            assertEquals(209.39000, saved.getOpen());
-            assertEquals(210.00000, saved.getHigh());
-            assertEquals(200.17999, saved.getLow());
-            assertEquals(206.17999, saved.getClose());
+            assertEquals(209.39, saved.getOpen());
+            assertEquals(210.0, saved.getHigh());
+            assertEquals(200.18, saved.getLow());
+            assertEquals(206.18, saved.getClose());
             assertTrue(saved.isHammer());
             assertFalse(saved.isDodge());
             assertEquals(Interval.TWELVE_DATA_ONE_DAY.getInterval(), saved.getInterval());

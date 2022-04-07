@@ -3,7 +3,7 @@ package com.home.project.stocks.service;
 import com.home.project.stocks.model.entity.Candle;
 import com.home.project.stocks.model.entity.DailyCandle;
 import com.home.project.stocks.model.entity.DailyIndicator;
-import com.home.project.stocks.model.entity.ProcessedIndicators;
+import com.home.project.stocks.model.entity.ProcessedLevels;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -21,4 +21,6 @@ public interface DbUpdateService {
     void stopTelegramChat(Update update);
     void saveDailyCandle(Set<DailyCandle> candles);
     void saveIndicatorData(ProcessingResult processingResult);
+    void saveWeeklyLevels(String ticker, Set<Double> doubles);
+    void saveProcessedLevels(ProcessedLevels processedLevels);
 }

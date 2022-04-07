@@ -15,6 +15,8 @@ import com.home.project.stocks.repository.DailyEmaRepository;
 import com.home.project.stocks.repository.DailyIndicatorDataRepository;
 import com.home.project.stocks.repository.DailyProcessedIndicatorRepository;
 import com.home.project.stocks.repository.DailyRsiRepository;
+import com.home.project.stocks.repository.ProcessedLevelsRepository;
+import com.home.project.stocks.repository.WeeklyLevelsRepository;
 import com.home.project.stocks.service.impl.DailyIndicatorService;
 import com.home.project.stocks.service.impl.DbUpdateServiceImpl;
 import org.hamcrest.Matchers;
@@ -222,9 +224,12 @@ class DailyIndicatorServiceTest extends AbstractRepositoryTest {
                                         CandleRepository candleRepository,
                                         ChatRepository chatRepository,
                                         DailyCandleRepository dailyCandleRepository,
-                                        DailyProcessedIndicatorRepository processedIndicatorRepository) {
+                                        DailyProcessedIndicatorRepository processedIndicatorRepository,
+                                        WeeklyLevelsRepository weeklyLevelsRepository,
+                                        ProcessedLevelsRepository processedLevelsRepository) {
             return new DbUpdateServiceImpl(dailyIndicatorDataRepository, dailyEmaRepository, dailyRsiRepository,
-                    candleRepository, chatRepository, dailyCandleRepository, processedIndicatorRepository);
+                    candleRepository, chatRepository, dailyCandleRepository, processedIndicatorRepository, weeklyLevelsRepository,
+                    processedLevelsRepository);
         }
 
         @Bean

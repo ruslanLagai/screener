@@ -1,5 +1,6 @@
 package com.home.project.stocks.service.impl;
 
+import com.home.project.stocks.exceptions.IndicatorParsingException;
 import com.home.project.stocks.model.api.EmaPeriod;
 import com.home.project.stocks.model.api.Interval;
 import com.home.project.stocks.model.api.SeriesType;
@@ -54,23 +55,28 @@ public class DailyIndicatorScanService implements DailyScanService {
 
     @Override
     public void processStock(String ticker, String figi) {
-        var processingResult = new ProcessingResult();
-        var candle = candlesService.getCandles(ticker, Interval.TWELVE_DATA_ONE_DAY).stream()
-                .max(Comparator.comparing(Candle::getDatetime))
-                .orElse(null);
-        if (candle == null) {
-            log.warn("Received null candle, ticker {}", ticker);
-            return;
-        }
-        initCandleData(candle, processingResult, ticker, figi);
-        indicatorProcessors.forEach(processor -> {
-            var function = indicatorMap.get(processor.getClass());
-            if (function != null) {
-                var indicator = function.apply(dailyIndicatorService, ticker);
-                processor.processIndicator(indicator, candle, processingResult);
+        try {
+            var processingResult = new ProcessingResult();
+            var candle = candlesService.getCandles(ticker, Interval.TWELVE_DATA_ONE_DAY).stream()
+                    .max(Comparator.comparing(Candle::getDatetime))
+                    .orElse(null);
+            if (candle == null) {
+                log.warn("Received null candle, ticker {}", ticker);
+                return;
             }
-        });
-        dbUpdateService.saveIndicatorData(processingResult);
+            initCandleData(candle, processingResult, ticker, figi);
+            indicatorProcessors.forEach(processor -> {
+                var function = indicatorMap.get(processor.getClass());
+                if (function != null) {
+                    var indicator = function.apply(dailyIndicatorService, ticker);
+                    processor.processIndicator(indicator, candle, processingResult);
+                }
+            });
+            dbUpdateService.saveIndicatorData(processingResult);
+        } catch (IndicatorParsingException e) {
+            log.error("Failed to process daily indicators, ticker {}", ticker, e);
+        }
+
     }
 
     private void initCandleData(Candle candle, ProcessingResult processingResult, String ticker, String figi) {

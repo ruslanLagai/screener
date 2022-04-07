@@ -1,12 +1,11 @@
 package com.home.project.stocks.telegram;
 
-import com.home.project.stocks.model.entity.Candle;
-import com.home.project.stocks.model.entity.ProcessedIndicators;
 import com.home.project.stocks.model.entity.TelegramChatEntity;
 import com.home.project.stocks.model.telegram.ChatStatus;
 import com.home.project.stocks.repository.CandleRepository;
 import com.home.project.stocks.repository.ChatRepository;
 import com.home.project.stocks.repository.DailyProcessedIndicatorRepository;
+import com.home.project.stocks.repository.ProcessedLevelsRepository;
 import com.home.project.stocks.telegram.cmd.TelegramCommand;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +25,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -43,6 +42,7 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
     private final TelegramCommand subscribeCommand;
     private final TelegramCommand stopCommand;
     private final DailyProcessedIndicatorRepository dailyProcessedIndicatorRepository;
+    private final ProcessedLevelsRepository processedLevelsRepository;
     private final Map<String, Function<Update, String>> telegramCommands = new HashMap<>();
     private static final Set<String> COMMANDS = Set.of("/start", "/stop");
 
@@ -82,42 +82,33 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
                 ? LocalDateTime.now().minusDays(3) : LocalDateTime.now().minusDays(1));
         var stocksWithIndicators = dailyProcessedIndicatorRepository
                 .getByDateAfter(LocalDate.now().atTime(LocalTime.MIN));
+        var stocksWithLevels = processedLevelsRepository
+                .findByDateAfter(LocalDate.now().atTime(LocalTime.MIN));
 
         log.info("Found {} stocks with pattern", stocksWithPattern.size());
         log.info("Found {} stocks close to weekly ema", stocksWithIndicators.size());
+        log.info("Found {} stocks close to weekly level", stocksWithLevels.size());
 
         chatRepository.findByStatus(ChatStatus.ACTIVE).stream()
                 .map(TelegramChatEntity::getId)
                 .collect(Collectors.toSet())
                 .forEach(chatId -> {
                     if (!CollectionUtils.isEmpty(stocksWithPattern)) {
-                        sendPatternNotification(stocksWithPattern, chatId);
+                        sendNotification("✔️ Акции с паттернами: \n\n", stocksWithPattern, chatId);
                     }
                     if (!CollectionUtils.isEmpty(stocksWithIndicators)) {
-                        sendIndicatorNotification(stocksWithIndicators, chatId);
+                        sendNotification("✔️ Акции, приближающиеся к недельной ЕМА 200: \n\n", stocksWithIndicators, chatId);
+                    }
+                    if (!CollectionUtils.isEmpty(stocksWithLevels)) {
+                        sendNotification("✔️ Акции, приближающиеся к недельным уровням: \n\n", stocksWithLevels, chatId);
                     }
                 });
-
     }
 
-    private void sendIndicatorNotification(List<ProcessedIndicators> stocks, Long chatId) {
-        var message = new StringBuilder().append("✔️ Акции, приближающиеся к недельной ЕМА 200: \n\n");
-        stocks.forEach(indicator ->
-                message.append("\uD83D\uDD39 ").append(indicator.toString()).append("\n\n"));
-        var request = new SendMessage(chatId.toString(), message.toString());
-        request.disableWebPagePreview();
-        request.enableMarkdown(true);
-        try {
-            execute(request);
-        } catch (TelegramApiException e) {
-            log.error("Failed to notify user, chatId {}", chatId, e);
-        }
-    }
-
-    private void sendPatternNotification(List<Candle> stocksWithPattern, Long chatId) {
-        var message = new StringBuilder().append("✔️ Stocks from S&P with patterns: \n\n");
-        stocksWithPattern
-                .forEach(candle -> message.append("\ud83d\ude80 ").append(candle.toString()).append("\n\n"));
+    private void sendNotification(String text, Collection<?> stocks, Long chatId) {
+        var message = new StringBuilder().append(text);
+        stocks.forEach(level ->
+                message.append("\uD83D\uDD39 ").append(level.toString()).append("\n\n"));
         var request = new SendMessage(chatId.toString(), message.toString());
         request.disableWebPagePreview();
         request.enableMarkdown(true);
@@ -136,7 +127,6 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
             var reply = telegramCommands.containsKey(message.getText())
                     ? telegramCommands.get(message.getText()).apply(update)
                     : "\u2139 No suitable command found. Available commands are: " + Arrays.toString(COMMANDS.toArray());
-
 
             var sm = new SendMessage();
             sm.setChatId(chatId.toString());

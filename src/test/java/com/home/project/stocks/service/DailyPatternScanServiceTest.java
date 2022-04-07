@@ -1,6 +1,9 @@
 package com.home.project.stocks.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.home.project.stocks.client.TwelvedataApiClient;
@@ -45,8 +48,8 @@ class DailyPatternScanServiceTest extends AbstractRepositoryTest {
     @Test
     @DisplayName("basic test")
     void processStocks() {
-        dailyPatternScanService.processStock("AAPL", null);
-        var candle = candleRepository.findByTickerAndTimeAfter("AAPL", LocalDateTime.now().minusDays(3));
+        dailyPatternScanService.processStock("BIO", null);
+        var candle = candleRepository.findByTickerAndTimeAfter("BIO", LocalDateTime.now().minusDays(3));
         if (candle == null) {
             assertTrue(candleRepository.findAll().isEmpty());
         } else {
@@ -63,7 +66,7 @@ class DailyPatternScanServiceTest extends AbstractRepositoryTest {
     @DisplayName("test invalid ticker")
     void testInvalidProcessing() {
         dailyPatternScanService.processStock("AAadfPL", null);
-        assertTrue(candleRepository.findAll().isEmpty());
+        assertNull(candleRepository.findByTickerAndTimeAfter("AAadfPL", LocalDate.now().atTime(LocalTime.MIN)));
     }
 
     @TestConfiguration

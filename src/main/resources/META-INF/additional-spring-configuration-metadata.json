@@ -44,6 +44,16 @@
       "name": "screener.pattern.cron",
       "type": "java.lang.String",
       "description": "Cron for pattern detection."
+    },
+    {
+      "name": "screener.level.candle-number",
+      "type": "java.lang.Integer",
+      "description": "Number of weeks to detect levels."
+    },
+    {
+      "name": "screener.level.cron",
+      "type": "java.lang.Integer",
+      "description": "Cron for levels detection."
     }
   ]
 }

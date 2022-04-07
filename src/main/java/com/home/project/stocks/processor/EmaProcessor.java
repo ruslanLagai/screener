@@ -71,6 +71,7 @@ public abstract class EmaProcessor implements IndicatorProcessor {
             log.warn("Failed to find extremum for long period");
             return false;
         }
+        log.debug("Extremum value is {}", isSupport ? extremum.getL() : extremum.getH());
         return isSupport
                 ? extremum.getL() <= emaValue || isCloseToEma(extremum.getL())
                 : extremum.getH() >= emaValue || isCloseToEma(extremum.getH());

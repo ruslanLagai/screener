@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.math3.util.Precision;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -70,7 +71,7 @@ public class ProcessedIndicators {
                         .difference(data.getDifference())
                         .emaType(emaPeriod.getPeriod())
                         .levelType(data.getLevelType())
-                        .emaValue(data.getEmaValue())
+                        .emaValue(Precision.round(data.getEmaValue(), 2))
                         .isCloseToEma(data.isCloseToEma())
                         .processedIndicator(indicator)
                         .datetime(date)
@@ -88,7 +89,7 @@ public class ProcessedIndicators {
                 .append(" на недельном ТФ: ").append(emaData.getEmaValue()).append("\n"));
 
         return "Тикер: " + ticker + "\n" +
-                "Цена открытия: " + closePrice + "\n" +
+                "Цена закрытия: " + closePrice + "\n" +
                 (rsiSign != null ? "Rsi: " + rsiSign + ", " + rsiValue + "\n" : "") +
                 (macdBarTrend != null ? "Гистограмма macd: " + macdBarTrend + "\n" : "") +
                 (macdSignalTrend != null ? "Пересечение macd: " + macdSignalTrend + "\n" : "") +

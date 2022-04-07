@@ -6,10 +6,12 @@ import com.home.project.stocks.service.DailyScanService;
 import com.home.project.stocks.telegram.TelegramBot;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
@@ -17,7 +19,7 @@ import java.util.List;
  */
 @Component
 @Slf4j
-public class CandlesRequester implements ScheduledRequester {
+public class DailyStocksDetector implements Scheduler {
 
     private final List<DailyScanService> dailyScanService;
     private final StocksToScanRepository stocksToScanRepository;
@@ -25,14 +27,22 @@ public class CandlesRequester implements ScheduledRequester {
     private final DailyCandleRepository dailyCandleRepository;
 
     @Autowired
-    public CandlesRequester(List<DailyScanService> dailyScanService,
-                            StocksToScanRepository stocksToScanRepository,
-                            TelegramBot telegramBot,
-                            DailyCandleRepository dailyCandleRepository) {
+    public DailyStocksDetector(List<DailyScanService> dailyScanService,
+                               StocksToScanRepository stocksToScanRepository,
+                               TelegramBot telegramBot,
+                               DailyCandleRepository dailyCandleRepository) {
         this.dailyScanService = dailyScanService;
         this.stocksToScanRepository = stocksToScanRepository;
         this.telegramBot = telegramBot;
         this.dailyCandleRepository = dailyCandleRepository;
+    }
+
+    @Value("${screener.pattern.cron}")
+    private String cron;
+
+    @PostConstruct
+    public void init() {
+        log.info("Cron is {}", cron);
     }
 
     @Override
@@ -40,6 +50,7 @@ public class CandlesRequester implements ScheduledRequester {
     @Profile("!test")
     public void requestData() {
         dailyCandleRepository.deleteAll();
+
         var stocks = stocksToScanRepository.findAll();
 
         stocks.forEach(stock -> {

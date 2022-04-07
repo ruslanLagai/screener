@@ -55,9 +55,12 @@ spring:
 
 telegram:
   bot:
-    token: 5081330144:AAGJ1KNQynA1lTkkygt5TEVbNGs1ZVBJ7-U
-    username: gap_screener_bot
+    token: 5201133570:AAGYX-X2cEDT0B5TIN1Y7xdT70H5xBgQNek
+    username: screener_test_bot
 
 screener:
   pattern:
-    cron: 0 23 23 * * MON-FRI
+    cron: 0 20 15 * * MON-FRI
+  level:
+    candle-number: 210
+    cron: 0 23 18 * * WED

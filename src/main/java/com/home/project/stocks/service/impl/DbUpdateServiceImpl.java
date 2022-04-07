@@ -3,8 +3,11 @@ package com.home.project.stocks.service.impl;
 import com.home.project.stocks.model.entity.Candle;
 import com.home.project.stocks.model.entity.DailyCandle;
 import com.home.project.stocks.model.entity.DailyIndicator;
+import com.home.project.stocks.model.entity.Levels;
 import com.home.project.stocks.model.entity.ProcessedIndicators;
+import com.home.project.stocks.model.entity.ProcessedLevels;
 import com.home.project.stocks.model.entity.TelegramChatEntity;
+import com.home.project.stocks.model.entity.WeeklyLevel;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.model.telegram.ChatStatus;
 import com.home.project.stocks.repository.CandleRepository;
@@ -14,6 +17,8 @@ import com.home.project.stocks.repository.DailyEmaRepository;
 import com.home.project.stocks.repository.DailyIndicatorDataRepository;
 import com.home.project.stocks.repository.DailyProcessedIndicatorRepository;
 import com.home.project.stocks.repository.DailyRsiRepository;
+import com.home.project.stocks.repository.ProcessedLevelsRepository;
+import com.home.project.stocks.repository.WeeklyLevelsRepository;
 import com.home.project.stocks.service.DbUpdateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +34,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.exact;
 
@@ -49,6 +55,8 @@ public class DbUpdateServiceImpl implements DbUpdateService {
     private final ChatRepository chatRepository;
     private final DailyCandleRepository dailyCandleRepository;
     private final DailyProcessedIndicatorRepository indicatorRepository;
+    private final WeeklyLevelsRepository weeklyLevelsRepository;
+    private final ProcessedLevelsRepository processedLevelsRepository;
     private ExecutorService executorService;
 
     @PostConstruct
@@ -137,6 +145,39 @@ public class DbUpdateServiceImpl implements DbUpdateService {
         }
     }
 
+    @Override
+    public void saveWeeklyLevels(String ticker, Set<Double> doubles) {
+        try {
+            if (doubles.isEmpty()) {
+                return;
+            }
+            var weeklyLevel = WeeklyLevel.builder()
+                    .ticker(ticker)
+                    .build();
+            var levels = doubles.stream()
+                    .map(value -> Levels.builder()
+                            .weeklyLevel(weeklyLevel)
+                            .value(value)
+
+                            .build())
+                    .collect(Collectors.toSet());
+            weeklyLevel.setLevels(levels);
+            executorService.submit(() -> weeklyLevelsRepository.save(weeklyLevel)).get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("Failed to save daily candles", e);
+        }
+    }
+
+    @Override
+    public void saveProcessedLevels(ProcessedLevels processedLevels) {
+        try {
+            executorService.submit(() -> processedLevelsRepository.save(processedLevels)).get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("Failed to save daily candles", e);
+        }
+    }
+
+    @Override
     public void updateEmaOnDailyIndicator(DailyIndicator indicator) {
         try {
             executorService.submit(() -> {
@@ -155,6 +196,7 @@ public class DbUpdateServiceImpl implements DbUpdateService {
         }
     }
 
+    @Override
     public void updateRsiOnDailyIndicator(DailyIndicator indicator) {
         try {
             executorService.submit(() -> {

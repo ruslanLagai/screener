@@ -26,3 +26,10 @@ telegram:
   bot:
     token: 5081330144:AAGJ1KNQynA1lTkkygt5TEVbNGs1ZVBJ7-U
     username: gap_screener_bot
+
+screener:
+  pattern:
+    cron: ${CRON}
+  level:
+    candle-number: 210
+    crin: ${LEVELS_CRON}

@@ -18,6 +18,7 @@ public class ProcessingResult {
     private Map<EmaPeriod, EmaData> emaValue = new HashMap<>();
     private List<Double> macdBarValues = new ArrayList<>();
     private List<Double> rsiValues;
+    private List<LevelData> levels;
     private double minPrice;
     private double closePrice;
     private double openPrice;
@@ -34,6 +35,16 @@ public class ProcessingResult {
         private boolean isCloseToEma;
         private boolean isCloseRetest;
         private double emaValue;
+        private double difference;
+        private LevelType levelType;
+    }
+
+    @Data
+    @Builder
+    public static class LevelData {
+        private boolean isClose;
+        private boolean isCloseRetest;
+        private double value;
         private double difference;
         private LevelType levelType;
     }

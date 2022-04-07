@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.math3.util.Precision;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -63,11 +64,11 @@ public class Candle {
     public static Candle populateFields(com.home.project.stocks.model.candles.Candle candle, String ticker, String figi,
                                         boolean isDodge, boolean isHammer) {
         return Candle.builder()
-                .open(candle.getO())
-                .close(candle.getC())
-                .high(candle.getH())
-                .low(candle.getL())
-                .volume(candle.getV())
+                .open(Precision.round(candle.getO(), 2))
+                .close(Precision.round(candle.getC(), 2))
+                .high(Precision.round(candle.getH(), 2))
+                .low(Precision.round(candle.getL(), 2))
+                .volume(Precision.round(candle.getV(), 2))
                 .time(candle.getDatetime())
                 .interval(candle.getInterval())
                 .ticker(ticker)
