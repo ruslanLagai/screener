@@ -42,10 +42,15 @@ public class DailyLevelScanService implements DailyScanService {
             log.warn("Not enough candles to detect levels, ticker {}", ticker);
             return;
         }
+        var levels = Optional.ofNullable(weeklyLevelsRepository.findByTicker(ticker))
+                .map(WeeklyLevel::getLevels)
+                .orElse(Collections.emptySet());
+        if (CollectionUtils.isEmpty(levels)) {
+            log.warn("No levels found for {}", ticker);
+            return;
+        }
         candles.stream().max(Comparator.comparing(Candle::getDatetime))
                 .ifPresent(candle -> {
-                    var levels = Optional.ofNullable(weeklyLevelsRepository.findByTicker(ticker))
-                            .map(WeeklyLevel::getLevels).orElse(Collections.emptySet());
                     var closestLevel = levels.stream()
                             .min(Comparator.comparing(level -> Math.abs(level.getValue() - candle.getC())))
                             .orElse(Levels.builder().build());

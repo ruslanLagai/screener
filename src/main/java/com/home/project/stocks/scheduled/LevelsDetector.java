@@ -1,6 +1,7 @@
 package com.home.project.stocks.scheduled;
 
 import com.home.project.stocks.repository.StocksToScanRepository;
+import com.home.project.stocks.repository.WeeklyLevelsRepository;
 import com.home.project.stocks.service.WeeklyScanService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +20,12 @@ public class LevelsDetector implements Scheduler{
 
     private final List<WeeklyScanService> weeklyScanService;
     private final StocksToScanRepository stocksToScanRepository;
+    private final WeeklyLevelsRepository weeklyLevelsRepository;
 
     @Override
     @Scheduled(cron = "${screener.level.cron}")
     public void requestData() {
+        weeklyLevelsRepository.deleteAll();
         var stocks = stocksToScanRepository.findAll();
         stocks.forEach(stocksToScan ->
                 weeklyScanService.forEach(service -> service.processStock(stocksToScan.getTicker())));

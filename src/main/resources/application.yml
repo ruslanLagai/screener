@@ -63,4 +63,4 @@ screener:
     cron: 0 20 15 * * MON-FRI
   level:
     candle-number: 210
-    cron: 0 23 18 * * WED
+    cron: 0 0 7 * * SAT
