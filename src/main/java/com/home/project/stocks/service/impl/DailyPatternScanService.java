@@ -50,8 +50,8 @@ public class DailyPatternScanService implements DailyScanService {
         if (!result.isEmpty()) {
             dbUpdateService.savePattern(populateFields(result.containsKey(PatternProcessor.Processors.HAMMER)
                     ? result.get(PatternProcessor.Processors.HAMMER)
-                    : result.get(PatternProcessor.Processors.DODGE), ticker, figi,
-                    result.containsKey(PatternProcessor.Processors.DODGE), result.containsKey(PatternProcessor.Processors.HAMMER)));
+                    : result.get(PatternProcessor.Processors.ENGULFING), ticker, figi,
+                    result.containsKey(PatternProcessor.Processors.ENGULFING), result.containsKey(PatternProcessor.Processors.HAMMER)));
         }
     }
 }

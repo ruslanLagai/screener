@@ -33,6 +33,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -59,9 +60,13 @@ public class DbUpdateServiceImpl implements DbUpdateService {
     private final ProcessedLevelsRepository processedLevelsRepository;
     private ExecutorService executorService;
 
+    // customizing executorService, set different corePoolSize and maxPoolSize
+    // to have more flexible service
+    // newFixedThreadPool has unlimited queue -> could be a risk
     @PostConstruct
     public void init() {
-        executorService = Executors.newFixedThreadPool(5);
+        executorService = Executors.newFixedThreadPool(10);
+        ((ThreadPoolExecutor) executorService).setCorePoolSize(5);
     }
 
     public void savePattern(Candle candle) {

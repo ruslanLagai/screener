@@ -14,7 +14,7 @@ public interface PatternProcessor {
     }
 
     enum Processors {
-        DODGE,
+        ENGULFING,
         HAMMER
     }
 }

@@ -41,20 +41,20 @@ public class Candle {
     private double high;
     private double low;
     private double volume;
-    private boolean isDodge;
+    private boolean isEngulfing;
     private boolean isHammer;
 
     @Override
     public String toString() {
-        var isDodge = this.isDodge ? "" : "\ud83d\ude80";
-        var isHammer = this.isHammer ? "" : "\uD83D\uDED1";
+        var isEngulfing = this.isEngulfing ? "\ud83d\ude80" : "⛔";
+        var isHammer = this.isHammer ? "\uD83D\uDED1" : "⛔";
 
         return "Тикер: " + ticker + "\n" +
                 "Цена открытия: " + open + "\n" +
                 "Цена закрытия: " + close + "\n" +
                 "Макс цена: " + high + "\n" +
                 "Мин цена: " + low + "\n" +
-                "Паттерн доджи: " + isDodge + "\n" +
+                "Бычье поглощение: " + isEngulfing + "\n" +
                 "Паттерн молот = " + isHammer;
     }
 
@@ -62,7 +62,7 @@ public class Candle {
     private LocalDateTime time;
 
     public static Candle populateFields(com.home.project.stocks.model.candles.Candle candle, String ticker, String figi,
-                                        boolean isDodge, boolean isHammer) {
+                                        boolean isEngulfing, boolean isHammer) {
         return Candle.builder()
                 .open(Precision.round(candle.getO(), 2))
                 .close(Precision.round(candle.getC(), 2))
@@ -74,7 +74,7 @@ public class Candle {
                 .ticker(ticker)
                 .figi(figi)
                 .isHammer(isHammer)
-                .isDodge(isDodge)
+                .isEngulfing(isEngulfing)
                 .build();
     }
 }

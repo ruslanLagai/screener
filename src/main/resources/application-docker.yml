@@ -32,4 +32,4 @@ screener:
     cron: ${CRON}
   level:
     candle-number: 210
-    crin: ${LEVELS_CRON}
+    cron: ${LEVELS_CRON}

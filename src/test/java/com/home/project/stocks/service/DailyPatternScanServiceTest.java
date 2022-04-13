@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.home.project.stocks.client.TwelvedataApiClient;
 import com.home.project.stocks.model.api.Interval;
-import com.home.project.stocks.processor.DodgeProcessor;
+import com.home.project.stocks.processor.EngulfingProcessor;
 import com.home.project.stocks.processor.HammerProcessor;
 import com.home.project.stocks.repository.AbstractRepositoryTest;
 import com.home.project.stocks.repository.CandleRepository;
@@ -76,8 +76,8 @@ class DailyPatternScanServiceTest extends AbstractRepositoryTest {
     static class Config {
 
         @Bean
-        DodgeProcessor dodgeProcessor() {
-            return new DodgeProcessor();
+        EngulfingProcessor engulfingProcessor() {
+            return new EngulfingProcessor();
         }
 
         @Bean

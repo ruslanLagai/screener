@@ -2,7 +2,7 @@ package com.home.project.stocks.service;
 
 import com.home.project.stocks.client.TwelvedataApiClient;
 import com.home.project.stocks.model.api.Interval;
-import com.home.project.stocks.processor.DodgeProcessor;
+import com.home.project.stocks.processor.EngulfingProcessor;
 import com.home.project.stocks.processor.HammerProcessor;
 import com.home.project.stocks.repository.AbstractRepositoryTest;
 import com.home.project.stocks.repository.CandleRepository;
@@ -39,7 +39,7 @@ import static org.mockito.Mockito.when;
         initializers = AbstractRepositoryTest.Config.class)
 class DailyPatternScanServiceMockTest extends AbstractRepositoryTest {
 
-    private static final String AAPL_DODGE = "AAPL";
+    private static final String AAPL_ENGULFING = "AAPL";
     private static final String FB_HAMMER = "FB";
     private static final String AMZN = "AMZN";
 
@@ -58,8 +58,8 @@ class DailyPatternScanServiceMockTest extends AbstractRepositoryTest {
 
     @BeforeEach
     public void init() {
-        when(twelvedataApiClient.getCandles(eq(AAPL_DODGE), eq(Interval.TWELVE_DATA_ONE_DAY.getInterval()), anyInt()))
-                .thenReturn(readCandles("templates/candles/dodge.json"));
+        when(twelvedataApiClient.getCandles(eq(AAPL_ENGULFING), eq(Interval.TWELVE_DATA_ONE_DAY.getInterval()), anyInt()))
+                .thenReturn(readCandles("templates/candles/engulfing.json"));
         when(twelvedataApiClient.getCandles(eq(FB_HAMMER), eq(Interval.TWELVE_DATA_ONE_DAY.getInterval()), anyInt()))
                 .thenReturn(readCandles("templates/candles/hammer.json"));
         when(twelvedataApiClient.getCandles(eq(AMZN), eq(Interval.TWELVE_DATA_ONE_DAY.getInterval()), anyInt()))
@@ -67,21 +67,21 @@ class DailyPatternScanServiceMockTest extends AbstractRepositoryTest {
     }
 
     @Test
-    @DisplayName("dodge test")
+    @DisplayName("engulfing pattern test")
     void processStocks() throws InterruptedException {
-        dailyPatternScanService.processStock(AAPL_DODGE, null);
+        dailyPatternScanService.processStock(AAPL_ENGULFING, null);
         Thread.sleep(10000);
-        var saved = candleRepository.findByTickerAndTimeAfter(AAPL_DODGE, LocalDateTime.now().minusYears(3));
+        var saved = candleRepository.findByTickerAndTimeAfter(AAPL_ENGULFING, LocalDateTime.now().minusYears(3));
 
         assertAll(() -> {
-            assertEquals(169.82, saved.getOpen());
+            assertEquals(168.88, saved.getOpen());
             assertEquals(175.54, saved.getHigh());
             assertEquals(164.19, saved.getLow());
-            assertEquals(169.30, saved.getClose());
-            assertTrue(saved.isDodge());
+            assertEquals(172.30, saved.getClose());
+            assertTrue(saved.isEngulfing());
             assertFalse(saved.isHammer());
             assertEquals(Interval.TWELVE_DATA_ONE_DAY.getInterval(), saved.getInterval());
-            assertEquals(AAPL_DODGE, saved.getTicker());
+            assertEquals(AAPL_ENGULFING, saved.getTicker());
             assertNull(saved.getFigi());
         });
     }
@@ -99,7 +99,7 @@ class DailyPatternScanServiceMockTest extends AbstractRepositoryTest {
             assertEquals(200.18, saved.getLow());
             assertEquals(206.18, saved.getClose());
             assertTrue(saved.isHammer());
-            assertFalse(saved.isDodge());
+            assertFalse(saved.isEngulfing());
             assertEquals(Interval.TWELVE_DATA_ONE_DAY.getInterval(), saved.getInterval());
             assertEquals(FB_HAMMER, saved.getTicker());
             assertNull(saved.getFigi());
@@ -120,8 +120,8 @@ class DailyPatternScanServiceMockTest extends AbstractRepositoryTest {
     static class Config {
 
         @Bean
-        DodgeProcessor dodgeProcessor() {
-            return new DodgeProcessor();
+        EngulfingProcessor engulfingProcessor() {
+            return new EngulfingProcessor();
         }
 
         @Bean

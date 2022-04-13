@@ -107,8 +107,8 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
 
     private void sendNotification(String text, Collection<?> stocks, Long chatId) {
         var message = new StringBuilder().append(text);
-        stocks.forEach(level ->
-                message.append("\uD83D\uDD39 ").append(level.toString()).append("\n\n"));
+        stocks.forEach(item ->
+                message.append("\uD83D\uDD39 ").append(item.toString()).append("\n\n"));
         var request = new SendMessage(chatId.toString(), message.toString());
         request.disableWebPagePreview();
         request.enableMarkdown(true);
