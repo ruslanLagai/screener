@@ -2,6 +2,7 @@ package com.home.project.stocks.service;
 
 import com.home.project.stocks.client.TwelvedataApiClient;
 import com.home.project.stocks.config.FlywayConfig;
+import com.home.project.stocks.mapper.MacdDataMapper;
 import com.home.project.stocks.model.entity.Levels;
 import com.home.project.stocks.model.entity.WeeklyLevel;
 import com.home.project.stocks.model.processing.ProcessingResult;
@@ -71,6 +72,9 @@ class DailyLevelScanServiceTest extends AbstractRepositoryTest {
 
     @MockBean
     private TwelvedataApiClient twelvedataApiClient;
+
+    @MockBean
+    private MacdDataMapper macdDataMapper;
 
     @Autowired
     private DailyScanService dailyLevelScanService;

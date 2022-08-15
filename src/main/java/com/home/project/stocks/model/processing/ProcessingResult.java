@@ -26,6 +26,7 @@ public class ProcessingResult {
     private double volume;
     private Trend macdSignalTrend;
     private Trend macdBarTrend;
+    private Trend macdDivergence;
     private RsiSign rsiSign;
     private String ticker;
 

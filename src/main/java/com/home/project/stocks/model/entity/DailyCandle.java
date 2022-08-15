@@ -1,7 +1,6 @@
 package com.home.project.stocks.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.home.project.stocks.model.api.Interval;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,28 +43,4 @@ public class DailyCandle {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime time;
-
-    public static com.home.project.stocks.model.candles.Candle toRestCandle(DailyCandle candle) {
-        var c = new com.home.project.stocks.model.candles.Candle();
-        c.setV(candle.getVolume());
-        c.setO(candle.getOpen());
-        c.setL(candle.getLow());
-        c.setH(candle.getHigh());
-        c.setDatetime(candle.getTime());
-        c.setInterval(candle.getInterval());
-        return c;
-    }
-
-    public static DailyCandle toDbCandle(com.home.project.stocks.model.candles.Candle candle, String ticker) {
-        return DailyCandle.builder()
-                .open(candle.getO())
-                .close(candle.getC())
-                .high(candle.getH())
-                .low(candle.getL())
-                .volume(candle.getV())
-                .interval(Interval.TWELVE_DATA_ONE_DAY.getInterval())
-                .ticker(ticker)
-                .time(candle.getDatetime())
-                .build();
-    }
 }

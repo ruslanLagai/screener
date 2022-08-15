@@ -89,8 +89,8 @@ public class EngulfingProcessor implements PatternProcessor {
      * @return           does candle have shadow
      */
     private static boolean checkShadow(Candle candle) {
-        var up = candle.getH() / Double.max(candle.getC(), candle.getO()) < 1.05;
-        var down = candle.getL() / Double.min(candle.getC(), candle.getO()) > 0.95;
+        var up = candle.getH() / Double.max(candle.getC(), candle.getO()) < 1.1;
+        var down = candle.getL() / Double.min(candle.getC(), candle.getO()) > 0.9;
         return up && down;
     }
 

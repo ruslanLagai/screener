@@ -2,18 +2,22 @@ package com.home.project.stocks.processor;
 
 import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.processing.Trend;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.Range;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
  * Class to process Hammer pattern
  */
 @Component
-@Log4j2
+@Slf4j
 public class HammerProcessor implements PatternProcessor {
 
     private static final double UPPER_SHADOW_RATIO = 0.2;

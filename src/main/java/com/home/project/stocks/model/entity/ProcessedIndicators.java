@@ -45,6 +45,7 @@ public class ProcessedIndicators {
     private double rsiValue;
     private String macdSignalTrend;
     private String macdBarTrend;
+    private String macdDiverTrend;
     private String rsiSign;
     private String ticker;
     private double closePrice;
@@ -62,6 +63,8 @@ public class ProcessedIndicators {
                         ? processingResult.getMacdSignalTrend().name() : null)
                 .macdBarTrend(processingResult.getMacdBarTrend() != null
                         ? processingResult.getMacdBarTrend().name() : null)
+                .macdDiverTrend(processingResult.getMacdDivergence() != null
+                        ? processingResult.getMacdDivergence().name() : null)
                 .rsiSign(processingResult.getRsiSign() != null
                         ? processingResult.getRsiSign().name() : null)
                 .build();
@@ -93,6 +96,7 @@ public class ProcessedIndicators {
                 (rsiSign != null ? "Rsi: " + rsiSign + ", " + rsiValue + "\n" : "") +
                 (macdBarTrend != null ? "Гистограмма macd: " + macdBarTrend + "\n" : "") +
                 (macdSignalTrend != null ? "Пересечение macd: " + macdSignalTrend + "\n" : "") +
+                (macdDiverTrend != null ? "Дивергенция по macd: " + macdDiverTrend + "\n" : "") +
                 stringBuilder;
     }
 }

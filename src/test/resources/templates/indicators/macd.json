@@ -1,0 +1,231 @@
+{
+  "meta": {
+    "symbol": "PNW",
+    "interval": "1day",
+    "currency": "USD",
+    "exchange_timezone": "America/New_York",
+    "exchange": "NYSE",
+    "mic_code": "XNYS",
+    "type": "Common Stock",
+    "indicator": {
+      "name": "MACD - Moving Average Convergence Divergence",
+      "series_type": "close",
+      "fast_period": 12,
+      "slow_period": 26,
+      "signal_period": 9
+    }
+  },
+  "values": [
+    {
+      "datetime": "2022-08-12",
+      "macd": "1.31924",
+      "macd_signal": "0.92231",
+      "macd_hist": "0.317693"
+    },
+    {
+      "datetime": "2022-08-11",
+      "macd": "1.20910",
+      "macd_signal": "0.82308",
+      "macd_hist": "0.318602"
+    },
+    {
+      "datetime": "2022-08-10",
+      "macd": "1.21588",
+      "macd_signal": "0.72658",
+      "macd_hist": "0.38931"
+    },
+    {
+      "datetime": "2022-08-09",
+      "macd": "1.13049",
+      "macd_signal": "0.60425",
+      "macd_hist": "0.42624"
+    },
+    {
+      "datetime": "2022-08-08",
+      "macd": "1.02033",
+      "macd_signal": "0.47269",
+      "macd_hist": "0.34764"
+    },
+    {
+      "datetime": "2022-08-05",
+      "macd": "0.93921",
+      "macd_signal": "0.33578",
+      "macd_hist": "0.40343"
+    },
+    {
+      "datetime": "2022-08-04",
+      "macd": "0.83728",
+      "macd_signal": "0.18492",
+      "macd_hist": "0.35236"
+    },
+    {
+      "datetime": "2022-08-03",
+      "macd": "0.57792",
+      "macd_signal": "0.02183",
+      "macd_hist": "0.35609"
+    },
+    {
+      "datetime": "2022-08-02",
+      "macd": "0.37083",
+      "macd_signal": "-0.11719",
+      "macd_hist": "0.28802"
+    },
+    {
+      "datetime": "2022-08-01",
+      "macd": "0.25385",
+      "macd_signal": "-0.23920",
+      "macd_hist": "0.29304"
+    },
+    {
+      "datetime": "2022-07-29",
+      "macd": "0.09677",
+      "macd_signal": "-0.36246",
+      "macd_hist": "0.25922"
+    },
+    {
+      "datetime": "2022-07-28",
+      "macd": "-0.07052",
+      "macd_signal": "-0.47726",
+      "macd_hist": "0.20675"
+    },
+    {
+      "datetime": "2022-07-27",
+      "macd": "-0.30540",
+      "macd_signal": "-0.57895",
+      "macd_hist": "0.17355"
+    },
+    {
+      "datetime": "2022-07-26",
+      "macd": "-0.43582",
+      "macd_signal": "-0.64734",
+      "macd_hist": "0.11152"
+    },
+    {
+      "datetime": "2022-07-25",
+      "macd": "-0.61629",
+      "macd_signal": "-0.70022",
+      "macd_hist": "0.08392"
+    },
+    {
+      "datetime": "2022-07-22",
+      "macd": "-0.75216",
+      "macd_signal": "-0.72120",
+      "macd_hist": "-0.03096"
+    },
+    {
+      "datetime": "2022-07-21",
+      "macd": "-0.79347",
+      "macd_signal": "-0.71346",
+      "macd_hist": "-0.08001"
+    },
+    {
+      "datetime": "2022-07-20",
+      "macd": "-0.74811",
+      "macd_signal": "-0.69346",
+      "macd_hist": "-0.05465"
+    },
+    {
+      "datetime": "2022-07-19",
+      "macd": "-0.70682",
+      "macd_signal": "-0.67980",
+      "macd_hist": "-0.02702"
+    },
+    {
+      "datetime": "2022-07-18",
+      "macd": "-0.69984",
+      "macd_signal": "-0.67304",
+      "macd_hist": "-0.02680"
+    },
+    {
+      "datetime": "2022-07-15",
+      "macd": "-0.65224",
+      "macd_signal": "-0.66634",
+      "macd_hist": "0.01410"
+    },
+    {
+      "datetime": "2022-07-14",
+      "macd": "-0.66447",
+      "macd_signal": "-0.66987",
+      "macd_hist": "0.00539"
+    },
+    {
+      "datetime": "2022-07-13",
+      "macd": "-0.63784",
+      "macd_signal": "-0.67121",
+      "macd_hist": "0.03337"
+    },
+    {
+      "datetime": "2022-07-12",
+      "macd": "-0.54672",
+      "macd_signal": "-0.67956",
+      "macd_hist": "0.13284"
+    },
+    {
+      "datetime": "2022-07-11",
+      "macd": "-0.52937",
+      "macd_signal": "-0.71277",
+      "macd_hist": "0.18340"
+    },
+    {
+      "datetime": "2022-07-08",
+      "macd": "-0.54737",
+      "macd_signal": "-0.75862",
+      "macd_hist": "0.21124"
+    },
+    {
+      "datetime": "2022-07-07",
+      "macd": "-0.50131",
+      "macd_signal": "-0.81143",
+      "macd_hist": "0.31012"
+    },
+    {
+      "datetime": "2022-07-06",
+      "macd": "-0.48103",
+      "macd_signal": "-0.88896",
+      "macd_hist": "0.40792"
+    },
+    {
+      "datetime": "2022-07-05",
+      "macd": "-0.50722",
+      "macd_signal": "-0.99094",
+      "macd_hist": "0.48372"
+    },
+    {
+      "datetime": "2022-07-01",
+      "macd": "-0.50882",
+      "macd_signal": "-1.11187",
+      "macd_hist": "0.60305"
+    },
+    {
+      "datetime": "2022-06-30",
+      "macd": "-0.81096",
+      "macd_signal": "-1.26263",
+      "macd_hist": "0.45167"
+    },
+    {
+      "datetime": "2022-06-29",
+      "macd": "-1.02596",
+      "macd_signal": "-1.37555",
+      "macd_hist": "0.34959"
+    },
+    {
+      "datetime": "2022-06-28",
+      "macd": "-1.20198",
+      "macd_signal": "-1.46295",
+      "macd_hist": "0.26097"
+    },
+    {
+      "datetime": "2022-06-27",
+      "macd": "-1.49671",
+      "macd_signal": "-1.52819",
+      "macd_hist": "0.03148"
+    },
+    {
+      "datetime": "2022-06-24",
+      "macd": "-1.81346",
+      "macd_signal": "-1.53606",
+      "macd_hist": "-0.27739"
+    }
+  ],
+  "status": "ok"
+}

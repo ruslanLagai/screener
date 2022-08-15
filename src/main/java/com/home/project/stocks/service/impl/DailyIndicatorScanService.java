@@ -9,6 +9,7 @@ import com.home.project.stocks.model.indicators.ParsedIndicator;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.processor.Ema200Processor;
 import com.home.project.stocks.processor.IndicatorProcessor;
+import com.home.project.stocks.processor.MacdProcessor;
 import com.home.project.stocks.service.CandlesService;
 import com.home.project.stocks.service.DailyScanService;
 import com.home.project.stocks.service.DbUpdateService;
@@ -40,7 +41,9 @@ public class DailyIndicatorScanService implements DailyScanService {
     private final Map<Class<? extends IndicatorProcessor>, BiFunction<IndicatorService, String, ParsedIndicator>>
             indicatorMap = Map.of(
                     Ema200Processor.class, ((indicatorService, ticker) ->
-                    indicatorService.getEma(ticker, Interval.TWELVE_DATA_ONE_WEEK, EmaPeriod.TWO_HUNDRED, SeriesType.CLOSE))
+                    indicatorService.getEma(ticker, Interval.TWELVE_DATA_ONE_WEEK, EmaPeriod.TWO_HUNDRED, SeriesType.CLOSE)),
+                    MacdProcessor.class, ((indicatorService, ticker) ->
+                    indicatorService.getMacd(ticker, Interval.TWELVE_DATA_ONE_WEEK, SeriesType.CLOSE))
     );
 
     public DailyIndicatorScanService(IndicatorService dailyIndicatorService,
@@ -64,6 +67,8 @@ public class DailyIndicatorScanService implements DailyScanService {
                 log.warn("Received null candle, ticker {}", ticker);
                 return;
             }
+            log.info("Candle for {} is {}", ticker, candle);
+
             initCandleData(candle, processingResult, ticker, figi);
             indicatorProcessors.forEach(processor -> {
                 var function = indicatorMap.get(processor.getClass());
@@ -72,6 +77,7 @@ public class DailyIndicatorScanService implements DailyScanService {
                     processor.processIndicator(indicator, candle, processingResult);
                 }
             });
+            log.info("ProcessingResult for {} is {}", ticker, processingResult);
             dbUpdateService.saveIndicatorData(processingResult);
         } catch (IndicatorParsingException e) {
             log.error("Failed to process daily indicators, ticker {}", ticker, e);

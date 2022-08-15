@@ -1,0 +1,201 @@
+{
+  "meta": {
+    "symbol": "KNSL",
+    "interval": "1day",
+    "currency": "USD",
+    "exchange_timezone": "America/New_York",
+    "exchange": "NASDAQ",
+    "mic_code": "XNGS",
+    "type": "Common Stock",
+    "indicator": {
+      "name": "MACD - Moving Average Convergence Divergence",
+      "series_type": "close",
+      "fast_period": 12,
+      "slow_period": 26,
+      "signal_period": 9
+    }
+  },
+  "values": [
+    {
+      "datetime": "2022-08-05",
+      "macd": "6.18205",
+      "macd_signal": "4.26926",
+      "macd_hist": "1.91279"
+    },
+    {
+      "datetime": "2022-08-04",
+      "macd": "5.21295",
+      "macd_signal": "3.79106",
+      "macd_hist": "1.42189"
+    },
+    {
+      "datetime": "2022-08-03",
+      "macd": "4.76261",
+      "macd_signal": "3.43559",
+      "macd_hist": "1.32702"
+    },
+    {
+      "datetime": "2022-08-02",
+      "macd": "4.64902",
+      "macd_signal": "3.10384",
+      "macd_hist": "1.24518"
+    },
+    {
+      "datetime": "2022-08-01",
+      "macd": "4.35393",
+      "macd_signal": "2.71754",
+      "macd_hist": "1.63639"
+    },
+    {
+      "datetime": "2022-07-29",
+      "macd": "3.69199",
+      "macd_signal": "2.30844",
+      "macd_hist": "1.38355"
+    },
+    {
+      "datetime": "2022-07-28",
+      "macd": "2.82193",
+      "macd_signal": "1.96256",
+      "macd_hist": "0.85938"
+    },
+    {
+      "datetime": "2022-07-27",
+      "macd": "2.38616",
+      "macd_signal": "1.74771",
+      "macd_hist": "0.63844"
+    },
+    {
+      "datetime": "2022-07-26",
+      "macd": "1.82884",
+      "macd_signal": "1.58810",
+      "macd_hist": "0.24074"
+    },
+    {
+      "datetime": "2022-07-25",
+      "macd": "1.35969",
+      "macd_signal": "1.52792",
+      "macd_hist": "-0.16822"
+    },
+    {
+      "datetime": "2022-07-22",
+      "macd": "1.31130",
+      "macd_signal": "1.56997",
+      "macd_hist": "-0.25867"
+    },
+    {
+      "datetime": "2022-07-21",
+      "macd": "1.41781",
+      "macd_signal": "1.63464",
+      "macd_hist": "-0.21684"
+    },
+    {
+      "datetime": "2022-07-20",
+      "macd": "1.15945",
+      "macd_signal": "1.68885",
+      "macd_hist": "-0.52940"
+    },
+    {
+      "datetime": "2022-07-19",
+      "macd": "1.20483",
+      "macd_signal": "1.82120",
+      "macd_hist": "-0.61637"
+    },
+    {
+      "datetime": "2022-07-18",
+      "macd": "1.09046",
+      "macd_signal": "1.97529",
+      "macd_hist": "-0.88483"
+    },
+    {
+      "datetime": "2022-07-15",
+      "macd": "1.70245",
+      "macd_signal": "2.19650",
+      "macd_hist": "-0.49406"
+    },
+    {
+      "datetime": "2022-07-14",
+      "macd": "1.66970",
+      "macd_signal": "2.32002",
+      "macd_hist": "-0.65031"
+    },
+    {
+      "datetime": "2022-07-13",
+      "macd": "2.14530",
+      "macd_signal": "2.48259",
+      "macd_hist": "-0.33729"
+    },
+    {
+      "datetime": "2022-07-12",
+      "macd": "2.46964",
+      "macd_signal": "2.56692",
+      "macd_hist": "-0.09728"
+    },
+    {
+      "datetime": "2022-07-11",
+      "macd": "3.07475",
+      "macd_signal": "2.59124",
+      "macd_hist": "0.48351"
+    },
+    {
+      "datetime": "2022-07-08",
+      "macd": "3.43174",
+      "macd_signal": "2.47036",
+      "macd_hist": "0.96138"
+    },
+    {
+      "datetime": "2022-07-07",
+      "macd": "3.49740",
+      "macd_signal": "2.23001",
+      "macd_hist": "1.26739"
+    },
+    {
+      "datetime": "2022-07-06",
+      "macd": "3.38067",
+      "macd_signal": "1.91317",
+      "macd_hist": "1.46751"
+    },
+    {
+      "datetime": "2022-07-05",
+      "macd": "4.07443",
+      "macd_signal": "1.54629",
+      "macd_hist": "2.52814"
+    },
+    {
+      "datetime": "2022-07-01",
+      "macd": "2.70139",
+      "macd_signal": "0.91425",
+      "macd_hist": "1.78714"
+    },
+    {
+      "datetime": "2022-06-30",
+      "macd": "1.65592",
+      "macd_signal": "0.46747",
+      "macd_hist": "1.18845"
+    },
+    {
+      "datetime": "2022-06-29",
+      "macd": "0.95925",
+      "macd_signal": "0.17036",
+      "macd_hist": "0.78889"
+    },
+    {
+      "datetime": "2022-06-28",
+      "macd": "0.78409",
+      "macd_signal": "-0.02687",
+      "macd_hist": "0.81096"
+    },
+    {
+      "datetime": "2022-06-27",
+      "macd": "0.33938",
+      "macd_signal": "-0.22961",
+      "macd_hist": "0.56899"
+    },
+    {
+      "datetime": "2022-06-24",
+      "macd": "-0.40524",
+      "macd_signal": "-0.37185",
+      "macd_hist": "-0.03339"
+    }
+  ],
+  "status": "ok"
+}

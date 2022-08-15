@@ -22,6 +22,7 @@ import com.home.project.stocks.repository.WeeklyLevelsRepository;
 import com.home.project.stocks.service.DbUpdateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -36,6 +37,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.exact;
 
@@ -123,9 +125,15 @@ public class DbUpdateServiceImpl implements DbUpdateService {
     }
 
     @Override
-    public void saveDailyCandle(Set<DailyCandle> candle) {
+    public void saveDailyCandle(Set<DailyCandle> candles) {
         try {
-            executorService.submit(() -> dailyCandleRepository.saveAll(candle)).get();
+            executorService.submit(() ->
+                    candles.stream()
+                            .filter(candle -> {
+                                Example<DailyCandle> example = Example.of(candle, getCandleMatcher());
+                                return !dailyCandleRepository.exists(example);
+                            }).forEach(dailyCandleRepository::save))
+                    .get();
         } catch (InterruptedException | ExecutionException e) {
             log.error("Failed to save daily candles", e);
         }
@@ -133,17 +141,19 @@ public class DbUpdateServiceImpl implements DbUpdateService {
 
     @Override
     public void saveIndicatorData(ProcessingResult processingResult) {
-        //todo filter based on indicators
-        // currently filtered by weekly ema
         try {
             executorService.submit(() -> {
                 var processedIndicator = ProcessedIndicators.populateFields(processingResult,
                         LocalDateTime.now());
-                processingResult.getEmaValue().values().stream()
+                var isEmaSignal = processingResult.getEmaValue().values().stream()
                         .filter(ProcessingResult.EmaData::isCloseToEma)
-                        .filter(item -> !item.isCloseRetest())
+                        .anyMatch(item -> !item.isCloseRetest());
+                var isMacdSignal = ProcessingResult.Trend.NO_SIGN != processingResult.getMacdDivergence()
+                        && processingResult.getMacdDivergence() != null;
+                Stream.of(processingResult)
+                        .filter(result -> isMacdSignal|| isEmaSignal)
                         .findAny()
-                        .ifPresent(emaData -> indicatorRepository.save(processedIndicator));
+                        .ifPresent(indicator -> indicatorRepository.save(processedIndicator));
             }).get();
         } catch (InterruptedException | ExecutionException e) {
             log.error("Failed to save daily candles", e);
@@ -225,9 +235,8 @@ public class DbUpdateServiceImpl implements DbUpdateService {
 
 
 
-    private ExampleMatcher getExampleMatcher() {
+    private ExampleMatcher getCandleMatcher() {
         return ExampleMatcher.matching()
-                .withIgnoreCase("id")
                 .withMatcher("ticker", exact())
                 .withMatcher("date", exact())
                 .withMatcher("timeframe", exact());

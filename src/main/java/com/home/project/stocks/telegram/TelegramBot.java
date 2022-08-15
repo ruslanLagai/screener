@@ -86,7 +86,7 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
                 .findByDateAfter(LocalDate.now().atTime(LocalTime.MIN));
 
         log.info("Found {} stocks with pattern", stocksWithPattern.size());
-        log.info("Found {} stocks close to weekly ema", stocksWithIndicators.size());
+        log.info("Found {} stocks with indicators", stocksWithIndicators.size());
         log.info("Found {} stocks close to weekly level", stocksWithLevels.size());
 
         chatRepository.findByStatus(ChatStatus.ACTIVE).stream()
@@ -97,7 +97,12 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
                         sendNotification("✔️ Акции с паттернами: \n\n", stocksWithPattern, chatId);
                     }
                     if (!CollectionUtils.isEmpty(stocksWithIndicators)) {
-                        sendNotification("✔️ Акции, приближающиеся к недельной ЕМА 200: \n\n", stocksWithIndicators, chatId);
+                        stocksWithIndicators.stream()
+                                .filter(stocks -> stocks.getMacdDiverTrend() != null)
+                                .forEach(stocks -> sendNotification("✔️ Акции, с дивергенцией по MACD: \n\n", stocksWithIndicators, chatId));
+                        stocksWithIndicators.stream()
+                                .filter(stocks -> !CollectionUtils.isEmpty(stocks.getEmaData()))
+                                .forEach(stocks -> sendNotification("✔️ Акции, приближающиеся к недельной ЕМА 200: \n\n", stocksWithIndicators, chatId));
                     }
                     if (!CollectionUtils.isEmpty(stocksWithLevels)) {
                         sendNotification("✔️ Акции, приближающиеся к недельным уровням: \n\n", stocksWithLevels, chatId);

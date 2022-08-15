@@ -18,7 +18,7 @@ public interface TwelvedataApiClient {
     CommonIndicator getRsi(@RequestParam(value = "symbol") String ticker, @RequestParam String interval,
                            @RequestParam(value = "time_period") String timePeriod);
 
-    @GetMapping("/macd?outputsize=5")
+    @GetMapping("/macd?outputsize=30")
     CommonIndicator getMacd(@RequestParam(value = "symbol") String ticker, @RequestParam String interval);
 
     @GetMapping("/time_series?outputsize=5")

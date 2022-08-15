@@ -57,7 +57,7 @@ public class DailyStocksDetector implements Scheduler {
             log.info("Start processing stock, ticker {}", stock.getTicker());
             dailyScanService.forEach(service -> service.processStock(stock.getTicker(), stock.getFigi()));
             try {
-                Thread.sleep(9000);
+                Thread.sleep(7000);
             } catch (InterruptedException e) {
                 log.error(e.getMessage(), e);
             }

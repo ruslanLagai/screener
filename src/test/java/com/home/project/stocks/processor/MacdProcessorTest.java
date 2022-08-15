@@ -1,182 +1,151 @@
 package com.home.project.stocks.processor;
 
+import com.home.project.stocks.mapper.MacdDataMapper;
+import com.home.project.stocks.model.api.CommonIndicator;
+import com.home.project.stocks.model.candles.TwelveDataCandles;
 import com.home.project.stocks.model.processing.ProcessingResult;
-import com.home.project.stocks.model.indicators.ParsedIndicator;
-import com.home.project.stocks.model.entity.DailyMacd;
+import com.home.project.stocks.parser.TwelveDataParser;
+import com.home.project.stocks.service.CandlesService;
+import com.home.project.stocks.utils.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Class to test {@link MacdProcessor}
  */
 @ExtendWith(MockitoExtension.class)
-@Disabled
 class MacdProcessorTest extends AbstractProcessorTest {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    MacdProcessor macdProcessor = new MacdProcessor();
+    private final CandlesService candlesService = mock(CandlesService.class);
+    private final MacdDataMapper macdDataMapper = new MacdDataMapper();
+
+    @InjectMocks
+    private MacdProcessor macdProcessor = new MacdProcessor(candlesService, macdDataMapper);
 
     @BeforeEach
     public void setUp() {
-        ReflectionTestUtils.setField(macdProcessor, "columnsNumber", 3);
+        ReflectionTestUtils.setField(macdProcessor, "columnsNumber", 2);
     }
 
+    @DisplayName("Macd processor - asc divergence")
     @Test
-    @DisplayName("Macd processor - no sign")
-    void processIndicator() {
-        //given
-        var list = List.of(
-                DailyMacd.builder()
-                        .macdValue(0.0471)
-                        .macdValue(-0.4031)
-                        .macdHistValue(0.4503)
-                        .datetime(LocalDateTime.parse("2021-08-09 15:00:00", FORMATTER))
-                        .build(),
-                DailyMacd.builder()
-                        .macdValue(-0.1210)
-                        .macdSignalValue(-0.5157)
-                        .macdHistValue(0.3947)
-                        .datetime(LocalDateTime.parse("2021-08-09 16:00:00", FORMATTER))
-                        .build(),
-                DailyMacd.builder()
-                        .macdValue(-0.1993)
-                        .macdSignalValue(-0.6144)
-                        .macdHistValue(0.4151)
-                        .datetime(LocalDateTime.parse("2021-08-09 17:00:00", FORMATTER))
-                        .build(),
-                DailyMacd.builder()
-                        .macdValue(-0.2954)
-                        .macdSignalValue(-0.7182)
-                        .macdHistValue(0.4227)
-                        .datetime(LocalDateTime.parse("2021-08-09 18:00:00", FORMATTER))
-                        .build()
-        );
+    void testProcessIndicator() {
+        var macd = TestUtils.readData("templates/macd/macdData/asc-divergence.json", CommonIndicator.class);
+        var candles =  TestUtils.readData("templates/macd/candles/asc-divergence.json", TwelveDataCandles.class).getValues();
+        var parsedIndicator = TwelveDataParser.parseMacd(macd);
+        var macdData = TwelveDataParser.convertToParsedIndicator(parsedIndicator);
+        var procResult = new ProcessingResult();
+        procResult.setTicker("LMT");
 
-        var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10, LocalDateTime.now());
-        var processingResult = new ProcessingResult();
-        var parsedIndicator = ParsedIndicator.builder()
-                .macd(list)
-                .ticker("AAPL")
-                .interval("1hour")
-                .build();
+        when(candlesService.getHistoricalCandles(eq("LMT"), any(), anyInt())).thenReturn(candles);
+        macdProcessor.processIndicator(macdData, null, procResult);
 
-        //when
-        macdProcessor.processIndicator(parsedIndicator, candle, processingResult);
-
-        //then
         assertAll(() -> {
-            assertEquals(ProcessingResult.Trend.NO_SIGN, processingResult.getMacdSignalTrend());
-            assertEquals(ProcessingResult.Trend.NO_SIGN, processingResult.getMacdSignalTrend());
+            assertEquals(395.20001, procResult.getClosePrice());
+            assertEquals(ProcessingResult.Trend.NO_SIGN, procResult.getMacdSignalTrend());
+            assertEquals(ProcessingResult.Trend.ASCENDING, procResult.getMacdBarTrend());
+            assertEquals(ProcessingResult.Trend.ASCENDING, procResult.getMacdDivergence());
         });
     }
 
+    @DisplayName("Macd processor - hill is incomplete")
     @Test
-    @DisplayName("Macd processor - asc trend on bar & macd")
-    void processIndicatorAscBoth() {
-        //given
-        var list = List.of(
-                DailyMacd.builder()
-                        .macdValue(0.0471)
-                        .macdSignalValue(0.1031)
-                        .macdHistValue(0.4503)
-                        .datetime(LocalDateTime.parse("2021-08-09 15:00:00", FORMATTER))
-                        .build(),
-                DailyMacd.builder()
-                        .macdValue(-0.1210)
-                        .macdSignalValue(-0.0209)
-                        .macdHistValue(0.3947)
-                        .datetime(LocalDateTime.parse("2021-08-09 16:00:00", FORMATTER))
-                        .build(),
-                DailyMacd.builder()
-                        .macdValue(-0.1993)
-                        .macdSignalValue(-0.1)
-                        .macdHistValue(0.3151)
-                        .datetime(LocalDateTime.parse("2021-08-09 17:00:00", FORMATTER))
-                        .build(),
-                DailyMacd.builder()
-                        .macdValue(-0.2954)
-                        .macdSignalValue(-0.7182)
-                        .macdHistValue(0.4227)
-                        .datetime(LocalDateTime.parse("2021-08-09 18:00:00", FORMATTER))
-                        .build()
-        );
+    void testProcessIndicatorDesc() {
+        var macd = TestUtils.readData("templates/macd/macdData/desc-divergence.json", CommonIndicator.class);
+        var candles =  TestUtils.readData("templates/macd/candles/desc-divergence.json", TwelveDataCandles.class).getValues();
+        var parsedIndicator = TwelveDataParser.parseMacd(macd);
+        var macdData = TwelveDataParser.convertToParsedIndicator(parsedIndicator);
+        var procResult = new ProcessingResult();
+        procResult.setTicker("KNSL");
 
-        var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10, LocalDateTime.now());
-        var processingResult = new ProcessingResult();
-        var parsedIndicator = ParsedIndicator.builder()
-                .ticker("AAPL")
-                .interval("1day")
-                .macd(list)
-                .build();
+        when(candlesService.getHistoricalCandles(eq("KNSL"), any(), anyInt())).thenReturn(candles);
+        macdProcessor.processIndicator(macdData, null, procResult);
 
-        //when
-        macdProcessor.processIndicator(parsedIndicator, candle, processingResult);
-
-        //then
         assertAll(() -> {
-            assertEquals(ProcessingResult.Trend.ASCENDING, processingResult.getMacdSignalTrend());
-            assertEquals(ProcessingResult.Trend.ASCENDING, processingResult.getMacdSignalTrend());
+            assertEquals(264.17999, procResult.getClosePrice());
+            assertEquals(ProcessingResult.Trend.NO_SIGN, procResult.getMacdSignalTrend());
+            assertEquals(ProcessingResult.Trend.ASCENDING, procResult.getMacdBarTrend());
+            assertEquals(ProcessingResult.Trend.NO_SIGN, procResult.getMacdDivergence());
         });
     }
 
+    @DisplayName("Macd processor - no divergence")
     @Test
-    @DisplayName("Macd processor - desc trend on bar & macd")
-    void processIndicatorDescBoth() {
-        //given
-        var list = List.of(
-                DailyMacd.builder()
-                        .macdValue(0.171)
-                        .macdSignalValue(0.2031)
-                        .macdHistValue(0.4503)
-                        .datetime(LocalDateTime.parse("2021-08-09 15:00:00", FORMATTER))
-                        .build(),
-                DailyMacd.builder()
-                        .macdValue(-0.0210)
-                        .macdSignalValue(-0.0309)
-                        .macdHistValue(0.4947)
-                        .datetime(LocalDateTime.parse("2021-08-09 16:00:00", FORMATTER))
-                        .build(),
-                DailyMacd.builder()
-                        .macdValue(-0.1993)
-                        .macdSignalValue(-0.25)
-                        .macdHistValue(0.5151)
-                        .datetime(LocalDateTime.parse("2021-08-09 17:00:00", FORMATTER))
-                        .build(),
-                DailyMacd.builder()
-                        .macdValue(-0.2954)
-                        .macdSignalValue(-0.7182)
-                        .macdHistValue(0.5227)
-                        .datetime(LocalDateTime.parse("2021-08-09 18:00:00", FORMATTER))
-                        .build()
-        );
+    void testProcessIndicatorNoDiv() {
+        var macd = TestUtils.readData("templates/macd/macdData/no-divergence.json", CommonIndicator.class);
+        var candles =  TestUtils.readData("templates/macd/candles/no-divergence.json", TwelveDataCandles.class).getValues();
+        var parsedIndicator = TwelveDataParser.parseMacd(macd);
+        var macdData = TwelveDataParser.convertToParsedIndicator(parsedIndicator);
+        var procResult = new ProcessingResult();
+        procResult.setTicker("GOOG");
 
-        var candle = generateCandle(140.9, 141.34, 141.7, 140.33, 10, LocalDateTime.now());
-        var processingResult = new ProcessingResult();
-        var parsedIndicator = ParsedIndicator.builder()
-                .ticker("AAPL")
-                .interval("1day")
-                .macd(list)
-                .build();
+        when(candlesService.getHistoricalCandles(eq("GOOG"), any(), anyInt())).thenReturn(candles);
+        macdProcessor.processIndicator(macdData, null, procResult);
 
-        //when
-        macdProcessor.processIndicator(parsedIndicator, candle, processingResult);
-
-        //then
         assertAll(() -> {
-            assertEquals(ProcessingResult.Trend.DESCENDING, processingResult.getMacdSignalTrend());
-            assertEquals(ProcessingResult.Trend.DESCENDING, processingResult.getMacdSignalTrend());
+            assertEquals(122.65, procResult.getClosePrice());
+            assertEquals(ProcessingResult.Trend.NO_SIGN, procResult.getMacdSignalTrend());
+            assertEquals(ProcessingResult.Trend.NO_SIGN, procResult.getMacdBarTrend());
+            assertEquals(ProcessingResult.Trend.NO_SIGN, procResult.getMacdDivergence());
+        });
+    }
+
+    @DisplayName("Macd processor - small bars")
+    @Test
+    void testProcessIndicatorNoDivSmallBars() {
+        var macd = TestUtils.readData("templates/macd/macdData/small-bars.json", CommonIndicator.class);
+        var candles =  TestUtils.readData("templates/macd/candles/small-bars.json", TwelveDataCandles.class).getValues();
+        var parsedIndicator = TwelveDataParser.parseMacd(macd);
+        var macdData = TwelveDataParser.convertToParsedIndicator(parsedIndicator);
+        var procResult = new ProcessingResult();
+        procResult.setTicker("KO");
+
+        when(candlesService.getHistoricalCandles(eq("KO"), any(), anyInt())).thenReturn(candles);
+        macdProcessor.processIndicator(macdData, null, procResult);
+
+        assertAll(() -> {
+            assertEquals(63.7, procResult.getClosePrice());
+            assertEquals(ProcessingResult.Trend.NO_SIGN, procResult.getMacdSignalTrend());
+            assertEquals(ProcessingResult.Trend.NO_SIGN, procResult.getMacdBarTrend());
+            assertEquals(ProcessingResult.Trend.NO_SIGN, procResult.getMacdDivergence());
+        });
+    }
+
+    @DisplayName("Macd processor - last hill incomplete")
+    @Test
+    void testProcessIndicatorNoDivIncomplete() {
+        var macd = TestUtils.readData("templates/macd/macdData/last-hill-incomplete.json", CommonIndicator.class);
+        var candles =  TestUtils.readData("templates/macd/candles/last-hill-incomplete.json", TwelveDataCandles.class).getValues();
+        var parsedIndicator = TwelveDataParser.parseMacd(macd);
+        var macdData = TwelveDataParser.convertToParsedIndicator(parsedIndicator);
+        var procResult = new ProcessingResult();
+        procResult.setTicker("GS");
+
+        when(candlesService.getHistoricalCandles(eq("GS"), any(), anyInt())).thenReturn(candles);
+        macdProcessor.processIndicator(macdData, null, procResult);
+
+        assertAll(() -> {
+            assertEquals(353.82001, procResult.getClosePrice());
+            assertEquals(ProcessingResult.Trend.NO_SIGN, procResult.getMacdSignalTrend());
+            assertEquals(ProcessingResult.Trend.ASCENDING, procResult.getMacdBarTrend());
+            assertEquals(ProcessingResult.Trend.NO_SIGN, procResult.getMacdDivergence());
         });
     }
 }

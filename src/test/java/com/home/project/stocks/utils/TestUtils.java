@@ -7,6 +7,8 @@ import com.home.project.stocks.model.candles.TwelveDataCandles;
 
 import java.io.File;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 /**
  * @author rlagay
  */
@@ -29,6 +31,17 @@ public class TestUtils {
             e.printStackTrace();
         }
         return candles;
+    }
+
+    public static <T> T readData(String file, Class<T> cl) {
+        var content = TestUtils.class.getClassLoader().getResource(file);
+        try {
+            return readValue(content.getPath(), cl);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+            return null;
+        }
     }
 
 }
