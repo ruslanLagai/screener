@@ -42,6 +42,7 @@ public class ProcessedEma {
     private double emaValue;
     private String emaType;
     private boolean isCloseToEma;
+    private boolean isCloseRetest;
     private double difference;
     @Enumerated(EnumType.STRING)
     private ProcessingResult.LevelType levelType;

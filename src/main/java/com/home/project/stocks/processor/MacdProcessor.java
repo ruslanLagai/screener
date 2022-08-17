@@ -1,6 +1,7 @@
 package com.home.project.stocks.processor;
 
 import com.google.common.collect.Comparators;
+import com.home.project.stocks.exceptions.MacdProcessingException;
 import com.home.project.stocks.mapper.MacdDataMapper;
 import com.home.project.stocks.model.api.Interval;
 import com.home.project.stocks.model.candles.Candle;
@@ -126,8 +127,15 @@ public class MacdProcessor implements IndicatorProcessor {
                         return NO_SIGN;
                     }
 
-                    var startOfHill = getStartOfHill(macdData.subList(macdData.indexOf(data) + 1, macdData.size()), latestValue) + macdData.indexOf(data);
-                    var endOfHill = getEndOfHill(macdData.subList(startOfHill + 1, macdData.size())) + startOfHill;
+                    int startOfHill;
+                    int endOfHill;
+                    try {
+                        startOfHill = getStartOfHill(macdData.subList(macdData.indexOf(data) + 1, macdData.size()), latestValue) + macdData.indexOf(data);
+                        endOfHill = getEndOfHill(macdData.subList(startOfHill + 1, macdData.size())) + startOfHill;
+                    } catch (MacdProcessingException e) {
+                        return NO_SIGN;
+                    }
+
                     var prevHill = macdData.subList(startOfHill + 1, endOfHill + 1);
                     var prevExtremumData = getExtremum(prevHill);
 
@@ -203,9 +211,8 @@ public class MacdProcessor implements IndicatorProcessor {
                 .filter(macdData -> firstBar > 0.0 ? macdData.getMacdBarValue() < 0.0 : macdData.getMacdBarValue() > 0.0)
                 .findFirst()
                 .map(list::indexOf)
-                .orElseGet(() -> {
-                    log.warn("Failed to detect end of hill for MACD hist");
-                    return -1;
+                .orElseThrow(() -> {
+                    throw new MacdProcessingException("Failed to detect end of hill for MACD hist");
                 });
     }
 
@@ -219,9 +226,8 @@ public class MacdProcessor implements IndicatorProcessor {
                 .filter(macdData -> firstBar > 0.0 ? macdData.getMacdBarValue() < 0.0 : macdData.getMacdBarValue() > 0.0)
                 .findFirst()
                 .map(list::indexOf)
-                .orElseGet(() -> {
-                    log.warn("Failed to detect start of hill for MACD hist");
-                    return -1;
+                .orElseThrow(() -> {
+                    throw new MacdProcessingException("Failed to detect start of hill for MACD hist");
                 });
     }
 }

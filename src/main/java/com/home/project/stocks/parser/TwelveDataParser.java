@@ -26,7 +26,6 @@ public class TwelveDataParser {
                 .rsi(indicator.getRsiData() == null ? null : List.copyOf(indicator.getRsiData()))
                 .macd(indicator.getMacdData() == null ? null : List.copyOf(indicator.getMacdData()))
                 .mom(indicator.getMomData() == null ? null : List.copyOf(indicator.getMomData()))
-                .interval(indicator.getTimeframe())
                 .ticker(indicator.getTicker())
                 .build();
     }

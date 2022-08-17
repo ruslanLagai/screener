@@ -13,6 +13,7 @@ import com.home.project.stocks.repository.ChatRepository;
 import com.home.project.stocks.repository.DailyCandleRepository;
 import com.home.project.stocks.repository.DailyEmaRepository;
 import com.home.project.stocks.repository.DailyIndicatorDataRepository;
+import com.home.project.stocks.repository.DailyMacdRepository;
 import com.home.project.stocks.repository.DailyProcessedIndicatorRepository;
 import com.home.project.stocks.repository.DailyRsiRepository;
 import com.home.project.stocks.repository.ProcessedLevelsRepository;
@@ -220,6 +221,7 @@ class DailyIndicatorServiceTest extends AbstractRepositoryTest {
         DbUpdateService dbUpdateService(DailyIndicatorDataRepository dailyIndicatorDataRepository,
                                         DailyEmaRepository dailyEmaRepository,
                                         DailyRsiRepository dailyRsiRepository,
+                                        DailyMacdRepository dailyMacdRepository,
                                         CandleRepository candleRepository,
                                         ChatRepository chatRepository,
                                         DailyCandleRepository dailyCandleRepository,
@@ -227,6 +229,7 @@ class DailyIndicatorServiceTest extends AbstractRepositoryTest {
                                         WeeklyLevelsRepository weeklyLevelsRepository,
                                         ProcessedLevelsRepository processedLevelsRepository) {
             return new DbUpdateServiceImpl(dailyIndicatorDataRepository, dailyEmaRepository, dailyRsiRepository,
+                    dailyMacdRepository,
                     candleRepository, chatRepository, dailyCandleRepository, processedIndicatorRepository, weeklyLevelsRepository,
                     processedLevelsRepository);
         }

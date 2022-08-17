@@ -27,7 +27,7 @@ RUN --mount=type=cache,target=/root/.m2/ \
 # RUNTIME STAGE (deployment)
 # ------------------------------------------------------------------------------
 
-FROM openjdk:11.0.14-jre-slim
+FROM openjdk:11.0.16-jre-slim
 
 ARG ARTIFACT_VERSION=1.0
 ENV app_name=screener

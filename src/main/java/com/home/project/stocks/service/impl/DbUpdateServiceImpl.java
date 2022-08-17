@@ -15,6 +15,7 @@ import com.home.project.stocks.repository.ChatRepository;
 import com.home.project.stocks.repository.DailyCandleRepository;
 import com.home.project.stocks.repository.DailyEmaRepository;
 import com.home.project.stocks.repository.DailyIndicatorDataRepository;
+import com.home.project.stocks.repository.DailyMacdRepository;
 import com.home.project.stocks.repository.DailyProcessedIndicatorRepository;
 import com.home.project.stocks.repository.DailyRsiRepository;
 import com.home.project.stocks.repository.ProcessedLevelsRepository;
@@ -54,6 +55,7 @@ public class DbUpdateServiceImpl implements DbUpdateService {
     private final DailyIndicatorDataRepository dailyIndicatorDataRepository;
     private final DailyEmaRepository dailyEmaRepository;
     private final DailyRsiRepository dailyRsiRepository;
+    private final DailyMacdRepository dailyMacdRepository;
     private final CandleRepository candleRepository;
     private final ChatRepository chatRepository;
     private final DailyCandleRepository dailyCandleRepository;
@@ -230,7 +232,22 @@ public class DbUpdateServiceImpl implements DbUpdateService {
     }
 
     public void updateMacdOnDailyIndicator(DailyIndicator indicator) {
-
+        try {
+            executorService.submit(() -> {
+                var saved = dailyIndicatorDataRepository.getByTickerAndDateAndTimeframe(
+                        indicator.getTicker(), indicator.getDate(), indicator.getTimeframe());
+                if (saved != null) {
+                    indicator.getMacdData().forEach(dailyMacd ->
+                            dailyMacdRepository.insertMacdData(dailyMacd.getMacdHistValue(),
+                                    dailyMacd.getMacdSignalValue(), dailyMacd.getMacdValue(),
+                                    dailyMacd.getDatetime(), saved.getId()));
+                } else {
+                    dailyIndicatorDataRepository.save(indicator);
+                }
+            }).get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("Failed to save daily rsi, " + e.getMessage(), e);
+        }
     }
 
 

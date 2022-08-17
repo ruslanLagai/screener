@@ -104,7 +104,7 @@ public class DailyIndicatorService implements IndicatorService {
             try {
                 var macd = apiClient.getMacd(ticker, interval.getInterval());
                 parsedIndicator = TwelveDataParser.parseMacd(macd);
-                dbUpdateService.updateEmaOnDailyIndicator(parsedIndicator);
+                dbUpdateService.updateMacdOnDailyIndicator(parsedIndicator);
             } catch (FeignException e) {
                 log.error("Failed to retrieve macd from twelve data", e);
                 parsedIndicator = DailyIndicator.builder().build();

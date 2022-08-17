@@ -2,6 +2,9 @@ package com.home.project.stocks;
 
 import com.home.project.stocks.config.FlywayConfig;
 import com.home.project.stocks.model.entity.StocksToScan;
+import com.home.project.stocks.model.entity.TelegramChatEntity;
+import com.home.project.stocks.model.telegram.ChatStatus;
+import com.home.project.stocks.repository.ChatRepository;
 import com.home.project.stocks.repository.DailyProcessedIndicatorRepository;
 import com.home.project.stocks.service.DailyScanService;
 import com.home.project.stocks.telegram.TelegramBot;
@@ -16,6 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
@@ -49,17 +53,29 @@ class StocksApplicationTests {
     @Autowired
     private DailyProcessedIndicatorRepository indicatorRepository;
 
+    @Autowired
+    private ChatRepository chatRepository;
+
+    @PostConstruct
+    public void init() {
+        chatRepository.save(TelegramChatEntity.builder()
+                .status(ChatStatus.ACTIVE)
+                .id(501710552L)
+                .userName("rlagay")
+                .build());
+    }
+
     @Test
     void contextLoads() {
         var stocks = List.of(
-                StocksToScan.builder().name("").ticker("PPL").build()
+                StocksToScan.builder().name("Amazon").ticker("JNJ").build()
         );
 
         stocks.forEach(stock ->
                 dailyScanService.forEach(service ->
                         service.processStock(stock.getTicker(), stock.getFigi())));
 
-        var indicator = indicatorRepository.getByTicker("PPL");
+        var indicator = indicatorRepository.getByTicker("JNJ");
         telegramBot.sendNotification();
     }
 

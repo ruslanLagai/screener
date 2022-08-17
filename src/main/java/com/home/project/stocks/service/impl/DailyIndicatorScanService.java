@@ -43,7 +43,7 @@ public class DailyIndicatorScanService implements DailyScanService {
                     Ema200Processor.class, ((indicatorService, ticker) ->
                     indicatorService.getEma(ticker, Interval.TWELVE_DATA_ONE_WEEK, EmaPeriod.TWO_HUNDRED, SeriesType.CLOSE)),
                     MacdProcessor.class, ((indicatorService, ticker) ->
-                    indicatorService.getMacd(ticker, Interval.TWELVE_DATA_ONE_WEEK, SeriesType.CLOSE))
+                    indicatorService.getMacd(ticker, Interval.TWELVE_DATA_ONE_DAY, SeriesType.CLOSE))
     );
 
     public DailyIndicatorScanService(IndicatorService dailyIndicatorService,

@@ -1,5 +1,7 @@
 package com.home.project.stocks.telegram;
 
+import com.home.project.stocks.model.entity.ProcessedEma;
+import com.home.project.stocks.model.entity.ProcessedIndicators;
 import com.home.project.stocks.model.entity.TelegramChatEntity;
 import com.home.project.stocks.model.telegram.ChatStatus;
 import com.home.project.stocks.repository.CandleRepository;
@@ -30,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Component
@@ -100,8 +103,12 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
                         stocksWithIndicators.stream()
                                 .filter(stocks -> stocks.getMacdDiverTrend() != null)
                                 .forEach(stocks -> sendNotification("✔️ Акции, с дивергенцией по MACD: \n\n", stocksWithIndicators, chatId));
+                        Predicate<ProcessedIndicators> emaPredicate = stocks -> stocks.getEmaData().stream()
+                                .filter(ProcessedEma::isCloseToEma)
+                                .anyMatch(ema -> !ema.isCloseRetest());
                         stocksWithIndicators.stream()
                                 .filter(stocks -> !CollectionUtils.isEmpty(stocks.getEmaData()))
+                                .filter(emaPredicate)
                                 .forEach(stocks -> sendNotification("✔️ Акции, приближающиеся к недельной ЕМА 200: \n\n", stocksWithIndicators, chatId));
                     }
                     if (!CollectionUtils.isEmpty(stocksWithLevels)) {
@@ -116,7 +123,6 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
                 message.append("\uD83D\uDD39 ").append(item.toString()).append("\n\n"));
         var request = new SendMessage(chatId.toString(), message.toString());
         request.disableWebPagePreview();
-        request.enableMarkdown(true);
         try {
             execute(request);
         } catch (TelegramApiException e) {

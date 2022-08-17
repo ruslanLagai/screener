@@ -76,6 +76,7 @@ public class ProcessedIndicators {
                         .levelType(data.getLevelType())
                         .emaValue(Precision.round(data.getEmaValue(), 2))
                         .isCloseToEma(data.isCloseToEma())
+                        .isCloseRetest(data.isCloseRetest())
                         .processedIndicator(indicator)
                         .datetime(date)
                         .build()))
@@ -88,8 +89,9 @@ public class ProcessedIndicators {
     @Override
     public String toString() {
         var stringBuilder = new StringBuilder();
-        emaData.forEach(emaData -> stringBuilder.append("Ема ").append(emaData.getEmaType())
-                .append(" на недельном ТФ: ").append(emaData.getEmaValue()).append("\n"));
+        emaData.stream().filter(data -> data.isCloseToEma() && !data.isCloseRetest())
+                .forEach(emaData -> stringBuilder.append("Ема ").append(emaData.getEmaType())
+                        .append(" на недельном ТФ: ").append(emaData.getEmaValue()).append("\n"));
 
         return "Тикер: " + ticker + "\n" +
                 "Цена закрытия: " + closePrice + "\n" +
