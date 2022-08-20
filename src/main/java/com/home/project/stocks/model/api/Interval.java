@@ -33,6 +33,12 @@ public enum Interval {
                 .findFirst().orElseThrow(IllegalArgumentException::new);
     }
 
+    public static Interval parseOrDefault(String value, Interval interval) {
+        return Stream.of(values())
+                .filter(period -> Objects.equals(value, period.toString()))
+                .findFirst().orElse(interval);
+    }
+
     @Override
     @JsonValue
     public String toString() {

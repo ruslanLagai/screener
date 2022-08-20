@@ -68,14 +68,14 @@ class StocksApplicationTests {
     @Test
     void contextLoads() {
         var stocks = List.of(
-                StocksToScan.builder().name("Amazon").ticker("JNJ").build()
+                StocksToScan.builder().name("Amazon").ticker("PVH").build()
         );
 
         stocks.forEach(stock ->
                 dailyScanService.forEach(service ->
                         service.processStock(stock.getTicker(), stock.getFigi())));
 
-        var indicator = indicatorRepository.getByTicker("JNJ");
+        var indicator = indicatorRepository.getByTicker("PVH");
         telegramBot.sendNotification();
     }
 

@@ -54,7 +54,7 @@ public class MacdProcessor implements IndicatorProcessor {
     @Override
     public void processIndicator(ParsedIndicator indicator, Candle candle, ProcessingResult processingResult) {
         var candles = candlesService.getHistoricalCandles(processingResult.getTicker(),
-                Interval.parse(indicator.getInterval()), 30);
+                Interval.parseOrDefault(candle.getInterval(), Interval.TWELVE_DATA_ONE_DAY), 30);
 
         if (CollectionUtils.isEmpty(candles) || candles.size() < 25) {
             log.warn("Failed to retrieve historical candles for detecting macd divergence");
@@ -161,7 +161,7 @@ public class MacdProcessor implements IndicatorProcessor {
                     return divergence;
                 })
                 .orElseGet(() -> {
-                    log.warn("Failed to detect hills for divergence, ticker {}", macdData.stream()
+                    log.info("Failed to detect hills for divergence, ticker {}", macdData.stream()
                             .findFirst()
                             .map(MacdData::getTicker)
                             .orElse("Unknown")
@@ -203,31 +203,41 @@ public class MacdProcessor implements IndicatorProcessor {
     }
 
     private int getEndOfHill(List<MacdData> list) {
-        double firstBar = Optional.ofNullable(list.get(0))
-                .map(MacdData::getMacdBarValue)
-                .orElse(Double.NaN);
-        return list.stream()
-                .filter(macdData -> !Double.isNaN(firstBar))
-                .filter(macdData -> firstBar > 0.0 ? macdData.getMacdBarValue() < 0.0 : macdData.getMacdBarValue() > 0.0)
-                .findFirst()
-                .map(list::indexOf)
-                .orElseThrow(() -> {
-                    throw new MacdProcessingException("Failed to detect end of hill for MACD hist");
-                });
+        try {
+            double firstBar = Optional.ofNullable(list.get(0))
+                    .map(MacdData::getMacdBarValue)
+                    .orElse(Double.NaN);
+            return list.stream()
+                    .filter(macdData -> !Double.isNaN(firstBar))
+                    .filter(macdData -> firstBar > 0.0 ? macdData.getMacdBarValue() < 0.0 : macdData.getMacdBarValue() > 0.0)
+                    .findFirst()
+                    .map(list::indexOf)
+                    .orElseThrow(() -> {
+                        throw new MacdProcessingException("Failed to detect end of hill for MACD hist");
+                    });
+        } catch (IndexOutOfBoundsException e) {
+            throw new MacdProcessingException("Failed to detect end of hill for MACD hist");
+        }
+
     }
 
     private int getStartOfHill(List<MacdData> list, double latestBar) {
-        double firstBar = Optional.ofNullable(list.get(0))
-                .map(MacdData::getMacdBarValue)
-                .orElse(Double.NaN);
-        return list.stream()
-                .filter(macdData -> !Double.isNaN(firstBar))
-                .filter(macdData -> latestBar > 0 ? macdData.getMacdBarValue() > 0.0 : macdData.getMacdBarValue() < 0.0)
-                .filter(macdData -> firstBar > 0.0 ? macdData.getMacdBarValue() < 0.0 : macdData.getMacdBarValue() > 0.0)
-                .findFirst()
-                .map(list::indexOf)
-                .orElseThrow(() -> {
-                    throw new MacdProcessingException("Failed to detect start of hill for MACD hist");
-                });
+        try {
+            double firstBar = Optional.ofNullable(list.get(0))
+                    .map(MacdData::getMacdBarValue)
+                    .orElse(Double.NaN);
+            return list.stream()
+                    .filter(macdData -> !Double.isNaN(firstBar))
+                    .filter(macdData -> latestBar > 0 ? macdData.getMacdBarValue() > 0.0 : macdData.getMacdBarValue() < 0.0)
+                    .filter(macdData -> firstBar > 0.0 ? macdData.getMacdBarValue() < 0.0 : macdData.getMacdBarValue() > 0.0)
+                    .findFirst()
+                    .map(list::indexOf)
+                    .orElseThrow(() -> {
+                        throw new MacdProcessingException("Failed to detect start of hill for MACD hist");
+                    });
+        } catch (IndexOutOfBoundsException e) {
+            throw new MacdProcessingException("Failed to detect start of hill for MACD hist");
+        }
+
     }
 }
