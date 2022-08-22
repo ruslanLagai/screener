@@ -80,7 +80,7 @@ public class DailyIndicatorScanService implements DailyScanService {
             log.info("ProcessingResult for {} is {}", ticker, processingResult);
             dbUpdateService.saveIndicatorData(processingResult);
         } catch (IndicatorParsingException e) {
-            log.error("Failed to process daily indicators, ticker {}", ticker, e);
+            log.error("Failed to process daily indicators, ticker {}", ticker);
         }
 
     }

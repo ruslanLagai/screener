@@ -53,6 +53,10 @@ public class MacdProcessor implements IndicatorProcessor {
 
     @Override
     public void processIndicator(ParsedIndicator indicator, Candle candle, ProcessingResult processingResult) {
+        if (CollectionUtils.isEmpty(indicator.getMacd())) {
+            log.warn("Empty or null macd data");
+            return;
+        }
         var candles = candlesService.getHistoricalCandles(processingResult.getTicker(),
                 Interval.parseOrDefault(candle.getInterval(), Interval.TWELVE_DATA_ONE_DAY), 30);
 

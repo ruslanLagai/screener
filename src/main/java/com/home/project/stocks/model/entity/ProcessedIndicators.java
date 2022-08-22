@@ -19,9 +19,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static com.home.project.stocks.model.processing.ProcessingResult.Trend.NO_SIGN;
 
 /**
  * Class to store indicator processing data
@@ -96,9 +97,9 @@ public class ProcessedIndicators {
         return "Тикер: " + ticker + "\n" +
                 "Цена закрытия: " + closePrice + "\n" +
                 (rsiSign != null ? "Rsi: " + rsiSign + ", " + rsiValue + "\n" : "") +
-                (macdBarTrend != null ? "Гистограмма macd: " + macdBarTrend + "\n" : "") +
-                (macdSignalTrend != null ? "Пересечение macd: " + macdSignalTrend + "\n" : "") +
-                (macdDiverTrend != null ? "Дивергенция по macd: " + macdDiverTrend + "\n" : "") +
+                (macdBarTrend != null && !macdBarTrend.equals(NO_SIGN.name()) ? "Гистограмма macd: " + macdBarTrend + "\n" : "") +
+                (macdSignalTrend != null && !macdSignalTrend.equals(NO_SIGN.name()) ? "Пересечение macd: " + macdSignalTrend + "\n" : "") +
+                (macdDiverTrend != null && !macdDiverTrend.equals(NO_SIGN.name()) ? "Дивергенция по macd: " + macdDiverTrend + "\n" : "") +
                 stringBuilder;
     }
 }

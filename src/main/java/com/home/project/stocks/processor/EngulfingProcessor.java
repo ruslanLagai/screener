@@ -34,6 +34,7 @@ public class EngulfingProcessor implements PatternProcessor {
                 .filter(candle -> isClearTrend(sorted))
                 .filter(EngulfingProcessor::checkShadow)
                 .filter(candle -> checkCandleBodies(candle, sorted.get(1)))
+                .filter(candle -> checkTrendChange(candle, sorted.get(1)))
                 .ifPresent(candle -> {
                     log.info("Stock has pattern, ticker {}", ticker);
                     patterns.put(Processors.ENGULFING, candle);
@@ -95,7 +96,7 @@ public class EngulfingProcessor implements PatternProcessor {
     }
 
     /**
-     * Check that candle has small body
+     * Check that prev candle engulfs the latest
      * works ONLY for bull Engulfing
      *
      * @param lastCandle     candle to process
@@ -104,5 +105,17 @@ public class EngulfingProcessor implements PatternProcessor {
      */
     private static boolean checkCandleBodies(Candle lastCandle, Candle prevCandle) {
         return prevCandle.getO() < lastCandle.getC() && prevCandle.getC() >= lastCandle.getO();
+    }
+
+    /**
+     * Check that prev candle is red && the latest is green
+     * works ONLY for bull Engulfing
+     *
+     * @param lastCandle     candle to process
+     * @param prevCandle     previous candle
+     * @return does candle have small body
+     */
+    private static boolean checkTrendChange(Candle lastCandle, Candle prevCandle) {
+        return prevCandle.getO() > prevCandle.getC() && lastCandle.getO() < lastCandle.getC();
     }
 }

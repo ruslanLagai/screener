@@ -21,6 +21,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author rlagay
@@ -57,10 +58,10 @@ public class DailyIndicatorService implements IndicatorService {
                 dbUpdateService.updateEmaOnDailyIndicator(parsedIndicator);
             } catch (FeignException e) {
                 log.error("Failed to retrieve ema from twelve data", e);
-                parsedIndicator = DailyIndicator.builder().build();
+                parsedIndicator = DailyIndicator.builder().emaData(Set.of()).build();
             } catch (IndicatorParsingException e) {
-                log.error("Failed to parse indicator - no data", e);
-                parsedIndicator = DailyIndicator.builder().build();
+                log.error("Failed to parse indicator - no data");
+                parsedIndicator = DailyIndicator.builder().emaData(Set.of()).build();
             }
         }
 
@@ -82,10 +83,10 @@ public class DailyIndicatorService implements IndicatorService {
                 dbUpdateService.updateRsiOnDailyIndicator(parsedIndicator);
             } catch (FeignException e) {
                 log.error("Failed to retrieve rsi from twelve data", e);
-                parsedIndicator = DailyIndicator.builder().build();
+                parsedIndicator = DailyIndicator.builder().rsiData(Set.of()).build();
             } catch (IndicatorParsingException e) {
-                log.error("Failed to parse indicator - no data", e);
-                parsedIndicator = DailyIndicator.builder().build();
+                log.error("Failed to parse indicator - no data");
+                parsedIndicator = DailyIndicator.builder().rsiData(Set.of()).build();
             }
         }
         return TwelveDataParser.convertToParsedIndicator(parsedIndicator);
@@ -107,10 +108,10 @@ public class DailyIndicatorService implements IndicatorService {
                 dbUpdateService.updateMacdOnDailyIndicator(parsedIndicator);
             } catch (FeignException e) {
                 log.error("Failed to retrieve macd from twelve data", e);
-                parsedIndicator = DailyIndicator.builder().build();
+                parsedIndicator = DailyIndicator.builder().macdData(Set.of()).build();
             } catch (IndicatorParsingException e) {
-                log.error("Failed to parse indicator - no data", e);
-                parsedIndicator = DailyIndicator.builder().build();
+                log.error("Failed to parse indicator - no data");
+                parsedIndicator = DailyIndicator.builder().macdData(Set.of()).build();
             }
         }
         return TwelveDataParser.convertToParsedIndicator(parsedIndicator);

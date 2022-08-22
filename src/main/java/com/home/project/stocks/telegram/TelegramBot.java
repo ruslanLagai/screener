@@ -29,6 +29,7 @@ import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -100,16 +101,11 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
                         sendNotification("✔️ Акции с паттернами: \n\n", stocksWithPattern, chatId);
                     }
                     if (!CollectionUtils.isEmpty(stocksWithIndicators)) {
-                        stocksWithIndicators.stream()
-                                .filter(stocks -> stocks.getMacdDiverTrend() != null)
-                                .forEach(stocks -> sendNotification("✔️ Акции, с дивергенцией по MACD: \n\n", stocksWithIndicators, chatId));
-                        Predicate<ProcessedIndicators> emaPredicate = stocks -> stocks.getEmaData().stream()
-                                .filter(ProcessedEma::isCloseToEma)
-                                .anyMatch(ema -> !ema.isCloseRetest());
-                        stocksWithIndicators.stream()
-                                .filter(stocks -> !CollectionUtils.isEmpty(stocks.getEmaData()))
-                                .filter(emaPredicate)
-                                .forEach(stocks -> sendNotification("✔️ Акции, приближающиеся к недельной ЕМА 200: \n\n", stocksWithIndicators, chatId));
+                        var macdDivergence = getMacdDivergence(stocksWithIndicators);
+                        sendNotification("✔️ Акции, с дивергенцией по MACD: \n\n", macdDivergence, chatId);
+
+                        var closeToEma = getCloseToEma(stocksWithIndicators);
+                        sendNotification("✔️ Акции, приближающиеся к недельной ЕМА 200: \n\n", closeToEma, chatId);
                     }
                     if (!CollectionUtils.isEmpty(stocksWithLevels)) {
                         sendNotification("✔️ Акции, приближающиеся к недельным уровням: \n\n", stocksWithLevels, chatId);
@@ -128,6 +124,24 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
         } catch (TelegramApiException e) {
             log.error("Failed to notify user, chatId {}", chatId, e);
         }
+    }
+
+    private List<ProcessedIndicators> getCloseToEma(List<ProcessedIndicators> stocksWithIndicators) {
+        Predicate<ProcessedIndicators> emaPredicate = stocks -> stocks.getEmaData().stream()
+                .filter(ProcessedEma::isCloseToEma)
+                .anyMatch(ema -> !ema.isCloseRetest());
+        var closeToEma = stocksWithIndicators.stream()
+                .filter(stocks -> !CollectionUtils.isEmpty(stocks.getEmaData()))
+                .filter(emaPredicate)
+                .collect(Collectors.toList());
+        return closeToEma;
+    }
+
+    private List<ProcessedIndicators> getMacdDivergence(List<ProcessedIndicators> stocksWithIndicators) {
+        var macdDivergence = stocksWithIndicators.stream()
+                .filter(stocks -> stocks.getMacdDiverTrend() != null)
+                .collect(Collectors.toList());
+        return macdDivergence;
     }
 
     @Override
