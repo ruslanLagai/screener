@@ -46,8 +46,8 @@ public class Candle {
 
     @Override
     public String toString() {
-        var isEngulfing = this.isEngulfing ? "\ud83d\ude80" : "⛔";
-        var isHammer = this.isHammer ? "\uD83D\uDED1" : "⛔";
+        var isEngulfing = this.isEngulfing ? "✅" : "⛔";
+        var isHammer = this.isHammer ? "✅" : "⛔";
 
         return "Тикер: " + ticker + "\n" +
                 "Цена открытия: " + open + "\n" +

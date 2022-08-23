@@ -31,7 +31,7 @@ public class EngulfingProcessor implements PatternProcessor {
                 .collect(Collectors.toList());
         var candleToProcess = sorted.get(0);
         Optional.of(candleToProcess)
-                .filter(candle -> isClearTrend(sorted))
+                .filter(candle -> isTrendDesc(sorted))
                 .filter(EngulfingProcessor::checkShadow)
                 .filter(candle -> checkCandleBodies(candle, sorted.get(1)))
                 .filter(candle -> checkTrendChange(candle, sorted.get(1)))
@@ -51,7 +51,7 @@ public class EngulfingProcessor implements PatternProcessor {
      * @param candles       sequence of candles
      * @return has trend
      */
-    private boolean isClearTrend(List<Candle> candles) {
+    private boolean isTrendDesc(List<Candle> candles) {
         if (candles.size() < 4) {
             log.info("Not enough candles");
             return false;
@@ -62,7 +62,7 @@ public class EngulfingProcessor implements PatternProcessor {
                 candles.get(2),
                 candles.get(3)
         );
-        return prevTrend != null;
+        return prevTrend == Trend.DESCENDING;
     }
 
     /**
@@ -90,8 +90,8 @@ public class EngulfingProcessor implements PatternProcessor {
      * @return           does candle have shadow
      */
     private static boolean checkShadow(Candle candle) {
-        var up = candle.getH() / Double.max(candle.getC(), candle.getO()) < 1.1;
-        var down = candle.getL() / Double.min(candle.getC(), candle.getO()) > 0.9;
+        var up = candle.getH() / Double.max(candle.getC(), candle.getO()) < 1.05;
+        var down = candle.getL() / Double.min(candle.getC(), candle.getO()) > 0.95;
         return up && down;
     }
 

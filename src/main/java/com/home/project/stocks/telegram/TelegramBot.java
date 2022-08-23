@@ -36,6 +36,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static com.home.project.stocks.model.processing.ProcessingResult.Trend.NO_SIGN;
+
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -130,18 +132,16 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
         Predicate<ProcessedIndicators> emaPredicate = stocks -> stocks.getEmaData().stream()
                 .filter(ProcessedEma::isCloseToEma)
                 .anyMatch(ema -> !ema.isCloseRetest());
-        var closeToEma = stocksWithIndicators.stream()
+        return stocksWithIndicators.stream()
                 .filter(stocks -> !CollectionUtils.isEmpty(stocks.getEmaData()))
                 .filter(emaPredicate)
                 .collect(Collectors.toList());
-        return closeToEma;
     }
 
     private List<ProcessedIndicators> getMacdDivergence(List<ProcessedIndicators> stocksWithIndicators) {
-        var macdDivergence = stocksWithIndicators.stream()
-                .filter(stocks -> stocks.getMacdDiverTrend() != null)
+        return stocksWithIndicators.stream()
+                .filter(stocks -> stocks.getMacdDiverTrend() != null && NO_SIGN.name().equals(stocks.getMacdDiverTrend()))
                 .collect(Collectors.toList());
-        return macdDivergence;
     }
 
     @Override

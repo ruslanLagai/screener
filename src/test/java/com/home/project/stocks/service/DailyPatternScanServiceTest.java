@@ -1,11 +1,5 @@
 package com.home.project.stocks.service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.home.project.stocks.client.TwelvedataApiClient;
 import com.home.project.stocks.model.api.Interval;
 import com.home.project.stocks.processor.EngulfingProcessor;
@@ -15,7 +9,6 @@ import com.home.project.stocks.repository.CandleRepository;
 import com.home.project.stocks.service.impl.DailyPatternScanService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -24,14 +17,21 @@ import org.springframework.cloud.openfeign.FeignAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Class to test {@link DailyPatternScanService}
  */
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {DailyPatternScanServiceTest.Config.class, AbstractRepositoryTest.Config.class},
+@SpringJUnitConfig(classes = {DailyPatternScanServiceTest.Config.class, AbstractRepositoryTest.Config.class},
         initializers = AbstractRepositoryTest.Config.class)
 class DailyPatternScanServiceTest extends AbstractRepositoryTest {
 
@@ -70,7 +70,7 @@ class DailyPatternScanServiceTest extends AbstractRepositoryTest {
     }
 
     @TestConfiguration
-    @ComponentScan(basePackages = {"com.home.project.stocks.service"})
+    @ComponentScan(basePackages = {"com.home.project.stocks.service", "com.home.project.stocks.mapper"})
     @EnableFeignClients(clients = TwelvedataApiClient.class)
     @Import({FeignAutoConfiguration.class, HttpMessageConvertersAutoConfiguration.class})
     static class Config {
