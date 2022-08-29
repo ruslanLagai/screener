@@ -94,12 +94,16 @@ public class ProcessedIndicators {
                 .forEach(emaData -> stringBuilder.append("Ема ").append(emaData.getEmaType())
                         .append(" на недельном ТФ: ").append(emaData.getEmaValue()).append("\n"));
 
+        var macdBarIcon = ProcessingResult.Trend.ASCENDING.name().equals(macdBarTrend) ? "↗️" : "↘️";
+        var macdSignalIcon = ProcessingResult.Trend.ASCENDING.name().equals(macdSignalTrend) ? "↗️" : "↘️";
+        var macdDiverIcon = ProcessingResult.Trend.ASCENDING.name().equals(macdDiverTrend) ? "↗️" : "↘️";
+
         return "Тикер: " + ticker + "\n" +
                 "Цена закрытия: " + closePrice + "\n" +
                 (rsiSign != null ? "Rsi: " + rsiSign + ", " + rsiValue + "\n" : "") +
-                (macdBarTrend != null && !macdBarTrend.equals(NO_SIGN.name()) ? "Гистограмма macd: " + macdBarTrend + "\n" : "") +
-                (macdSignalTrend != null && !macdSignalTrend.equals(NO_SIGN.name()) ? "Пересечение macd: " + macdSignalTrend + "\n" : "") +
-                (macdDiverTrend != null && !macdDiverTrend.equals(NO_SIGN.name()) ? "Дивергенция по macd: " + macdDiverTrend + "\n" : "") +
+                (macdBarTrend != null && !macdBarTrend.equals(NO_SIGN.name()) ? "Гистограмма macd: " + macdBarIcon + "\n" : "") +
+                (macdSignalTrend != null && !macdSignalTrend.equals(NO_SIGN.name()) ? "Пересечение macd: " + macdSignalIcon + "\n" : "") +
+                (macdDiverTrend != null && !macdDiverTrend.equals(NO_SIGN.name()) ? "Дивергенция по macd: " + macdDiverIcon + "\n" : "") +
                 stringBuilder;
     }
 }

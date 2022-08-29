@@ -102,11 +102,13 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
                     if (!CollectionUtils.isEmpty(stocksWithPattern)) {
                         sendNotification("✔️ Акции с паттернами: \n\n", stocksWithPattern, chatId);
                     }
-                    if (!CollectionUtils.isEmpty(stocksWithIndicators)) {
-                        var macdDivergence = getMacdDivergence(stocksWithIndicators);
+                    var macdDivergence = getMacdDivergence(stocksWithIndicators);
+                    if (!CollectionUtils.isEmpty(macdDivergence)) {
                         sendNotification("✔️ Акции, с дивергенцией по MACD: \n\n", macdDivergence, chatId);
+                    }
 
-                        var closeToEma = getCloseToEma(stocksWithIndicators);
+                    var closeToEma = getCloseToEma(stocksWithIndicators);
+                    if (!CollectionUtils.isEmpty(closeToEma)) {
                         sendNotification("✔️ Акции, приближающиеся к недельной ЕМА 200: \n\n", closeToEma, chatId);
                     }
                     if (!CollectionUtils.isEmpty(stocksWithLevels)) {
@@ -140,7 +142,7 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
 
     private List<ProcessedIndicators> getMacdDivergence(List<ProcessedIndicators> stocksWithIndicators) {
         return stocksWithIndicators.stream()
-                .filter(stocks -> stocks.getMacdDiverTrend() != null && NO_SIGN.name().equals(stocks.getMacdDiverTrend()))
+                .filter(stocks -> stocks.getMacdDiverTrend() != null && !NO_SIGN.name().equals(stocks.getMacdDiverTrend()))
                 .collect(Collectors.toList());
     }
 
