@@ -2,6 +2,7 @@ package com.home.project.stocks.processor;
 
 import com.home.project.stocks.mapper.MacdDataMapper;
 import com.home.project.stocks.model.api.CommonIndicator;
+import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.candles.TwelveDataCandles;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.parser.TwelveDataParser;
@@ -55,7 +56,7 @@ class MacdProcessorTest extends AbstractProcessorTest {
         procResult.setTicker("LMT");
 
         when(candlesService.getHistoricalCandles(eq("LMT"), any(), anyInt())).thenReturn(candles);
-        macdProcessor.processIndicator(macdData, null, procResult);
+        macdProcessor.processIndicator(macdData, Candle.builder().interval("daily").build(), procResult);
 
         assertAll(() -> {
             assertEquals(395.20001, procResult.getClosePrice());
@@ -76,7 +77,7 @@ class MacdProcessorTest extends AbstractProcessorTest {
         procResult.setTicker("KNSL");
 
         when(candlesService.getHistoricalCandles(eq("KNSL"), any(), anyInt())).thenReturn(candles);
-        macdProcessor.processIndicator(macdData, null, procResult);
+        macdProcessor.processIndicator(macdData, Candle.builder().interval("daily").build(), procResult);
 
         assertAll(() -> {
             assertEquals(264.17999, procResult.getClosePrice());
@@ -97,7 +98,7 @@ class MacdProcessorTest extends AbstractProcessorTest {
         procResult.setTicker("GOOG");
 
         when(candlesService.getHistoricalCandles(eq("GOOG"), any(), anyInt())).thenReturn(candles);
-        macdProcessor.processIndicator(macdData, null, procResult);
+        macdProcessor.processIndicator(macdData, Candle.builder().interval("daily").build(), procResult);
 
         assertAll(() -> {
             assertEquals(122.65, procResult.getClosePrice());
@@ -118,7 +119,7 @@ class MacdProcessorTest extends AbstractProcessorTest {
         procResult.setTicker("KO");
 
         when(candlesService.getHistoricalCandles(eq("KO"), any(), anyInt())).thenReturn(candles);
-        macdProcessor.processIndicator(macdData, null, procResult);
+        macdProcessor.processIndicator(macdData, Candle.builder().interval("daily").build(), procResult);
 
         assertAll(() -> {
             assertEquals(63.7, procResult.getClosePrice());
@@ -139,12 +140,33 @@ class MacdProcessorTest extends AbstractProcessorTest {
         procResult.setTicker("GS");
 
         when(candlesService.getHistoricalCandles(eq("GS"), any(), anyInt())).thenReturn(candles);
-        macdProcessor.processIndicator(macdData, null, procResult);
+        macdProcessor.processIndicator(macdData, Candle.builder().interval("daily").build(), procResult);
 
         assertAll(() -> {
             assertEquals(353.82001, procResult.getClosePrice());
             assertEquals(ProcessingResult.Trend.NO_SIGN, procResult.getMacdSignalTrend());
             assertEquals(ProcessingResult.Trend.ASCENDING, procResult.getMacdBarTrend());
+            assertEquals(ProcessingResult.Trend.NO_SIGN, procResult.getMacdDivergence());
+        });
+    }
+
+    @DisplayName("Macd processor - test divergence bug")
+    @Test
+    void testDivergenceBugProcessing() {
+        var macd = TestUtils.readData("templates/macd/macdData/macd-bug-test.json", CommonIndicator.class);
+        var candles =  TestUtils.readData("templates/macd/candles/macd-bug-test-candles.json", TwelveDataCandles.class).getValues();
+        var parsedIndicator = TwelveDataParser.parseMacd(macd);
+        var macdData = TwelveDataParser.convertToParsedIndicator(parsedIndicator);
+        var procResult = new ProcessingResult();
+        procResult.setTicker("ALB");
+
+        when(candlesService.getHistoricalCandles(eq("ALB"), any(), anyInt())).thenReturn(candles);
+        macdProcessor.processIndicator(macdData, Candle.builder().interval("daily").build(), procResult);
+
+        assertAll(() -> {
+            assertEquals(193.05, procResult.getClosePrice());
+            assertEquals(ProcessingResult.Trend.DESCENDING, procResult.getMacdSignalTrend());
+            assertEquals(ProcessingResult.Trend.DESCENDING, procResult.getMacdBarTrend());
             assertEquals(ProcessingResult.Trend.NO_SIGN, procResult.getMacdDivergence());
         });
     }

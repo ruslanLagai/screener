@@ -29,9 +29,9 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.telegram.telegrambots.starter.TelegramBotStarterConfiguration;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -52,6 +52,7 @@ import static org.mockito.Mockito.when;
  * @author rlagay
  */
 @SpringBootTest
+@Testcontainers
 @SpringJUnitConfig(classes = DailyIndicatorScanServiceTest.Config.class)
 class DailyIndicatorScanServiceTest {
 
@@ -72,10 +73,6 @@ class DailyIndicatorScanServiceTest {
 
     @MockBean
     private TwelvedataApiClient apiClient;
-
-    static {
-        container.start();
-    }
 
     @DynamicPropertySource
     static void mysqlProperties(DynamicPropertyRegistry registry) {

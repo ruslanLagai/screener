@@ -18,12 +18,14 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@Testcontainers
 class StocksApplicationTests {
 
     @Container
@@ -35,10 +37,6 @@ class StocksApplicationTests {
         registry.add("spring.datasource.username", container::getUsername);
         registry.add("spring.datasource.password", container::getPassword);
         registry.add("spring.datasource.driver-class-name", container::getDriverClassName);
-    }
-
-    static {
-        container.start();
     }
 
     @MockBean

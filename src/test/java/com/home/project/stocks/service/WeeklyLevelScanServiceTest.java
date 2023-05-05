@@ -36,10 +36,6 @@ class WeeklyLevelScanServiceTest extends AbstractRepositoryTest {
 
     private static final CountDownLatch countDownLatch = new CountDownLatch(1);
 
-    static {
-        container.start();
-    }
-
     @Autowired
     private WeeklyScanService weeklyLevelScanService;
 

@@ -82,10 +82,6 @@ class DailyLevelScanServiceTest extends AbstractRepositoryTest {
     @Autowired
     private ProcessedLevelsRepository processedLevelsRepository;
 
-    static {
-        container.start();
-    }
-
     @DynamicPropertySource
     static void mysqlProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", container::getJdbcUrl);

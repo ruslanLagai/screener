@@ -12,7 +12,7 @@ indicator:
   rsi:
     columnsNumber: 3
   macd:
-    columnsNumber: 2
+    columnsNumber: 3
 
 tinkoff:
   api:

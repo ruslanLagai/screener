@@ -35,10 +35,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         initializers = AbstractRepositoryTest.Config.class)
 class DailyPatternScanServiceTest extends AbstractRepositoryTest {
 
-    static {
-        container.start();
-    }
-
     @Autowired
     private DailyPatternScanService dailyPatternScanService;
 
@@ -48,8 +44,8 @@ class DailyPatternScanServiceTest extends AbstractRepositoryTest {
     @Test
     @DisplayName("basic test")
     void processStocks() {
-        dailyPatternScanService.processStock("BIO", null);
-        var candle = candleRepository.findByTickerAndTimeAfter("BIO", LocalDateTime.now().minusDays(3));
+        dailyPatternScanService.processStock("DE", null);
+        var candle = candleRepository.findByTickerAndTimeAfter("DE", LocalDateTime.now().minusDays(3));
         if (candle == null) {
             assertTrue(candleRepository.findAll().isEmpty());
         } else {

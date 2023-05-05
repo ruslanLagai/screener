@@ -175,13 +175,13 @@ public class MacdProcessor implements IndicatorProcessor {
     }
 
     private boolean checkAscDivergence(MacdData latest, MacdData prev) {
-        return abs(prev.getMacdBarValue()) > abs(latest.getMacdBarValue())
+        return prev.getMacdBarValue() < latest.getMacdBarValue()
                 && prev.getClosePrice() > latest.getClosePrice()
                 && prev.getClosePrice() / latest.getClosePrice() > 1.03;
     }
 
     private boolean checkDescDivergence(MacdData latest, MacdData prev) {
-        return prev.getMacdBarValue() > latest.getMacdBarValue()
+        return abs(prev.getMacdBarValue()) > abs(latest.getMacdBarValue())
                 && prev.getClosePrice() < latest.getClosePrice()
                 && (latest.getClosePrice() / prev.getClosePrice()) > 1.03;
     }

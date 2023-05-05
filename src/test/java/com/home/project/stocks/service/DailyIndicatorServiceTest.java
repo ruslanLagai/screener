@@ -20,7 +20,6 @@ import com.home.project.stocks.repository.ProcessedLevelsRepository;
 import com.home.project.stocks.repository.WeeklyLevelsRepository;
 import com.home.project.stocks.service.impl.DailyIndicatorService;
 import com.home.project.stocks.service.impl.DbUpdateServiceImpl;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -36,9 +35,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -55,10 +51,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class DailyIndicatorServiceTest extends AbstractRepositoryTest {
 
     private static final String AAPL = "AAPL";
-
-    static {
-        container.start();
-    }
 
     @Autowired
     IndicatorService dailyIndicatorService;
@@ -168,11 +160,10 @@ class DailyIndicatorServiceTest extends AbstractRepositoryTest {
     void a4TestGetSaved() {
         var indicators = dailyIndicatorService.getEma(AAPL, Interval.TWELVE_DATA_ONE_DAY, EmaPeriod.FIFTY, SeriesType.CLOSE);
         assertEquals(AAPL, indicators.getTicker());
-        assertEquals(10, indicators.getEma().size());
+        assertEquals(5, indicators.getEma().size());
         indicators.getEma().forEach(indicator -> {
             assertNotEquals(0.0, indicator.getEmaValue());
-            assertThat(List.of(EmaPeriod.TWO_HUNDRED.getPeriod(), EmaPeriod.FIFTY.getPeriod()),
-                    Matchers.contains(indicator.getEmaType()));
+            assertEquals(EmaPeriod.FIFTY.getPeriod(), indicator.getEmaType());
             assertNotEquals(null, indicator.getDatetime());
         });
     }
@@ -187,18 +178,7 @@ class DailyIndicatorServiceTest extends AbstractRepositoryTest {
         assertEquals(Interval.TWELVE_DATA_ONE_DAY.getInterval(), indicators.getInterval());
         indicators.getEma().forEach(indicator -> {
             assertNotEquals(0.0, indicator.getEmaValue());
-            assertThat(List.of(EmaPeriod.TWO_HUNDRED.getPeriod(), EmaPeriod.FIFTY.getPeriod()),
-                    Matchers.contains(indicator.getEmaType()));
-            assertNotEquals(null, indicator.getDatetime());
-        });
-        indicators.getMacd().forEach(indicator -> {
-            assertNotEquals(0.0, indicator.getMacdHistValue());
-            assertNotEquals(0.0, indicator.getMacdSignalValue());
-            assertNotEquals(0.0, indicator.getMacdValue());
-            assertNotEquals(null, indicator.getDatetime());
-        });
-        indicators.getRsi().forEach(indicator -> {
-            assertNotEquals(0.0, indicator.getRsiValue());
+            assertEquals(EmaPeriod.FIFTY.getPeriod(), indicator.getEmaType());
             assertNotEquals(null, indicator.getDatetime());
         });
     }

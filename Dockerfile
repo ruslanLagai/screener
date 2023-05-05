@@ -4,7 +4,7 @@
 # BUILD STAGE
 # ------------------------------------------------------------------------------
 
-FROM gradle:6.8.3-jdk11-hotspot as build
+FROM gradle:7.3.2-jdk17-alpine as build
 
 ARG ARTIFACT_VERSION=0.1
 ARG GRADLE_OPTS
@@ -27,7 +27,7 @@ RUN --mount=type=cache,target=/root/.m2/ \
 # RUNTIME STAGE (deployment)
 # ------------------------------------------------------------------------------
 
-FROM openjdk:11.0.16-jre-slim
+FROM openjdk:17.0.2-slim
 
 ARG ARTIFACT_VERSION=1.0
 ENV app_name=screener

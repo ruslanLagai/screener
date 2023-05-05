@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "symbol": "ALB",
+    "interval": "1day",
+    "currency": "USD",
+    "exchange_timezone": "America/New_York",
+    "exchange": "NYSE",
+    "mic_code": "XNYS",
+    "type": "Common Stock",
+    "indicator": {
+      "name": "MACD - Moving Average Convergence Divergence",
+      "series_type": "open",
+      "fast_period": 12,
+      "slow_period": 26,
+      "signal_period": 9
+    }
+  },
+  "values": [
+    {
+      "datetime": "2023-04-20",
+      "macd": "-8.31200",
+      "macd_signal": "-9.01618",
+      "macd_hist": "0.70418"
+    },
+    {
+      "datetime": "2023-04-19",
+      "macd": "-8.22341",
+      "macd_signal": "-9.19222",
+      "macd_hist": "0.96881"
+    },
+    {
+      "datetime": "2023-04-18",
+      "macd": "-8.40615",
+      "macd_signal": "-9.43442",
+      "macd_hist": "1.02827"
+    },
+    {
+      "datetime": "2023-04-17",
+      "macd": "-9.25122",
+      "macd_signal": "-9.69149",
+      "macd_hist": "0.44027"
+    },
+    {
+      "datetime": "2023-04-14",
+      "macd": "-9.72386",
+      "macd_signal": "-9.80156",
+      "macd_hist": "0.07770"
+    },
+    {
+      "datetime": "2023-04-13",
+      "macd": "-10.14190",
+      "macd_signal": "-9.82098",
+      "macd_hist": "-0.32092"
+    },
+    {
+      "datetime": "2023-04-12",
+      "macd": "-10.38541",
+      "macd_signal": "-9.74075",
+      "macd_hist": "-0.64466"
+    },
+    {
+      "datetime": "2023-04-11",
+      "macd": "-10.81600",
+      "macd_signal": "-9.57959",
+      "macd_hist": "-1.23641"
+    },
+    {
+      "datetime": "2023-04-10",
+      "macd": "-10.74600",
+      "macd_signal": "-9.27048",
+      "macd_hist": "-1.47551"
+    },
+    {
+      "datetime": "2023-04-06",
+      "macd": "-9.80391",
+      "macd_signal": "-8.90161",
+      "macd_hist": "-0.90230"
+    },
+    {
+      "datetime": "2023-04-05",
+      "macd": "-8.53115",
+      "macd_signal": "-8.67603",
+      "macd_hist": "0.14488"
+    },
+    {
+      "datetime": "2023-04-04",
+      "macd": "-7.37107",
+      "macd_signal": "-8.71225",
+      "macd_hist": "1.34118"
+    },
+    {
+      "datetime": "2023-04-03",
+      "macd": "-7.41023",
+      "macd_signal": "-9.04754",
+      "macd_hist": "1.63732"
+    },
+    {
+      "datetime": "2023-03-31",
+      "macd": "-7.78820",
+      "macd_signal": "-9.45687",
+      "macd_hist": "1.66867"
+    },
+    {
+      "datetime": "2023-03-30",
+      "macd": "-8.36200",
+      "macd_signal": "-9.87404",
+      "macd_hist": "1.51204"
+    },
+    {
+      "datetime": "2023-03-29",
+      "macd": "-9.52563",
+      "macd_signal": "-10.25205",
+      "macd_hist": "0.72642"
+    },
+    {
+      "datetime": "2023-03-28",
+      "macd": "-10.29599",
+      "macd_signal": "-10.43366",
+      "macd_hist": "0.13767"
+    },
+    {
+      "datetime": "2023-03-27",
+      "macd": "-11.05822",
+      "macd_signal": "-10.46807",
+      "macd_hist": "-0.59014"
+    },
+    {
+      "datetime": "2023-03-24",
+      "macd": "-11.73280",
+      "macd_signal": "-10.32054",
+      "macd_hist": "-1.41226"
+    },
+    {
+      "datetime": "2023-03-23",
+      "macd": "-11.55362",
+      "macd_signal": "-9.96747",
+      "macd_hist": "-1.58615"
+    },
+    {
+      "datetime": "2023-03-22",
+      "macd": "-11.78509",
+      "macd_signal": "-9.57094",
+      "macd_hist": "-2.21416"
+    },
+    {
+      "datetime": "2023-03-21",
+      "macd": "-12.39886",
+      "macd_signal": "-9.01740",
+      "macd_hist": "-3.38146"
+    },
+    {
+      "datetime": "2023-03-20",
+      "macd": "-12.51216",
+      "macd_signal": "-8.17203",
+      "macd_hist": "-4.34012"
+    },
+    {
+      "datetime": "2023-03-17",
+      "macd": "-11.47390",
+      "macd_signal": "-7.08700",
+      "macd_hist": "-4.38690"
+    },
+    {
+      "datetime": "2023-03-16",
+      "macd": "-10.43388",
+      "macd_signal": "-5.99028",
+      "macd_hist": "-4.44360"
+    }
+  ],
+  "status": "ok"
+}

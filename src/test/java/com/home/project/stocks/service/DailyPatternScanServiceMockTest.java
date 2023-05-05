@@ -43,10 +43,6 @@ class DailyPatternScanServiceMockTest extends AbstractRepositoryTest {
     private static final String FB_HAMMER = "FB";
     private static final String AMZN = "AMZN";
 
-    static {
-        container.start();
-    }
-
     @Autowired
     private DailyPatternScanService dailyPatternScanService;
 

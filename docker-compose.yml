@@ -2,7 +2,7 @@ version: "3.9"
 services:
 
   webapp:
-    image: ruslanlagai/stock-screener
+    image: ruslanlagai/stock-screener:1.0
     container_name: screener
     env_file:
       - .env
