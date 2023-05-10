@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface DailyCandleRepository extends JpaRepository<DailyCandle, Long> {
-    List<DailyCandle> findByTicker(String ticker);
-    List<DailyCandle> findByTickerAndAndInterval(String ticker, String interval);
+    List<DailyCandle> findByTickerAndInterval(String ticker, String interval);
 
 }

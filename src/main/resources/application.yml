@@ -13,6 +13,9 @@ indicator:
     columnsNumber: 3
   macd:
     columnsNumber: 3
+    statistics:
+      divergence:
+        candles: 10
 
 tinkoff:
   api:
@@ -33,7 +36,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.mysql.cj.jdbc.MysqlConnectionPoolDataSource
-    url: jdbc:mysql://localhost:3307/screener?allowPublicKeyRetrieval=true
+    url: jdbc:mysql://51.250.28.67:3307/screener?allowPublicKeyRetrieval=true
     username: root
     password: j&4>TqA2
   jpa:
@@ -60,7 +63,7 @@ telegram:
 
 screener:
   pattern:
-    cron: 0 20 15 * * MON-FRI
+    cron: 0 25 19 * * MON-FRI
   level:
     candle-number: 210
-    cron: 0 0 7 * * SAT
+    cron: 0 14 23 * * MON-FRI

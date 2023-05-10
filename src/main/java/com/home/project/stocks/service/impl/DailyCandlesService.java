@@ -41,7 +41,7 @@ public class DailyCandlesService implements CandlesService {
         log.debug("Retrieving candles for ticker {}", ticker);
         List<Candle> candles;
 
-        var saved = Optional.ofNullable(dailyCandleRepository.findByTickerAndAndInterval(ticker, interval.getInterval()))
+        var saved = Optional.ofNullable(dailyCandleRepository.findByTickerAndInterval(ticker, interval.getInterval()))
                 .orElse(Collections.emptyList());
         if (saved.size() >= total) {
             log.debug("Retrieved candles from DB, ticker {}", ticker);

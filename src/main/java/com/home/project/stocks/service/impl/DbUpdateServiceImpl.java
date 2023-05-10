@@ -74,11 +74,7 @@ public class DbUpdateServiceImpl implements DbUpdateService {
     }
 
     public void savePattern(Candle candle) {
-        try {
-            executorService.submit(() -> candleRepository.save(candle)).get();
-        } catch (InterruptedException | ExecutionException e) {
-            log.error("Failed to save candle", e);
-        }
+        executorService.submit(() -> candleRepository.save(candle));
     }
 
     @Override
@@ -128,17 +124,7 @@ public class DbUpdateServiceImpl implements DbUpdateService {
 
     @Override
     public void saveDailyCandle(Set<DailyCandle> candles) {
-        try {
-            executorService.submit(() ->
-                    candles.stream()
-                            .filter(candle -> {
-                                Example<DailyCandle> example = Example.of(candle, getCandleMatcher());
-                                return !dailyCandleRepository.exists(example);
-                            }).forEach(dailyCandleRepository::save))
-                    .get();
-        } catch (InterruptedException | ExecutionException e) {
-            log.error("Failed to save daily candles", e);
-        }
+        executorService.submit(() -> dailyCandleRepository.saveAll(candles));
     }
 
     @Override
@@ -164,25 +150,21 @@ public class DbUpdateServiceImpl implements DbUpdateService {
 
     @Override
     public void saveWeeklyLevels(String ticker, Set<Double> doubles) {
-        try {
-            if (doubles.isEmpty()) {
-                return;
-            }
-            var weeklyLevel = WeeklyLevel.builder()
-                    .ticker(ticker)
-                    .build();
-            var levels = doubles.stream()
-                    .map(value -> Levels.builder()
-                            .weeklyLevel(weeklyLevel)
-                            .value(value)
-
-                            .build())
-                    .collect(Collectors.toSet());
-            weeklyLevel.setLevels(levels);
-            executorService.submit(() -> weeklyLevelsRepository.save(weeklyLevel)).get();
-        } catch (InterruptedException | ExecutionException e) {
-            log.error("Failed to save daily candles", e);
+        if (doubles.isEmpty()) {
+            return;
         }
+        var weeklyLevel = WeeklyLevel.builder()
+                .ticker(ticker)
+                .build();
+        var levels = doubles.stream()
+                .map(value -> Levels.builder()
+                        .weeklyLevel(weeklyLevel)
+                        .value(value)
+
+                        .build())
+                .collect(Collectors.toSet());
+        weeklyLevel.setLevels(levels);
+        executorService.submit(() -> weeklyLevelsRepository.save(weeklyLevel));
     }
 
     @Override

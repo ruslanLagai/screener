@@ -117,4 +117,20 @@ public class DailyIndicatorService implements IndicatorService {
         return TwelveDataParser.convertToParsedIndicator(parsedIndicator);
     }
 
+    @Override
+    @Transactional
+    public ParsedIndicator getHistoricalMacd(String ticker, Interval interval, int size) {
+        DailyIndicator parsedIndicator;
+        try {
+            var macd = apiClient.getHistoricalMacd(ticker, interval.getInterval(), size);
+            parsedIndicator = TwelveDataParser.parseMacd(macd);
+        } catch (FeignException e) {
+            log.error("Failed to retrieve macd from twelve data", e);
+            parsedIndicator = DailyIndicator.builder().macdData(Set.of()).build();
+        } catch (IndicatorParsingException e) {
+            log.error("Failed to parse indicator - no data");
+            parsedIndicator = DailyIndicator.builder().macdData(Set.of()).build();
+        }
+        return TwelveDataParser.convertToParsedIndicator(parsedIndicator);
+    }
 }

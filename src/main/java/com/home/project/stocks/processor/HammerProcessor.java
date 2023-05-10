@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class HammerProcessor implements PatternProcessor {
 
-    private static final double UPPER_SHADOW_RATIO = 0.2;
-    private static final double LOWER_SHADOW_RATIO = 1.3;
+    private static final double UPPER_SHADOW_RATIO = 0.1;
+    private static final double LOWER_SHADOW_RATIO = 1.4;
     private static final double LOWER_CANDLE_BODY_RATIO = 1;
     private static final double UPPER_CANDLE_BODY_RATIO = 10;
 

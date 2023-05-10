@@ -21,6 +21,10 @@ public interface TwelvedataApiClient {
     @GetMapping("/macd?outputsize=30")
     CommonIndicator getMacd(@RequestParam(value = "symbol") String ticker, @RequestParam String interval);
 
+    @GetMapping("/macd")
+    CommonIndicator getHistoricalMacd(@RequestParam(value = "symbol") String ticker, @RequestParam String interval,
+                                      @RequestParam(value = "outputsize") int size);
+
     @GetMapping("/time_series?outputsize=5")
     TwelveDataCandles getCandles(@RequestParam(value = "symbol") String ticker, @RequestParam String interval);
 

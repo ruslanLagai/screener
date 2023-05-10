@@ -50,6 +50,7 @@ public class ProcessedIndicators {
     private String rsiSign;
     private String ticker;
     private double closePrice;
+    private double macdDiverStatistics;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
@@ -68,6 +69,8 @@ public class ProcessedIndicators {
                         ? processingResult.getMacdDivergence().name() : null)
                 .rsiSign(processingResult.getRsiSign() != null
                         ? processingResult.getRsiSign().name() : null)
+//                .isSignalCrossed(processingResult.isSignalCrossed())
+                .macdDiverStatistics(processingResult.getMacdDivergenceStatistics())
                 .build();
         List<ProcessedEma> emaList = Collections.synchronizedList(new ArrayList<>());
         processingResult.getEmaValue().forEach(((emaPeriod, data) ->

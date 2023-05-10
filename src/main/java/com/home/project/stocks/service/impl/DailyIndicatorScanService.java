@@ -14,6 +14,7 @@ import com.home.project.stocks.service.CandlesService;
 import com.home.project.stocks.service.DailyScanService;
 import com.home.project.stocks.service.DbUpdateService;
 import com.home.project.stocks.service.IndicatorService;
+import com.home.project.stocks.service.IndicatorStatisticService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,7 @@ public class DailyIndicatorScanService implements DailyScanService {
     private final IndicatorService dailyIndicatorService;
     private final CandlesService candlesService;
     private final List<IndicatorProcessor> indicatorProcessors;
+    private final List<IndicatorStatisticService> statisticServices;
     private final DbUpdateService dbUpdateService;
 
     private final Map<Class<? extends IndicatorProcessor>, BiFunction<IndicatorService, String, ParsedIndicator>>
@@ -49,10 +51,12 @@ public class DailyIndicatorScanService implements DailyScanService {
     public DailyIndicatorScanService(IndicatorService dailyIndicatorService,
                                      CandlesService candlesService,
                                      List<IndicatorProcessor> indicatorProcessors,
+                                     List<IndicatorStatisticService> statisticServices,
                                      DbUpdateService dbUpdateService) {
         this.dailyIndicatorService = dailyIndicatorService;
         this.candlesService = candlesService;
         this.indicatorProcessors = indicatorProcessors;
+        this.statisticServices = statisticServices;
         this.dbUpdateService = dbUpdateService;
     }
 
@@ -77,6 +81,7 @@ public class DailyIndicatorScanService implements DailyScanService {
                     processor.processIndicator(indicator, candle, processingResult);
                 }
             });
+            statisticServices.forEach(statisticService -> statisticService.analyzeStock(processingResult, Interval.TWELVE_DATA_ONE_DAY));
             log.info("ProcessingResult for {} is {}", ticker, processingResult);
             dbUpdateService.saveIndicatorData(processingResult);
         } catch (IndicatorParsingException e) {

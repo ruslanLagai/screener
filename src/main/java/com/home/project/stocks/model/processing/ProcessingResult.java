@@ -29,6 +29,7 @@ public class ProcessingResult {
     private Trend macdDivergence;
     private RsiSign rsiSign;
     private String ticker;
+    private double macdDivergenceStatistics;
 
     @Data
     @Builder

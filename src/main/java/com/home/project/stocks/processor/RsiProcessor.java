@@ -2,15 +2,14 @@ package com.home.project.stocks.processor;
 
 import com.home.project.stocks.model.candles.Candle;
 import com.home.project.stocks.model.entity.DailyRsi;
-import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.model.indicators.ParsedIndicator;
+import com.home.project.stocks.model.processing.ProcessingResult;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Processor for RSI oversold/overbought indicator
@@ -28,12 +27,10 @@ public class RsiProcessor implements IndicatorProcessor {
     @Override
     public void processIndicator(ParsedIndicator indicator, Candle candle, ProcessingResult processingResult) {
         var lastRsi = indicator.getRsi().stream()
-                .sorted(Comparator.comparing(DailyRsi::getDatetime, Comparator.reverseOrder()))
-                .limit(columnsNumber)
-                .collect(Collectors.toList());
+            .sorted(Comparator.comparing(DailyRsi::getDatetime, Comparator.reverseOrder()))
+            .limit(columnsNumber).toList();
         var lastValues = lastRsi.stream()
-                .map(DailyRsi::getRsiValue)
-                .collect(Collectors.toUnmodifiableList());
+            .map(DailyRsi::getRsiValue).toList();
         processingResult.setRsiSign(checkCondition(lastValues));
         processingResult.setRsiValues(lastValues);
     }

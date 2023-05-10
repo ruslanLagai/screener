@@ -22,6 +22,9 @@ import java.util.Optional;
 import static com.home.project.stocks.model.processing.ProcessingResult.Trend.ASCENDING;
 import static com.home.project.stocks.model.processing.ProcessingResult.Trend.DESCENDING;
 import static com.home.project.stocks.model.processing.ProcessingResult.Trend.NO_SIGN;
+import static com.home.project.stocks.utils.MacdUtils.checkAscDivergence;
+import static com.home.project.stocks.utils.MacdUtils.checkDescDivergence;
+import static com.home.project.stocks.utils.MacdUtils.getExtremum;
 import static java.lang.Math.abs;
 
 /**
@@ -171,38 +174,6 @@ public class MacdProcessor implements IndicatorProcessor {
                             .orElse("Unknown")
                     );
                     return NO_SIGN;
-                });
-    }
-
-    private boolean checkAscDivergence(MacdData latest, MacdData prev) {
-        return prev.getMacdBarValue() < latest.getMacdBarValue()
-                && prev.getClosePrice() > latest.getClosePrice()
-                && prev.getClosePrice() / latest.getClosePrice() > 1.03;
-    }
-
-    private boolean checkDescDivergence(MacdData latest, MacdData prev) {
-        return abs(prev.getMacdBarValue()) > abs(latest.getMacdBarValue())
-                && prev.getClosePrice() < latest.getClosePrice()
-                && (latest.getClosePrice() / prev.getClosePrice()) > 1.03;
-    }
-
-    private MacdData getExtremum(List<MacdData> prevHill) {
-        var extremumValue = prevHill.stream()
-                .map(MacdData::getMacdBarValue)
-                .mapToDouble(Double::doubleValue)
-                .map(Math::abs)
-                .max()
-                .orElseGet(() -> {
-                    log.debug("Failed to find extremum value");
-                    return 0.0;
-                });
-
-        return prevHill.stream()
-                .filter(macdData -> abs(macdData.getMacdBarValue()) == extremumValue)
-                .findFirst()
-                .orElseGet(() -> {
-                    log.debug("Failed to find extremum for latest hill");
-                    return null;
                 });
     }
 

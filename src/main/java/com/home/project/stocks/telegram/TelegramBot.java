@@ -1,7 +1,5 @@
 package com.home.project.stocks.telegram;
 
-import com.home.project.stocks.model.entity.ProcessedEma;
-import com.home.project.stocks.model.entity.ProcessedIndicators;
 import com.home.project.stocks.model.entity.TelegramChatEntity;
 import com.home.project.stocks.model.telegram.ChatStatus;
 import com.home.project.stocks.repository.CandleRepository;
@@ -9,11 +7,17 @@ import com.home.project.stocks.repository.ChatRepository;
 import com.home.project.stocks.repository.DailyProcessedIndicatorRepository;
 import com.home.project.stocks.repository.ProcessedLevelsRepository;
 import com.home.project.stocks.telegram.cmd.TelegramCommand;
+import com.home.project.stocks.telegram.processor.LevelsNotificationProcessor;
+import com.home.project.stocks.telegram.processor.MacdNotificationProcessor;
+import com.home.project.stocks.telegram.processor.NotificationProcessor;
+import com.home.project.stocks.telegram.processor.PatternNotificationProcessor;
+import com.home.project.stocks.telegram.processor.RsiNotificationProcessor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -33,10 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import static com.home.project.stocks.model.processing.ProcessingResult.Trend.NO_SIGN;
 
 @Component
 @Slf4j
@@ -49,6 +50,7 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
     private final TelegramCommand stopCommand;
     private final DailyProcessedIndicatorRepository dailyProcessedIndicatorRepository;
     private final ProcessedLevelsRepository processedLevelsRepository;
+    private final List<NotificationProcessor> notificationProcessors;
     private final Map<String, Function<Update, String>> telegramCommands = new HashMap<>();
     private static final Set<String> COMMANDS = Set.of("/start", "/stop");
 
@@ -90,6 +92,12 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
                 .getByDateAfter(LocalDate.now().atTime(LocalTime.MIN));
         var stocksWithLevels = processedLevelsRepository
                 .findByDateAfter(LocalDate.now().atTime(LocalTime.MIN));
+        final Map<Class<? extends NotificationProcessor>, Collection<?>> collectionMap = Map.of(
+            LevelsNotificationProcessor.class, stocksWithLevels,
+            MacdNotificationProcessor.class, stocksWithIndicators,
+            PatternNotificationProcessor.class, stocksWithPattern,
+            RsiNotificationProcessor.class, stocksWithIndicators
+        );
 
         log.info("Found {} stocks with pattern", stocksWithPattern.size());
         log.info("Found {} stocks with indicators", stocksWithIndicators.size());
@@ -99,21 +107,12 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
                 .map(TelegramChatEntity::getId)
                 .collect(Collectors.toSet())
                 .forEach(chatId -> {
-                    if (!CollectionUtils.isEmpty(stocksWithPattern)) {
-                        sendNotification("✔️ Акции с паттернами: \n\n", stocksWithPattern, chatId);
-                    }
-                    var macdDivergence = getMacdDivergence(stocksWithIndicators);
-                    if (!CollectionUtils.isEmpty(macdDivergence)) {
-                        sendNotification("✔️ Акции, с дивергенцией по MACD: \n\n", macdDivergence, chatId);
-                    }
-
-                    var closeToEma = getCloseToEma(stocksWithIndicators);
-                    if (!CollectionUtils.isEmpty(closeToEma)) {
-                        sendNotification("✔️ Акции, приближающиеся к недельной ЕМА 200: \n\n", closeToEma, chatId);
-                    }
-                    if (!CollectionUtils.isEmpty(stocksWithLevels)) {
-                        sendNotification("✔️ Акции, приближающиеся к недельным уровням: \n\n", stocksWithLevels, chatId);
-                    }
+                    notificationProcessors.forEach(processor -> {
+                        Pair<String, Collection<?>> test = processor.toMessage(collectionMap.get(processor.getClass()));
+                        if (!CollectionUtils.isEmpty(test.getSecond())) {
+                            sendNotification(test.getFirst(), test.getSecond(), chatId);
+                        }
+                    });
                 });
     }
 
@@ -128,22 +127,6 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
         } catch (TelegramApiException e) {
             log.error("Failed to notify user, chatId {}", chatId, e);
         }
-    }
-
-    private List<ProcessedIndicators> getCloseToEma(List<ProcessedIndicators> stocksWithIndicators) {
-        Predicate<ProcessedIndicators> emaPredicate = stocks -> stocks.getEmaData().stream()
-                .filter(ProcessedEma::isCloseToEma)
-                .anyMatch(ema -> !ema.isCloseRetest());
-        return stocksWithIndicators.stream()
-                .filter(stocks -> !CollectionUtils.isEmpty(stocks.getEmaData()))
-                .filter(emaPredicate)
-                .collect(Collectors.toList());
-    }
-
-    private List<ProcessedIndicators> getMacdDivergence(List<ProcessedIndicators> stocksWithIndicators) {
-        return stocksWithIndicators.stream()
-                .filter(stocks -> stocks.getMacdDiverTrend() != null && !NO_SIGN.name().equals(stocks.getMacdDiverTrend()))
-                .collect(Collectors.toList());
     }
 
     @Override
