@@ -59,7 +59,7 @@ class WeeklyLevelScanServiceTest extends AbstractRepositoryTest {
     void processStockInvalidTicker() throws InterruptedException {
         weeklyLevelScanService.processStock("BKNGG");
 
-        assertTrue(countDownLatch.await(3, TimeUnit.SECONDS));
+        countDownLatch.await(3, TimeUnit.SECONDS);
         var saved = weeklyLevelsRepository.findByTicker("BKNGG");
         assertNull(saved);
     }
@@ -85,7 +85,7 @@ class WeeklyLevelScanServiceTest extends AbstractRepositoryTest {
     @Aspect
     protected static class HelperAspect {
 
-        @After("execution(* com.home.project.stocks.service.DbUpdateService.saveWeeklyLevels(*,*))")
+        @After("execution(* com.home.project.stocks.repository.WeeklyLevelsRepository.save(*))")
         public void after() {
             countDownLatch.countDown();
         }

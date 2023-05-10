@@ -23,7 +23,6 @@ import com.home.project.stocks.repository.WeeklyLevelsRepository;
 import com.home.project.stocks.service.DbUpdateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;

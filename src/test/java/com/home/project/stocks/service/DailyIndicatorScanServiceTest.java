@@ -99,6 +99,7 @@ class DailyIndicatorScanServiceTest {
         var candles = TestUtils.readData("templates/indicators/candles.json", TwelveDataCandles.class);
         var ema = TestUtils.readData("templates/indicators/weekly-ema.json", CommonIndicator.class);
         when(apiClient.getMacd(eq(PNW), any())).thenReturn(macd);
+        when(apiClient.getHistoricalMacd(eq(PNW), any(), anyInt())).thenReturn(macd);
         when(apiClient.getCandles(eq(PNW), any(), anyInt())).thenReturn(candles);
         when(apiClient.getEma(eq(PNW), any(), any())).thenReturn(ema);
 

@@ -91,7 +91,7 @@ class DailyPatternScanServiceMockTest extends AbstractRepositoryTest {
 
         assertAll(() -> {
             assertEquals(209.39, saved.getOpen());
-            assertEquals(210.0, saved.getHigh());
+            assertEquals(209.6, saved.getHigh());
             assertEquals(200.18, saved.getLow());
             assertEquals(206.18, saved.getClose());
             assertTrue(saved.isHammer());

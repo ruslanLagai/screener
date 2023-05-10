@@ -98,8 +98,10 @@ public class MacdDivergenceStatisticService implements IndicatorStatisticService
                 totalSignalNumber++;
             }
         }
-        double winPercentage = Integer.valueOf(goodSignalNumber).doubleValue() / Integer.valueOf(totalSignalNumber).doubleValue();
-        processingResult.setMacdDivergenceStatistics(winPercentage);
+        if (totalSignalNumber > 0) {
+            double winPercentage = Integer.valueOf(goodSignalNumber).doubleValue() / Integer.valueOf(totalSignalNumber).doubleValue();
+            processingResult.setMacdDivergenceStatistics(winPercentage);
+        }
     }
 
     /**
