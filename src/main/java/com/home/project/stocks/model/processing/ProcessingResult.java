@@ -24,12 +24,15 @@ public class ProcessingResult {
     private double openPrice;
     private double maxPrice;
     private double volume;
+    private boolean isSignalCrossed;
     private Trend macdSignalTrend;
     private Trend macdBarTrend;
     private Trend macdDivergence;
     private RsiSign rsiSign;
     private String ticker;
     private double macdDivergenceStatistics;
+    private int totalDiverSignals;
+    private int goodDiverSignals;
 
     @Data
     @Builder

@@ -16,6 +16,10 @@ indicator:
     statistics:
       divergence:
         candles: 10
+  level:
+    statistics:
+      candles: 500
+
 
 tinkoff:
   api:

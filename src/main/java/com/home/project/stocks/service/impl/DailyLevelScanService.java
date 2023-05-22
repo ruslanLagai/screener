@@ -10,6 +10,7 @@ import com.home.project.stocks.repository.WeeklyLevelsRepository;
 import com.home.project.stocks.service.CandlesService;
 import com.home.project.stocks.service.DailyScanService;
 import com.home.project.stocks.service.DbUpdateService;
+import com.home.project.stocks.service.LevelStatisticService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,7 @@ public class DailyLevelScanService implements DailyScanService {
     private final CandlesService dailyCandlesService;
     private final WeeklyLevelsRepository weeklyLevelsRepository;
     private final DbUpdateService dbUpdateService;
+    private final LevelStatisticService levelStatisticService;
 
     @Override
     public void processStock(@NonNull String ticker, String figi) {
@@ -57,16 +59,22 @@ public class DailyLevelScanService implements DailyScanService {
                     var price = candle.getC() > closestLevel.getValue() ? candle.getL() : candle.getH();
                     if (Math.abs(closestLevel.getValue() - price) / price < 0.03
                             && isNotCloseRetest(candles, closestLevel.getValue(), price)) {
-                        dbUpdateService.saveProcessedLevels(ProcessedLevels.builder()
-                                .closePrice(Precision.round(candle.getC(), 2))
-                                .level(Precision.round(closestLevel.getValue(), 2))
-                                .ticker(ticker)
-                                .levelType(price > closestLevel.getValue() ? ProcessingResult.LevelType.SUPPORT
-                                        : ProcessingResult.LevelType.RESISTANCE)
-                                .date(LocalDateTime.now())
-                                .build());
+                        dbUpdateService.saveProcessedLevels(toProcessedLevel(ticker, candle, closestLevel, price));
                     }
                 });
+    }
+
+    private ProcessedLevels toProcessedLevel(String ticker, Candle candle, Levels closestLevel, double price) {
+        var level = ProcessedLevels.builder()
+            .closePrice(Precision.round(candle.getC(), 2))
+            .level(Precision.round(closestLevel.getValue(), 2))
+            .ticker(ticker)
+            .levelType(price > closestLevel.getValue() ? ProcessingResult.LevelType.SUPPORT
+                : ProcessingResult.LevelType.RESISTANCE)
+            .date(LocalDateTime.now())
+            .build();
+        levelStatisticService.analyzeStock(level, Interval.TWELVE_DATA_ONE_DAY);
+        return level;
     }
 
     private boolean isNotCloseRetest(List<Candle> candles, double level, double price) {

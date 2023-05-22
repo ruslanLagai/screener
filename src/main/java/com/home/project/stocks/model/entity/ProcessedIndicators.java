@@ -44,6 +44,7 @@ public class ProcessedIndicators {
     private List<ProcessedEma> emaData;
 
     private double rsiValue;
+    private boolean isSignalCrossed;
     private String macdSignalTrend;
     private String macdBarTrend;
     private String macdDiverTrend;
@@ -51,6 +52,8 @@ public class ProcessedIndicators {
     private String ticker;
     private double closePrice;
     private double macdDiverStatistics;
+    private int goodDiverSignals;
+    private int totalDiverSignals;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
@@ -71,6 +74,8 @@ public class ProcessedIndicators {
                         ? processingResult.getRsiSign().name() : null)
 //                .isSignalCrossed(processingResult.isSignalCrossed())
                 .macdDiverStatistics(processingResult.getMacdDivergenceStatistics())
+                .goodDiverSignals(processingResult.getGoodDiverSignals())
+                .totalDiverSignals(processingResult.getTotalDiverSignals())
                 .build();
         List<ProcessedEma> emaList = Collections.synchronizedList(new ArrayList<>());
         processingResult.getEmaValue().forEach(((emaPeriod, data) ->
@@ -101,12 +106,15 @@ public class ProcessedIndicators {
         var macdSignalIcon = ProcessingResult.Trend.ASCENDING.name().equals(macdSignalTrend) ? "↗️" : "↘️";
         var macdDiverIcon = ProcessingResult.Trend.ASCENDING.name().equals(macdDiverTrend) ? "↗️" : "↘️";
 
+        String macdBuilder = "Дивергенция по macd: " + macdDiverIcon + "\n" +
+            "Дивергенция отработала " + goodDiverSignals + " раз из " + totalDiverSignals;
+
         return "Тикер: " + ticker + "\n" +
                 "Цена закрытия: " + closePrice + "\n" +
                 (rsiSign != null ? "Rsi: " + rsiSign + ", " + rsiValue + "\n" : "") +
-                (macdBarTrend != null && !macdBarTrend.equals(NO_SIGN.name()) ? "Гистограмма macd: " + macdBarIcon + "\n" : "") +
-                (macdSignalTrend != null && !macdSignalTrend.equals(NO_SIGN.name()) ? "Пересечение macd: " + macdSignalIcon + "\n" : "") +
-                (macdDiverTrend != null && !macdDiverTrend.equals(NO_SIGN.name()) ? "Дивергенция по macd: " + macdDiverIcon + "\n" : "") +
+//                (macdBarTrend != null && !macdBarTrend.equals(NO_SIGN.name()) ? "Гистограмма macd: " + macdBarIcon + "\n" : "") +
+//                (macdSignalTrend != null && !macdSignalTrend.equals(NO_SIGN.name()) ? "Пересечение macd: " + macdSignalIcon + "\n" : "") +
+                (macdDiverTrend != null && !macdDiverTrend.equals(NO_SIGN.name()) ? macdBuilder : "") +
                 stringBuilder;
     }
 }

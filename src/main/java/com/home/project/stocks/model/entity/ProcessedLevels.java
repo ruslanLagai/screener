@@ -35,6 +35,11 @@ public class ProcessedLevels {
     private double level;
     private String ticker;
     private double closePrice;
+    private double successRate;
+    private double averageBreaking;
+    private double averageRebound;
+    private int totalCrosses;
+    private int goodSignals;
     @Enumerated(EnumType.STRING)
     private ProcessingResult.LevelType levelType;
 
@@ -46,6 +51,9 @@ public class ProcessedLevels {
         var type = levelType.equals(ProcessingResult.LevelType.SUPPORT) ? "поддержки" : "сопротивления";
         return "Тикер: " + ticker + "\n" +
                 "Цена закрытия: " + closePrice + "\n" +
-                "Ближайший уровень " + type + ": " + level;
+                "Ближайший уровень " + type + ": " + level + "\n" +
+                "Уровень отработал " + goodSignals + " из " + totalCrosses + "за последние 500 дней." + "\n" +
+                "Среднее пробитие: " + averageBreaking + "\n" +
+                "Среднее отскок: " + averageRebound;
     }
 }
