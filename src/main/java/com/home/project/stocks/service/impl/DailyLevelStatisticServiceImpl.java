@@ -53,41 +53,45 @@ public class DailyLevelStatisticServiceImpl implements LevelStatisticService {
 
     @Override
     public void analyzeStock(ProcessedLevels level, Interval interval) {
-        var historicalCandles = candlesService.getHistoricalCandles(level.getTicker(), interval, candleNumber);
-        if (CollectionUtils.isEmpty(historicalCandles)) {
-            log.warn("No historical candles to analyze level, ticker {}", level.getTicker());
-            return;
-        }
-
-        var sorted = historicalCandles.stream()
-            .filter(candle -> level.getLevelType().equals(ProcessingResult.LevelType.SUPPORT)
-                ? supportFilter(level).test(candle) : resistanceFilter(level).test(candle))
-            .sorted(Comparator.comparing(Candle::getDatetime))
-            .toList();
-        // find all level crossings
-        var levelCrossings = historicalCandles.stream()
-            .filter(candle -> candle.getL() <= level.getLevel() && candle.getH() >= level.getLevel())
-            .map(Candle::getDatetime)
-            .toList();
-
-        var intervals = levelCrossing.get(level.getLevelType()).apply(sorted, level);
-        // remove empty list && close retests
-        List<LocalDateTime> toRemove = new ArrayList<>();
-        intervals.forEach(((dateTime, candles) -> {
-            if (candles.isEmpty()) {
-                toRemove.add(dateTime);
+        try {
+            var historicalCandles = candlesService.getHistoricalCandles(level.getTicker(), interval, candleNumber);
+            if (CollectionUtils.isEmpty(historicalCandles)) {
+                log.warn("No historical candles to analyze level, ticker {}", level.getTicker());
+                return;
             }
-            levelCrossings.stream()
-                .filter(dateTime1 -> dateTime1.isBefore(dateTime))
-                .filter(dateTime1 -> dateTime1 != dateTime)
-                .filter(dateTime1 -> Duration.between(dateTime1, dateTime).abs().toDays() < CLOSE_RETEST_DAYS)
-                .min(getClosestDateComparator(dateTime))
-                .stream().findFirst()
-                .ifPresent(dateTime1 -> toRemove.add(dateTime));
-        }));
-        toRemove.forEach(intervals::remove);
 
-        levelStatistic.get(level.getLevelType()).accept(intervals, level);
+            var sorted = historicalCandles.stream()
+                .filter(candle -> level.getLevelType().equals(ProcessingResult.LevelType.SUPPORT)
+                    ? supportFilter(level).test(candle) : resistanceFilter(level).test(candle))
+                .sorted(Comparator.comparing(Candle::getDatetime))
+                .toList();
+            // find all level crossings
+            var levelCrossings = historicalCandles.stream()
+                .filter(candle -> candle.getL() <= level.getLevel() && candle.getH() >= level.getLevel())
+                .map(Candle::getDatetime)
+                .toList();
+
+            var intervals = levelCrossing.get(level.getLevelType()).apply(sorted, level);
+            // remove empty list && close retests
+            List<LocalDateTime> toRemove = new ArrayList<>();
+            intervals.forEach(((dateTime, candles) -> {
+                if (candles.isEmpty()) {
+                    toRemove.add(dateTime);
+                }
+                levelCrossings.stream()
+                    .filter(dateTime1 -> dateTime1.isBefore(dateTime))
+                    .filter(dateTime1 -> dateTime1 != dateTime)
+                    .filter(dateTime1 -> Duration.between(dateTime1, dateTime).abs().toDays() < CLOSE_RETEST_DAYS)
+                    .min(getClosestDateComparator(dateTime))
+                    .stream().findFirst()
+                    .ifPresent(dateTime1 -> toRemove.add(dateTime));
+            }));
+            toRemove.forEach(intervals::remove);
+
+            levelStatistic.get(level.getLevelType()).accept(intervals, level);
+        } catch (Exception e) {
+            log.error("Failed to analyze level statistic, ticker {}", level.getTicker(), e);
+        }
     }
 
     private static Comparator<LocalDateTime> getClosestDateComparator(LocalDateTime dateTime) {

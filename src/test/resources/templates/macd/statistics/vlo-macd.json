@@ -1,0 +1,3021 @@
+{
+  "meta": {
+    "symbol": "VLO",
+    "interval": "1day",
+    "currency": "USD",
+    "exchange_timezone": "America/New_York",
+    "exchange": "NYSE",
+    "mic_code": "XNYS",
+    "type": "Common Stock",
+    "indicator": {
+      "name": "MACD - Moving Average Convergence Divergence",
+      "series_type": "close",
+      "fast_period": 12,
+      "slow_period": 26,
+      "signal_period": 9
+    }
+  },
+  "values": [
+    {
+      "datetime": "2023-05-16",
+      "macd": "-4.72946",
+      "macd_signal": "-5.33127",
+      "macd_hist": "0.60181"
+    },
+    {
+      "datetime": "2023-05-15",
+      "macd": "-4.91964",
+      "macd_signal": "-5.48172",
+      "macd_hist": "0.56208"
+    },
+    {
+      "datetime": "2023-05-12",
+      "macd": "-5.42376",
+      "macd_signal": "-5.62225",
+      "macd_hist": "0.19848"
+    },
+    {
+      "datetime": "2023-05-11",
+      "macd": "-5.74497",
+      "macd_signal": "-5.67187",
+      "macd_hist": "-0.07311"
+    },
+    {
+      "datetime": "2023-05-10",
+      "macd": "-6.08564",
+      "macd_signal": "-5.65359",
+      "macd_hist": "-0.43205"
+    },
+    {
+      "datetime": "2023-05-09",
+      "macd": "-6.46757",
+      "macd_signal": "-5.54558",
+      "macd_hist": "-0.92200"
+    },
+    {
+      "datetime": "2023-05-08",
+      "macd": "-6.59524",
+      "macd_signal": "-5.31508",
+      "macd_hist": "-1.28017"
+    },
+    {
+      "datetime": "2023-05-05",
+      "macd": "-6.55841",
+      "macd_signal": "-4.99504",
+      "macd_hist": "-1.56337"
+    },
+    {
+      "datetime": "2023-05-04",
+      "macd": "-6.38138",
+      "macd_signal": "-4.60419",
+      "macd_hist": "-1.77719"
+    },
+    {
+      "datetime": "2023-05-03",
+      "macd": "-5.78465",
+      "macd_signal": "-4.15989",
+      "macd_hist": "-1.62475"
+    },
+    {
+      "datetime": "2023-05-02",
+      "macd": "-5.21885",
+      "macd_signal": "-3.75371",
+      "macd_hist": "-1.46515"
+    },
+    {
+      "datetime": "2023-05-01",
+      "macd": "-4.79955",
+      "macd_signal": "-3.38742",
+      "macd_hist": "-1.41213"
+    },
+    {
+      "datetime": "2023-04-28",
+      "macd": "-4.66598",
+      "macd_signal": "-3.03439",
+      "macd_hist": "-1.63159"
+    },
+    {
+      "datetime": "2023-04-27",
+      "macd": "-4.35227",
+      "macd_signal": "-2.62649",
+      "macd_hist": "-1.72578"
+    },
+    {
+      "datetime": "2023-04-26",
+      "macd": "-3.88551",
+      "macd_signal": "-2.19504",
+      "macd_hist": "-1.69047"
+    },
+    {
+      "datetime": "2023-04-25",
+      "macd": "-3.43687",
+      "macd_signal": "-1.77243",
+      "macd_hist": "-1.66444"
+    },
+    {
+      "datetime": "2023-04-24",
+      "macd": "-2.93746",
+      "macd_signal": "-1.35632",
+      "macd_hist": "-1.58114"
+    },
+    {
+      "datetime": "2023-04-21",
+      "macd": "-2.47620",
+      "macd_signal": "-0.96103",
+      "macd_hist": "-1.51517"
+    },
+    {
+      "datetime": "2023-04-20",
+      "macd": "-1.81378",
+      "macd_signal": "-0.58224",
+      "macd_hist": "-1.23154"
+    },
+    {
+      "datetime": "2023-04-19",
+      "macd": "-1.27995",
+      "macd_signal": "-0.27435",
+      "macd_hist": "-1.00559"
+    },
+    {
+      "datetime": "2023-04-18",
+      "macd": "-0.72760",
+      "macd_signal": "-0.02296",
+      "macd_hist": "-0.70465"
+    },
+    {
+      "datetime": "2023-04-17",
+      "macd": "-0.28795",
+      "macd_signal": "0.15321",
+      "macd_hist": "-0.44116"
+    },
+    {
+      "datetime": "2023-04-14",
+      "macd": "0.15623",
+      "macd_signal": "0.26350",
+      "macd_hist": "-0.10727"
+    },
+    {
+      "datetime": "2023-04-13",
+      "macd": "0.35841",
+      "macd_signal": "0.29031",
+      "macd_hist": "0.06810"
+    },
+    {
+      "datetime": "2023-04-12",
+      "macd": "0.48196",
+      "macd_signal": "0.27329",
+      "macd_hist": "0.20867"
+    },
+    {
+      "datetime": "2023-04-11",
+      "macd": "0.57256",
+      "macd_signal": "0.22112",
+      "macd_hist": "0.35144"
+    },
+    {
+      "datetime": "2023-04-10",
+      "macd": "0.37544",
+      "macd_signal": "0.13326",
+      "macd_hist": "0.24217"
+    },
+    {
+      "datetime": "2023-04-06",
+      "macd": "0.28230",
+      "macd_signal": "0.07272",
+      "macd_hist": "0.20958"
+    },
+    {
+      "datetime": "2023-04-05",
+      "macd": "0.41489",
+      "macd_signal": "0.02032",
+      "macd_hist": "0.39457"
+    },
+    {
+      "datetime": "2023-04-04",
+      "macd": "0.32354",
+      "macd_signal": "-0.07832",
+      "macd_hist": "0.40186"
+    },
+    {
+      "datetime": "2023-04-03",
+      "macd": "0.98216",
+      "macd_signal": "-0.17878",
+      "macd_hist": "1.16094"
+    },
+    {
+      "datetime": "2023-03-31",
+      "macd": "0.67833",
+      "macd_signal": "-0.46902",
+      "macd_hist": "1.14735"
+    },
+    {
+      "datetime": "2023-03-30",
+      "macd": "0.17173",
+      "macd_signal": "-0.75586",
+      "macd_hist": "0.92758"
+    },
+    {
+      "datetime": "2023-03-29",
+      "macd": "-0.21469",
+      "macd_signal": "-0.98775",
+      "macd_hist": "0.77306"
+    },
+    {
+      "datetime": "2023-03-28",
+      "macd": "-0.69765",
+      "macd_signal": "-1.18102",
+      "macd_hist": "0.48336"
+    },
+    {
+      "datetime": "2023-03-27",
+      "macd": "-1.20925",
+      "macd_signal": "-1.30186",
+      "macd_hist": "0.09261"
+    },
+    {
+      "datetime": "2023-03-24",
+      "macd": "-1.42312",
+      "macd_signal": "-1.32501",
+      "macd_hist": "-0.09811"
+    },
+    {
+      "datetime": "2023-03-23",
+      "macd": "-1.40863",
+      "macd_signal": "-1.30048",
+      "macd_hist": "-0.10815"
+    },
+    {
+      "datetime": "2023-03-22",
+      "macd": "-1.48368",
+      "macd_signal": "-1.27344",
+      "macd_hist": "-0.21023"
+    },
+    {
+      "datetime": "2023-03-21",
+      "macd": "-1.69942",
+      "macd_signal": "-1.22089",
+      "macd_hist": "-0.47853"
+    },
+    {
+      "datetime": "2023-03-20",
+      "macd": "-1.99282",
+      "macd_signal": "-1.10125",
+      "macd_hist": "-0.89157"
+    },
+    {
+      "datetime": "2023-03-17",
+      "macd": "-2.00436",
+      "macd_signal": "-0.87836",
+      "macd_hist": "-1.12600"
+    },
+    {
+      "datetime": "2023-03-16",
+      "macd": "-1.73132",
+      "macd_signal": "-0.59686",
+      "macd_hist": "-1.13447"
+    },
+    {
+      "datetime": "2023-03-15",
+      "macd": "-1.43910",
+      "macd_signal": "-0.31324",
+      "macd_hist": "-1.12585"
+    },
+    {
+      "datetime": "2023-03-14",
+      "macd": "-0.75601",
+      "macd_signal": "-0.03178",
+      "macd_hist": "-0.72423"
+    },
+    {
+      "datetime": "2023-03-13",
+      "macd": "-0.61541",
+      "macd_signal": "0.14928",
+      "macd_hist": "-0.76469"
+    },
+    {
+      "datetime": "2023-03-10",
+      "macd": "-0.06961",
+      "macd_signal": "0.34045",
+      "macd_hist": "-0.41006"
+    },
+    {
+      "datetime": "2023-03-09",
+      "macd": "0.21568",
+      "macd_signal": "0.44297",
+      "macd_hist": "-0.22729"
+    },
+    {
+      "datetime": "2023-03-08",
+      "macd": "0.56445",
+      "macd_signal": "0.49979",
+      "macd_hist": "0.06466"
+    },
+    {
+      "datetime": "2023-03-07",
+      "macd": "0.95151",
+      "macd_signal": "0.48362",
+      "macd_hist": "0.46788"
+    },
+    {
+      "datetime": "2023-03-06",
+      "macd": "1.00508",
+      "macd_signal": "0.36665",
+      "macd_hist": "0.63842"
+    },
+    {
+      "datetime": "2023-03-03",
+      "macd": "0.78087",
+      "macd_signal": "0.20705",
+      "macd_hist": "0.57382"
+    },
+    {
+      "datetime": "2023-03-02",
+      "macd": "0.33265",
+      "macd_signal": "0.06359",
+      "macd_hist": "0.26905"
+    },
+    {
+      "datetime": "2023-03-01",
+      "macd": "-0.04676",
+      "macd_signal": "-0.00367",
+      "macd_hist": "-0.04309"
+    },
+    {
+      "datetime": "2023-02-28",
+      "macd": "-0.53644",
+      "macd_signal": "0.00710",
+      "macd_hist": "-0.54355"
+    },
+    {
+      "datetime": "2023-02-27",
+      "macd": "-0.38391",
+      "macd_signal": "0.14299",
+      "macd_hist": "-0.52690"
+    },
+    {
+      "datetime": "2023-02-24",
+      "macd": "-0.52168",
+      "macd_signal": "0.27471",
+      "macd_hist": "-0.79640"
+    },
+    {
+      "datetime": "2023-02-23",
+      "macd": "-0.45575",
+      "macd_signal": "0.47381",
+      "macd_hist": "-0.92957"
+    },
+    {
+      "datetime": "2023-02-22",
+      "macd": "-0.33240",
+      "macd_signal": "0.70620",
+      "macd_hist": "-1.03860"
+    },
+    {
+      "datetime": "2023-02-21",
+      "macd": "0.00705",
+      "macd_signal": "0.96585",
+      "macd_hist": "-0.95880"
+    },
+    {
+      "datetime": "2023-02-17",
+      "macd": "0.28647",
+      "macd_signal": "1.20555",
+      "macd_hist": "-0.91909"
+    },
+    {
+      "datetime": "2023-02-16",
+      "macd": "0.90264",
+      "macd_signal": "1.43533",
+      "macd_hist": "-0.53269"
+    },
+    {
+      "datetime": "2023-02-15",
+      "macd": "1.23205",
+      "macd_signal": "1.56850",
+      "macd_hist": "-0.33645"
+    },
+    {
+      "datetime": "2023-02-14",
+      "macd": "1.39020",
+      "macd_signal": "1.65261",
+      "macd_hist": "-0.26241"
+    },
+    {
+      "datetime": "2023-02-13",
+      "macd": "1.23381",
+      "macd_signal": "1.71821",
+      "macd_hist": "-0.48440"
+    },
+    {
+      "datetime": "2023-02-10",
+      "macd": "1.00505",
+      "macd_signal": "1.83931",
+      "macd_hist": "-0.83426"
+    },
+    {
+      "datetime": "2023-02-09",
+      "macd": "0.60377",
+      "macd_signal": "2.04788",
+      "macd_hist": "-1.44411"
+    },
+    {
+      "datetime": "2023-02-08",
+      "macd": "0.90854",
+      "macd_signal": "2.40890",
+      "macd_hist": "-1.50036"
+    },
+    {
+      "datetime": "2023-02-07",
+      "macd": "1.13160",
+      "macd_signal": "2.78399",
+      "macd_hist": "-1.65239"
+    },
+    {
+      "datetime": "2023-02-06",
+      "macd": "1.35912",
+      "macd_signal": "3.19709",
+      "macd_hist": "-1.83798"
+    },
+    {
+      "datetime": "2023-02-03",
+      "macd": "2.28444",
+      "macd_signal": "3.65659",
+      "macd_hist": "-1.37215"
+    },
+    {
+      "datetime": "2023-02-02",
+      "macd": "3.06163",
+      "macd_signal": "3.99963",
+      "macd_hist": "-0.93799"
+    },
+    {
+      "datetime": "2023-02-01",
+      "macd": "3.87468",
+      "macd_signal": "4.23412",
+      "macd_hist": "-0.35944"
+    },
+    {
+      "datetime": "2023-01-31",
+      "macd": "4.53229",
+      "macd_signal": "4.32398",
+      "macd_hist": "0.20831"
+    },
+    {
+      "datetime": "2023-01-30",
+      "macd": "4.91881",
+      "macd_signal": "4.27191",
+      "macd_hist": "0.64690"
+    },
+    {
+      "datetime": "2023-01-27",
+      "macd": "5.32430",
+      "macd_signal": "4.11018",
+      "macd_hist": "1.21412"
+    },
+    {
+      "datetime": "2023-01-26",
+      "macd": "5.45692",
+      "macd_signal": "3.80665",
+      "macd_hist": "1.65027"
+    },
+    {
+      "datetime": "2023-01-25",
+      "macd": "4.85955",
+      "macd_signal": "3.39409",
+      "macd_hist": "1.46547"
+    },
+    {
+      "datetime": "2023-01-24",
+      "macd": "4.69943",
+      "macd_signal": "3.02772",
+      "macd_hist": "1.67171"
+    },
+    {
+      "datetime": "2023-01-23",
+      "macd": "4.25564",
+      "macd_signal": "2.60979",
+      "macd_hist": "1.64584"
+    },
+    {
+      "datetime": "2023-01-20",
+      "macd": "3.82584",
+      "macd_signal": "2.19833",
+      "macd_hist": "1.62751"
+    },
+    {
+      "datetime": "2023-01-19",
+      "macd": "3.25726",
+      "macd_signal": "1.79145",
+      "macd_hist": "1.46580"
+    },
+    {
+      "datetime": "2023-01-18",
+      "macd": "2.91790",
+      "macd_signal": "1.42500",
+      "macd_hist": "1.49290"
+    },
+    {
+      "datetime": "2023-01-17",
+      "macd": "2.74269",
+      "macd_signal": "1.05178",
+      "macd_hist": "1.69091"
+    },
+    {
+      "datetime": "2023-01-13",
+      "macd": "2.26635",
+      "macd_signal": "0.62905",
+      "macd_hist": "1.63730"
+    },
+    {
+      "datetime": "2023-01-12",
+      "macd": "1.77610",
+      "macd_signal": "0.21973",
+      "macd_hist": "1.55638"
+    },
+    {
+      "datetime": "2023-01-11",
+      "macd": "1.20700",
+      "macd_signal": "-0.16937",
+      "macd_hist": "1.37637"
+    },
+    {
+      "datetime": "2023-01-10",
+      "macd": "0.63820",
+      "macd_signal": "-0.51346",
+      "macd_hist": "1.15166"
+    },
+    {
+      "datetime": "2023-01-09",
+      "macd": "0.06480",
+      "macd_signal": "-0.80137",
+      "macd_hist": "0.86617"
+    },
+    {
+      "datetime": "2023-01-06",
+      "macd": "-0.31877",
+      "macd_signal": "-1.01792",
+      "macd_hist": "0.69915"
+    },
+    {
+      "datetime": "2023-01-05",
+      "macd": "-0.69985",
+      "macd_signal": "-1.19270",
+      "macd_hist": "0.49286"
+    },
+    {
+      "datetime": "2023-01-04",
+      "macd": "-1.07730",
+      "macd_signal": "-1.31592",
+      "macd_hist": "0.23862"
+    },
+    {
+      "datetime": "2023-01-03",
+      "macd": "-0.83373",
+      "macd_signal": "-1.37557",
+      "macd_hist": "0.54184"
+    },
+    {
+      "datetime": "2022-12-30",
+      "macd": "-0.55348",
+      "macd_signal": "-1.51103",
+      "macd_hist": "0.95755"
+    },
+    {
+      "datetime": "2022-12-29",
+      "macd": "-0.88213",
+      "macd_signal": "-1.75042",
+      "macd_hist": "0.86830"
+    },
+    {
+      "datetime": "2022-12-28",
+      "macd": "-1.23379",
+      "macd_signal": "-1.96750",
+      "macd_hist": "0.73371"
+    },
+    {
+      "datetime": "2022-12-27",
+      "macd": "-1.56592",
+      "macd_signal": "-2.15092",
+      "macd_hist": "0.58500"
+    },
+    {
+      "datetime": "2022-12-23",
+      "macd": "-2.07500",
+      "macd_signal": "-2.29717",
+      "macd_hist": "0.22218"
+    },
+    {
+      "datetime": "2022-12-22",
+      "macd": "-2.48687",
+      "macd_signal": "-2.35272",
+      "macd_hist": "-0.13416"
+    },
+    {
+      "datetime": "2022-12-21",
+      "macd": "-2.49277",
+      "macd_signal": "-2.31918",
+      "macd_hist": "-0.17359"
+    },
+    {
+      "datetime": "2022-12-20",
+      "macd": "-2.77560",
+      "macd_signal": "-2.27578",
+      "macd_hist": "-0.49982"
+    },
+    {
+      "datetime": "2022-12-19",
+      "macd": "-3.01476",
+      "macd_signal": "-2.15083",
+      "macd_hist": "-0.86394"
+    },
+    {
+      "datetime": "2022-12-16",
+      "macd": "-3.05523",
+      "macd_signal": "-1.93484",
+      "macd_hist": "-1.12039"
+    },
+    {
+      "datetime": "2022-12-15",
+      "macd": "-3.02782",
+      "macd_signal": "-1.65475",
+      "macd_hist": "-1.37308"
+    },
+    {
+      "datetime": "2022-12-14",
+      "macd": "-3.00480",
+      "macd_signal": "-1.31148",
+      "macd_hist": "-1.69332"
+    },
+    {
+      "datetime": "2022-12-13",
+      "macd": "-2.91236",
+      "macd_signal": "-0.88815",
+      "macd_hist": "-2.02421"
+    },
+    {
+      "datetime": "2022-12-12",
+      "macd": "-2.83347",
+      "macd_signal": "-0.38209",
+      "macd_hist": "-2.45137"
+    },
+    {
+      "datetime": "2022-12-09",
+      "macd": "-2.70479",
+      "macd_signal": "0.23075",
+      "macd_hist": "-2.93554"
+    },
+    {
+      "datetime": "2022-12-08",
+      "macd": "-1.88929",
+      "macd_signal": "0.96464",
+      "macd_hist": "-2.85392"
+    },
+    {
+      "datetime": "2022-12-07",
+      "macd": "-1.05002",
+      "macd_signal": "1.67812",
+      "macd_hist": "-2.72814"
+    },
+    {
+      "datetime": "2022-12-06",
+      "macd": "-0.29852",
+      "macd_signal": "2.36015",
+      "macd_hist": "-2.65867"
+    },
+    {
+      "datetime": "2022-12-05",
+      "macd": "0.80044",
+      "macd_signal": "3.02482",
+      "macd_hist": "-2.22438"
+    },
+    {
+      "datetime": "2022-12-02",
+      "macd": "1.97764",
+      "macd_signal": "3.58091",
+      "macd_hist": "-1.60327"
+    },
+    {
+      "datetime": "2022-12-01",
+      "macd": "2.82930",
+      "macd_signal": "3.98173",
+      "macd_hist": "-1.15243"
+    },
+    {
+      "datetime": "2022-11-30",
+      "macd": "3.37016",
+      "macd_signal": "4.26984",
+      "macd_hist": "-0.89968"
+    },
+    {
+      "datetime": "2022-11-29",
+      "macd": "3.84958",
+      "macd_signal": "4.49476",
+      "macd_hist": "-0.64517"
+    },
+    {
+      "datetime": "2022-11-28",
+      "macd": "4.24464",
+      "macd_signal": "4.65605",
+      "macd_hist": "-0.41142"
+    },
+    {
+      "datetime": "2022-11-25",
+      "macd": "4.72378",
+      "macd_signal": "4.75890",
+      "macd_hist": "-0.03513"
+    },
+    {
+      "datetime": "2022-11-23",
+      "macd": "4.90416",
+      "macd_signal": "4.76769",
+      "macd_hist": "0.13647"
+    },
+    {
+      "datetime": "2022-11-22",
+      "macd": "4.98058",
+      "macd_signal": "4.73357",
+      "macd_hist": "0.24701"
+    },
+    {
+      "datetime": "2022-11-21",
+      "macd": "4.72364",
+      "macd_signal": "4.67181",
+      "macd_hist": "0.05183"
+    },
+    {
+      "datetime": "2022-11-18",
+      "macd": "4.93994",
+      "macd_signal": "4.65886",
+      "macd_hist": "0.28108"
+    },
+    {
+      "datetime": "2022-11-17",
+      "macd": "4.97513",
+      "macd_signal": "4.58859",
+      "macd_hist": "0.38654"
+    },
+    {
+      "datetime": "2022-11-16",
+      "macd": "4.91816",
+      "macd_signal": "4.49195",
+      "macd_hist": "0.42621"
+    },
+    {
+      "datetime": "2022-11-15",
+      "macd": "5.01624",
+      "macd_signal": "4.38540",
+      "macd_hist": "0.63084"
+    },
+    {
+      "datetime": "2022-11-14",
+      "macd": "4.54103",
+      "macd_signal": "4.22769",
+      "macd_hist": "0.31334"
+    },
+    {
+      "datetime": "2022-11-11",
+      "macd": "4.26656",
+      "macd_signal": "4.14936",
+      "macd_hist": "0.11720"
+    },
+    {
+      "datetime": "2022-11-10",
+      "macd": "4.14334",
+      "macd_signal": "4.12005",
+      "macd_hist": "0.02328"
+    },
+    {
+      "datetime": "2022-11-09",
+      "macd": "4.07954",
+      "macd_signal": "4.11423",
+      "macd_hist": "-0.03469"
+    },
+    {
+      "datetime": "2022-11-08",
+      "macd": "4.39186",
+      "macd_signal": "4.12291",
+      "macd_hist": "0.26895"
+    },
+    {
+      "datetime": "2022-11-07",
+      "macd": "4.29389",
+      "macd_signal": "4.05567",
+      "macd_hist": "0.23822"
+    },
+    {
+      "datetime": "2022-11-04",
+      "macd": "4.15424",
+      "macd_signal": "3.99611",
+      "macd_hist": "0.15813"
+    },
+    {
+      "datetime": "2022-11-03",
+      "macd": "4.22713",
+      "macd_signal": "3.95658",
+      "macd_hist": "0.27055"
+    },
+    {
+      "datetime": "2022-11-02",
+      "macd": "4.15789",
+      "macd_signal": "3.88894",
+      "macd_hist": "0.26894"
+    },
+    {
+      "datetime": "2022-11-01",
+      "macd": "4.40408",
+      "macd_signal": "3.82171",
+      "macd_hist": "0.58237"
+    },
+    {
+      "datetime": "2022-10-31",
+      "macd": "4.22967",
+      "macd_signal": "3.67612",
+      "macd_hist": "0.55355"
+    },
+    {
+      "datetime": "2022-10-28",
+      "macd": "4.39863",
+      "macd_signal": "3.53773",
+      "macd_hist": "0.86090"
+    },
+    {
+      "datetime": "2022-10-27",
+      "macd": "4.50652",
+      "macd_signal": "3.32251",
+      "macd_hist": "1.18401"
+    },
+    {
+      "datetime": "2022-10-26",
+      "macd": "4.34551",
+      "macd_signal": "3.02650",
+      "macd_hist": "1.31901"
+    },
+    {
+      "datetime": "2022-10-25",
+      "macd": "4.23258",
+      "macd_signal": "2.69675",
+      "macd_hist": "1.53583"
+    },
+    {
+      "datetime": "2022-10-24",
+      "macd": "4.02077",
+      "macd_signal": "2.31279",
+      "macd_hist": "1.70798"
+    },
+    {
+      "datetime": "2022-10-21",
+      "macd": "3.44554",
+      "macd_signal": "1.88580",
+      "macd_hist": "1.55974"
+    },
+    {
+      "datetime": "2022-10-20",
+      "macd": "2.81191",
+      "macd_signal": "1.49586",
+      "macd_hist": "1.31605"
+    },
+    {
+      "datetime": "2022-10-19",
+      "macd": "2.29826",
+      "macd_signal": "1.16685",
+      "macd_hist": "1.13141"
+    },
+    {
+      "datetime": "2022-10-18",
+      "macd": "1.65811",
+      "macd_signal": "0.88400",
+      "macd_hist": "0.77411"
+    },
+    {
+      "datetime": "2022-10-17",
+      "macd": "1.45431",
+      "macd_signal": "0.69047",
+      "macd_hist": "0.76384"
+    },
+    {
+      "datetime": "2022-10-14",
+      "macd": "1.39702",
+      "macd_signal": "0.49951",
+      "macd_hist": "0.89751"
+    },
+    {
+      "datetime": "2022-10-13",
+      "macd": "1.44410",
+      "macd_signal": "0.27513",
+      "macd_hist": "1.16897"
+    },
+    {
+      "datetime": "2022-10-12",
+      "macd": "0.79692",
+      "macd_signal": "-0.01711",
+      "macd_hist": "0.81403"
+    },
+    {
+      "datetime": "2022-10-11",
+      "macd": "0.53559",
+      "macd_signal": "-0.22062",
+      "macd_hist": "0.75621"
+    },
+    {
+      "datetime": "2022-10-10",
+      "macd": "0.75527",
+      "macd_signal": "-0.40967",
+      "macd_hist": "1.16494"
+    },
+    {
+      "datetime": "2022-10-07",
+      "macd": "0.90554",
+      "macd_signal": "-0.70091",
+      "macd_hist": "1.60645"
+    },
+    {
+      "datetime": "2022-10-06",
+      "macd": "0.78686",
+      "macd_signal": "-1.10252",
+      "macd_hist": "1.88938"
+    },
+    {
+      "datetime": "2022-10-05",
+      "macd": "0.07005",
+      "macd_signal": "-1.57486",
+      "macd_hist": "1.64492"
+    },
+    {
+      "datetime": "2022-10-04",
+      "macd": "-0.73083",
+      "macd_signal": "-1.98609",
+      "macd_hist": "1.25527"
+    },
+    {
+      "datetime": "2022-10-03",
+      "macd": "-1.69048",
+      "macd_signal": "-2.29991",
+      "macd_hist": "0.60943"
+    },
+    {
+      "datetime": "2022-09-30",
+      "macd": "-2.35418",
+      "macd_signal": "-2.45227",
+      "macd_hist": "0.09809"
+    },
+    {
+      "datetime": "2022-09-29",
+      "macd": "-2.61113",
+      "macd_signal": "-2.47679",
+      "macd_hist": "-0.13434"
+    },
+    {
+      "datetime": "2022-09-28",
+      "macd": "-2.94081",
+      "macd_signal": "-2.44320",
+      "macd_hist": "-0.49761"
+    },
+    {
+      "datetime": "2022-09-27",
+      "macd": "-3.47768",
+      "macd_signal": "-2.31880",
+      "macd_hist": "-1.15888"
+    },
+    {
+      "datetime": "2022-09-26",
+      "macd": "-3.33545",
+      "macd_signal": "-2.02908",
+      "macd_hist": "-1.30637"
+    },
+    {
+      "datetime": "2022-09-23",
+      "macd": "-2.77145",
+      "macd_signal": "-1.70249",
+      "macd_hist": "-1.06896"
+    },
+    {
+      "datetime": "2022-09-22",
+      "macd": "-2.28413",
+      "macd_signal": "-1.43525",
+      "macd_hist": "-0.84888"
+    },
+    {
+      "datetime": "2022-09-21",
+      "macd": "-2.34367",
+      "macd_signal": "-1.22303",
+      "macd_hist": "-1.12064"
+    },
+    {
+      "datetime": "2022-09-20",
+      "macd": "-2.17583",
+      "macd_signal": "-0.94287",
+      "macd_hist": "-1.23296"
+    },
+    {
+      "datetime": "2022-09-19",
+      "macd": "-2.12240",
+      "macd_signal": "-0.63463",
+      "macd_hist": "-1.48777"
+    },
+    {
+      "datetime": "2022-09-16",
+      "macd": "-1.74333",
+      "macd_signal": "-0.26269",
+      "macd_hist": "-1.48064"
+    },
+    {
+      "datetime": "2022-09-15",
+      "macd": "-1.21276",
+      "macd_signal": "0.10747",
+      "macd_hist": "-1.32023"
+    },
+    {
+      "datetime": "2022-09-14",
+      "macd": "-0.58919",
+      "macd_signal": "0.43753",
+      "macd_hist": "-1.02672"
+    },
+    {
+      "datetime": "2022-09-13",
+      "macd": "-0.23578",
+      "macd_signal": "0.69421",
+      "macd_hist": "-0.92999"
+    },
+    {
+      "datetime": "2022-09-12",
+      "macd": "0.04158",
+      "macd_signal": "0.92671",
+      "macd_hist": "-0.88513"
+    },
+    {
+      "datetime": "2022-09-09",
+      "macd": "0.09766",
+      "macd_signal": "1.14799",
+      "macd_hist": "-1.05033"
+    },
+    {
+      "datetime": "2022-09-08",
+      "macd": "0.26252",
+      "macd_signal": "1.41058",
+      "macd_hist": "-1.14805"
+    },
+    {
+      "datetime": "2022-09-07",
+      "macd": "0.61066",
+      "macd_signal": "1.69759",
+      "macd_hist": "-1.08693"
+    },
+    {
+      "datetime": "2022-09-06",
+      "macd": "0.97586",
+      "macd_signal": "1.96932",
+      "macd_hist": "-0.99346"
+    },
+    {
+      "datetime": "2022-09-02",
+      "macd": "1.41151",
+      "macd_signal": "2.21769",
+      "macd_hist": "-0.80618"
+    },
+    {
+      "datetime": "2022-09-01",
+      "macd": "1.84113",
+      "macd_signal": "2.41923",
+      "macd_hist": "-0.57810"
+    },
+    {
+      "datetime": "2022-08-31",
+      "macd": "2.68649",
+      "macd_signal": "2.56376",
+      "macd_hist": "0.12273"
+    },
+    {
+      "datetime": "2022-08-30",
+      "macd": "3.06661",
+      "macd_signal": "2.53308",
+      "macd_hist": "0.53354"
+    },
+    {
+      "datetime": "2022-08-29",
+      "macd": "3.41453",
+      "macd_signal": "2.39969",
+      "macd_hist": "1.01484"
+    },
+    {
+      "datetime": "2022-08-26",
+      "macd": "3.26014",
+      "macd_signal": "2.14598",
+      "macd_hist": "1.11416"
+    },
+    {
+      "datetime": "2022-08-25",
+      "macd": "3.17245",
+      "macd_signal": "1.86744",
+      "macd_hist": "1.30501"
+    },
+    {
+      "datetime": "2022-08-24",
+      "macd": "2.86370",
+      "macd_signal": "1.54119",
+      "macd_hist": "1.32251"
+    },
+    {
+      "datetime": "2022-08-23",
+      "macd": "2.55422",
+      "macd_signal": "1.21056",
+      "macd_hist": "1.34365"
+    },
+    {
+      "datetime": "2022-08-22",
+      "macd": "2.12307",
+      "macd_signal": "0.87465",
+      "macd_hist": "1.24842"
+    },
+    {
+      "datetime": "2022-08-19",
+      "macd": "1.84531",
+      "macd_signal": "0.56254",
+      "macd_hist": "1.28277"
+    },
+    {
+      "datetime": "2022-08-18",
+      "macd": "1.52300",
+      "macd_signal": "0.24185",
+      "macd_hist": "1.28115"
+    },
+    {
+      "datetime": "2022-08-17",
+      "macd": "1.06503",
+      "macd_signal": "-0.07844",
+      "macd_hist": "1.14347"
+    },
+    {
+      "datetime": "2022-08-16",
+      "macd": "0.57089",
+      "macd_signal": "-0.36430",
+      "macd_hist": "0.93519"
+    },
+    {
+      "datetime": "2022-08-15",
+      "macd": "0.38396",
+      "macd_signal": "-0.59810",
+      "macd_hist": "0.98206"
+    },
+    {
+      "datetime": "2022-08-12",
+      "macd": "0.27825",
+      "macd_signal": "-0.84362",
+      "macd_hist": "1.12187"
+    },
+    {
+      "datetime": "2022-08-11",
+      "macd": "-0.19061",
+      "macd_signal": "-1.12408",
+      "macd_hist": "0.93348"
+    },
+    {
+      "datetime": "2022-08-10",
+      "macd": "-0.67427",
+      "macd_signal": "-1.35745",
+      "macd_hist": "0.68318"
+    },
+    {
+      "datetime": "2022-08-09",
+      "macd": "-1.04455",
+      "macd_signal": "-1.52825",
+      "macd_hist": "0.48369"
+    },
+    {
+      "datetime": "2022-08-08",
+      "macd": "-1.39100",
+      "macd_signal": "-1.64917",
+      "macd_hist": "0.25818"
+    },
+    {
+      "datetime": "2022-08-05",
+      "macd": "-1.37717",
+      "macd_signal": "-1.71372",
+      "macd_hist": "0.33655"
+    },
+    {
+      "datetime": "2022-08-04",
+      "macd": "-1.19694",
+      "macd_signal": "-1.79785",
+      "macd_hist": "0.60091"
+    },
+    {
+      "datetime": "2022-08-03",
+      "macd": "-0.88230",
+      "macd_signal": "-1.94808",
+      "macd_hist": "1.06579"
+    },
+    {
+      "datetime": "2022-08-02",
+      "macd": "-0.82219",
+      "macd_signal": "-2.21453",
+      "macd_hist": "1.39234"
+    },
+    {
+      "datetime": "2022-08-01",
+      "macd": "-1.26093",
+      "macd_signal": "-2.56261",
+      "macd_hist": "1.30168"
+    },
+    {
+      "datetime": "2022-07-29",
+      "macd": "-1.56433",
+      "macd_signal": "-2.88803",
+      "macd_hist": "1.32371"
+    },
+    {
+      "datetime": "2022-07-28",
+      "macd": "-1.94103",
+      "macd_signal": "-3.21896",
+      "macd_hist": "1.27793"
+    },
+    {
+      "datetime": "2022-07-27",
+      "macd": "-2.26533",
+      "macd_signal": "-3.53844",
+      "macd_hist": "1.27312"
+    },
+    {
+      "datetime": "2022-07-26",
+      "macd": "-2.84891",
+      "macd_signal": "-3.85672",
+      "macd_hist": "1.00781"
+    },
+    {
+      "datetime": "2022-07-25",
+      "macd": "-3.15830",
+      "macd_signal": "-4.10868",
+      "macd_hist": "0.95037"
+    },
+    {
+      "datetime": "2022-07-22",
+      "macd": "-3.67933",
+      "macd_signal": "-4.34627",
+      "macd_hist": "0.66694"
+    },
+    {
+      "datetime": "2022-07-21",
+      "macd": "-3.75120",
+      "macd_signal": "-4.51300",
+      "macd_hist": "0.76181"
+    },
+    {
+      "datetime": "2022-07-20",
+      "macd": "-3.80160",
+      "macd_signal": "-4.70346",
+      "macd_hist": "0.90186"
+    },
+    {
+      "datetime": "2022-07-19",
+      "macd": "-4.33296",
+      "macd_signal": "-4.92892",
+      "macd_hist": "0.59596"
+    },
+    {
+      "datetime": "2022-07-18",
+      "macd": "-4.89317",
+      "macd_signal": "-5.07791",
+      "macd_hist": "0.18474"
+    },
+    {
+      "datetime": "2022-07-15",
+      "macd": "-5.28960",
+      "macd_signal": "-5.12409",
+      "macd_hist": "-0.16551"
+    },
+    {
+      "datetime": "2022-07-14",
+      "macd": "-5.54353",
+      "macd_signal": "-5.08272",
+      "macd_hist": "-0.46081"
+    },
+    {
+      "datetime": "2022-07-13",
+      "macd": "-5.39907",
+      "macd_signal": "-4.96751",
+      "macd_hist": "-0.43156"
+    },
+    {
+      "datetime": "2022-07-12",
+      "macd": "-5.30009",
+      "macd_signal": "-4.85962",
+      "macd_hist": "-0.44047"
+    },
+    {
+      "datetime": "2022-07-11",
+      "macd": "-5.34815",
+      "macd_signal": "-4.74951",
+      "macd_hist": "-0.59865"
+    },
+    {
+      "datetime": "2022-07-08",
+      "macd": "-5.63003",
+      "macd_signal": "-4.59984",
+      "macd_hist": "-1.03019"
+    },
+    {
+      "datetime": "2022-07-07",
+      "macd": "-5.83054",
+      "macd_signal": "-4.34230",
+      "macd_hist": "-1.48824"
+    },
+    {
+      "datetime": "2022-07-06",
+      "macd": "-5.93139",
+      "macd_signal": "-3.97024",
+      "macd_hist": "-1.96115"
+    },
+    {
+      "datetime": "2022-07-05",
+      "macd": "-5.50243",
+      "macd_signal": "-3.47995",
+      "macd_hist": "-2.02248"
+    },
+    {
+      "datetime": "2022-07-01",
+      "macd": "-5.06630",
+      "macd_signal": "-2.97433",
+      "macd_hist": "-2.09197"
+    },
+    {
+      "datetime": "2022-06-30",
+      "macd": "-4.88293",
+      "macd_signal": "-2.45134",
+      "macd_hist": "-2.43159"
+    },
+    {
+      "datetime": "2022-06-29",
+      "macd": "-4.40476",
+      "macd_signal": "-1.84344",
+      "macd_hist": "-2.56132"
+    },
+    {
+      "datetime": "2022-06-28",
+      "macd": "-3.99206",
+      "macd_signal": "-1.20311",
+      "macd_hist": "-2.78895"
+    },
+    {
+      "datetime": "2022-06-27",
+      "macd": "-4.16068",
+      "macd_signal": "-0.50587",
+      "macd_hist": "-3.65481"
+    },
+    {
+      "datetime": "2022-06-24",
+      "macd": "-3.90710",
+      "macd_signal": "0.40783",
+      "macd_hist": "-4.31493"
+    },
+    {
+      "datetime": "2022-06-23",
+      "macd": "-2.68049",
+      "macd_signal": "1.48656",
+      "macd_hist": "-4.16705"
+    },
+    {
+      "datetime": "2022-06-22",
+      "macd": "-1.13700",
+      "macd_signal": "2.52832",
+      "macd_hist": "-3.66533"
+    },
+    {
+      "datetime": "2022-06-21",
+      "macd": "-0.02604",
+      "macd_signal": "3.44466",
+      "macd_hist": "-3.47070"
+    },
+    {
+      "datetime": "2022-06-17",
+      "macd": "1.05225",
+      "macd_signal": "4.31233",
+      "macd_hist": "-3.26008"
+    },
+    {
+      "datetime": "2022-06-16",
+      "macd": "2.82357",
+      "macd_signal": "5.12735",
+      "macd_hist": "-2.30378"
+    },
+    {
+      "datetime": "2022-06-15",
+      "macd": "4.40189",
+      "macd_signal": "5.70330",
+      "macd_hist": "-1.30141"
+    },
+    {
+      "datetime": "2022-06-14",
+      "macd": "5.37899",
+      "macd_signal": "6.02865",
+      "macd_hist": "-0.64966"
+    },
+    {
+      "datetime": "2022-06-13",
+      "macd": "5.99298",
+      "macd_signal": "6.19106",
+      "macd_hist": "-0.19809"
+    },
+    {
+      "datetime": "2022-06-10",
+      "macd": "6.90737",
+      "macd_signal": "6.24058",
+      "macd_hist": "0.66678"
+    },
+    {
+      "datetime": "2022-06-09",
+      "macd": "7.06781",
+      "macd_signal": "6.07389",
+      "macd_hist": "0.99392"
+    },
+    {
+      "datetime": "2022-06-08",
+      "macd": "6.87451",
+      "macd_signal": "5.82541",
+      "macd_hist": "1.04910"
+    },
+    {
+      "datetime": "2022-06-07",
+      "macd": "6.49115",
+      "macd_signal": "5.56313",
+      "macd_hist": "0.92802"
+    },
+    {
+      "datetime": "2022-06-06",
+      "macd": "5.77404",
+      "macd_signal": "5.33113",
+      "macd_hist": "0.44292"
+    },
+    {
+      "datetime": "2022-06-03",
+      "macd": "5.42539",
+      "macd_signal": "5.22040",
+      "macd_hist": "0.20499"
+    },
+    {
+      "datetime": "2022-06-02",
+      "macd": "5.23440",
+      "macd_signal": "5.16915",
+      "macd_hist": "0.06525"
+    },
+    {
+      "datetime": "2022-06-01",
+      "macd": "5.09777",
+      "macd_signal": "5.15284",
+      "macd_hist": "-0.05507"
+    },
+    {
+      "datetime": "2022-05-31",
+      "macd": "4.95818",
+      "macd_signal": "5.16661",
+      "macd_hist": "-0.20843"
+    },
+    {
+      "datetime": "2022-05-27",
+      "macd": "5.00826",
+      "macd_signal": "5.21871",
+      "macd_hist": "-0.21046"
+    },
+    {
+      "datetime": "2022-05-26",
+      "macd": "4.77430",
+      "macd_signal": "5.27133",
+      "macd_hist": "-0.49702"
+    },
+    {
+      "datetime": "2022-05-25",
+      "macd": "4.78196",
+      "macd_signal": "5.39558",
+      "macd_hist": "-0.61362"
+    },
+    {
+      "datetime": "2022-05-24",
+      "macd": "4.80160",
+      "macd_signal": "5.54899",
+      "macd_hist": "-0.74739"
+    },
+    {
+      "datetime": "2022-05-23",
+      "macd": "5.07551",
+      "macd_signal": "5.73584",
+      "macd_hist": "-0.66033"
+    },
+    {
+      "datetime": "2022-05-20",
+      "macd": "5.37675",
+      "macd_signal": "5.90092",
+      "macd_hist": "-0.52417"
+    },
+    {
+      "datetime": "2022-05-19",
+      "macd": "5.78281",
+      "macd_signal": "6.03196",
+      "macd_hist": "-0.24915"
+    },
+    {
+      "datetime": "2022-05-18",
+      "macd": "6.08666",
+      "macd_signal": "6.09425",
+      "macd_hist": "-0.00759"
+    },
+    {
+      "datetime": "2022-05-17",
+      "macd": "6.34318",
+      "macd_signal": "6.09615",
+      "macd_hist": "0.24704"
+    },
+    {
+      "datetime": "2022-05-16",
+      "macd": "6.23419",
+      "macd_signal": "6.03439",
+      "macd_hist": "0.19980"
+    },
+    {
+      "datetime": "2022-05-13",
+      "macd": "6.03290",
+      "macd_signal": "5.98444",
+      "macd_hist": "0.04846"
+    },
+    {
+      "datetime": "2022-05-12",
+      "macd": "6.00184",
+      "macd_signal": "5.97232",
+      "macd_hist": "0.02951"
+    },
+    {
+      "datetime": "2022-05-11",
+      "macd": "6.31168",
+      "macd_signal": "5.96494",
+      "macd_hist": "0.34674"
+    },
+    {
+      "datetime": "2022-05-10",
+      "macd": "6.61434",
+      "macd_signal": "5.87826",
+      "macd_hist": "0.73608"
+    },
+    {
+      "datetime": "2022-05-09",
+      "macd": "6.84843",
+      "macd_signal": "5.69424",
+      "macd_hist": "1.15419"
+    },
+    {
+      "datetime": "2022-05-06",
+      "macd": "7.30418",
+      "macd_signal": "5.40569",
+      "macd_hist": "1.89849"
+    },
+    {
+      "datetime": "2022-05-05",
+      "macd": "6.68714",
+      "macd_signal": "4.93107",
+      "macd_hist": "1.75607"
+    },
+    {
+      "datetime": "2022-05-04",
+      "macd": "6.14338",
+      "macd_signal": "4.49205",
+      "macd_hist": "1.65134"
+    },
+    {
+      "datetime": "2022-05-03",
+      "macd": "5.11564",
+      "macd_signal": "4.07921",
+      "macd_hist": "1.03642"
+    },
+    {
+      "datetime": "2022-05-02",
+      "macd": "4.42487",
+      "macd_signal": "3.82011",
+      "macd_hist": "0.60476"
+    },
+    {
+      "datetime": "2022-04-29",
+      "macd": "3.96756",
+      "macd_signal": "3.66892",
+      "macd_hist": "0.29864"
+    },
+    {
+      "datetime": "2022-04-28",
+      "macd": "3.84746",
+      "macd_signal": "3.59426",
+      "macd_hist": "0.25320"
+    },
+    {
+      "datetime": "2022-04-27",
+      "macd": "3.22585",
+      "macd_signal": "3.53096",
+      "macd_hist": "-0.30511"
+    },
+    {
+      "datetime": "2022-04-26",
+      "macd": "2.99848",
+      "macd_signal": "3.60724",
+      "macd_hist": "-0.60876"
+    },
+    {
+      "datetime": "2022-04-25",
+      "macd": "3.10959",
+      "macd_signal": "3.75943",
+      "macd_hist": "-0.64983"
+    },
+    {
+      "datetime": "2022-04-22",
+      "macd": "3.63994",
+      "macd_signal": "3.92188",
+      "macd_hist": "-0.28195"
+    },
+    {
+      "datetime": "2022-04-21",
+      "macd": "4.04295",
+      "macd_signal": "3.99237",
+      "macd_hist": "0.05058"
+    },
+    {
+      "datetime": "2022-04-20",
+      "macd": "4.30916",
+      "macd_signal": "3.97973",
+      "macd_hist": "0.32943"
+    },
+    {
+      "datetime": "2022-04-19",
+      "macd": "4.26452",
+      "macd_signal": "3.89737",
+      "macd_hist": "0.36715"
+    },
+    {
+      "datetime": "2022-04-18",
+      "macd": "4.17910",
+      "macd_signal": "3.80558",
+      "macd_hist": "0.37352"
+    },
+    {
+      "datetime": "2022-04-14",
+      "macd": "3.74355",
+      "macd_signal": "3.71220",
+      "macd_hist": "0.03135"
+    },
+    {
+      "datetime": "2022-04-13",
+      "macd": "3.69216",
+      "macd_signal": "3.70436",
+      "macd_hist": "-0.01220"
+    },
+    {
+      "datetime": "2022-04-12",
+      "macd": "3.66654",
+      "macd_signal": "3.70741",
+      "macd_hist": "-0.04087"
+    },
+    {
+      "datetime": "2022-04-11",
+      "macd": "3.90123",
+      "macd_signal": "3.71763",
+      "macd_hist": "0.18360"
+    },
+    {
+      "datetime": "2022-04-08",
+      "macd": "4.13283",
+      "macd_signal": "3.67173",
+      "macd_hist": "0.46110"
+    },
+    {
+      "datetime": "2022-04-07",
+      "macd": "4.13211",
+      "macd_signal": "3.55645",
+      "macd_hist": "0.57566"
+    },
+    {
+      "datetime": "2022-04-06",
+      "macd": "4.05989",
+      "macd_signal": "3.41254",
+      "macd_hist": "0.64735"
+    },
+    {
+      "datetime": "2022-04-05",
+      "macd": "3.91171",
+      "macd_signal": "3.25070",
+      "macd_hist": "0.66100"
+    },
+    {
+      "datetime": "2022-04-04",
+      "macd": "3.85302",
+      "macd_signal": "3.08545",
+      "macd_hist": "0.76757"
+    },
+    {
+      "datetime": "2022-04-01",
+      "macd": "3.79538",
+      "macd_signal": "2.89356",
+      "macd_hist": "0.90182"
+    },
+    {
+      "datetime": "2022-03-31",
+      "macd": "3.61264",
+      "macd_signal": "2.66811",
+      "macd_hist": "0.94454"
+    },
+    {
+      "datetime": "2022-03-30",
+      "macd": "3.29937",
+      "macd_signal": "2.43197",
+      "macd_hist": "0.86739"
+    },
+    {
+      "datetime": "2022-03-29",
+      "macd": "2.95741",
+      "macd_signal": "2.21512",
+      "macd_hist": "0.74228"
+    },
+    {
+      "datetime": "2022-03-28",
+      "macd": "2.86688",
+      "macd_signal": "2.02955",
+      "macd_hist": "0.83732"
+    },
+    {
+      "datetime": "2022-03-25",
+      "macd": "2.74119",
+      "macd_signal": "1.82022",
+      "macd_hist": "0.92096"
+    },
+    {
+      "datetime": "2022-03-24",
+      "macd": "2.45129",
+      "macd_signal": "1.58998",
+      "macd_hist": "0.86131"
+    },
+    {
+      "datetime": "2022-03-23",
+      "macd": "2.12809",
+      "macd_signal": "1.37465",
+      "macd_hist": "0.75344"
+    },
+    {
+      "datetime": "2022-03-22",
+      "macd": "1.77830",
+      "macd_signal": "1.18629",
+      "macd_hist": "0.59200"
+    },
+    {
+      "datetime": "2022-03-21",
+      "macd": "1.50247",
+      "macd_signal": "1.03829",
+      "macd_hist": "0.46418"
+    },
+    {
+      "datetime": "2022-03-18",
+      "macd": "1.06035",
+      "macd_signal": "0.92225",
+      "macd_hist": "0.13810"
+    },
+    {
+      "datetime": "2022-03-17",
+      "macd": "0.87058",
+      "macd_signal": "0.88772",
+      "macd_hist": "-0.01715"
+    },
+    {
+      "datetime": "2022-03-16",
+      "macd": "0.75213",
+      "macd_signal": "0.89201",
+      "macd_hist": "-0.13988"
+    },
+    {
+      "datetime": "2022-03-15",
+      "macd": "1.01256",
+      "macd_signal": "0.92698",
+      "macd_hist": "0.08558"
+    },
+    {
+      "datetime": "2022-03-14",
+      "macd": "1.38419",
+      "macd_signal": "0.90558",
+      "macd_hist": "0.47861"
+    },
+    {
+      "datetime": "2022-03-11",
+      "macd": "1.21324",
+      "macd_signal": "0.78593",
+      "macd_hist": "0.42730"
+    },
+    {
+      "datetime": "2022-03-10",
+      "macd": "0.86335",
+      "macd_signal": "0.67911",
+      "macd_hist": "0.18424"
+    },
+    {
+      "datetime": "2022-03-09",
+      "macd": "0.61701",
+      "macd_signal": "0.63305",
+      "macd_hist": "-0.01603"
+    },
+    {
+      "datetime": "2022-03-08",
+      "macd": "0.54205",
+      "macd_signal": "0.63705",
+      "macd_hist": "-0.09500"
+    },
+    {
+      "datetime": "2022-03-07",
+      "macd": "0.09232",
+      "macd_signal": "0.66080",
+      "macd_hist": "-0.56849"
+    },
+    {
+      "datetime": "2022-03-04",
+      "macd": "0.18182",
+      "macd_signal": "0.80293",
+      "macd_hist": "-0.62111"
+    },
+    {
+      "datetime": "2022-03-03",
+      "macd": "0.09282",
+      "macd_signal": "0.95820",
+      "macd_hist": "-0.86538"
+    },
+    {
+      "datetime": "2022-03-02",
+      "macd": "0.16014",
+      "macd_signal": "1.17455",
+      "macd_hist": "-1.01441"
+    },
+    {
+      "datetime": "2022-03-01",
+      "macd": "0.30177",
+      "macd_signal": "1.42815",
+      "macd_hist": "-1.12638"
+    },
+    {
+      "datetime": "2022-02-28",
+      "macd": "0.78259",
+      "macd_signal": "1.70975",
+      "macd_hist": "-0.92716"
+    },
+    {
+      "datetime": "2022-02-25",
+      "macd": "1.09167",
+      "macd_signal": "1.94153",
+      "macd_hist": "-0.84987"
+    },
+    {
+      "datetime": "2022-02-24",
+      "macd": "1.33181",
+      "macd_signal": "2.15400",
+      "macd_hist": "-0.82219"
+    },
+    {
+      "datetime": "2022-02-23",
+      "macd": "1.72383",
+      "macd_signal": "2.35955",
+      "macd_hist": "-0.63572"
+    },
+    {
+      "datetime": "2022-02-22",
+      "macd": "1.94354",
+      "macd_signal": "2.51848",
+      "macd_hist": "-0.57494"
+    },
+    {
+      "datetime": "2022-02-18",
+      "macd": "2.24764",
+      "macd_signal": "2.66221",
+      "macd_hist": "-0.41458"
+    },
+    {
+      "datetime": "2022-02-17",
+      "macd": "2.51348",
+      "macd_signal": "2.76586",
+      "macd_hist": "-0.25238"
+    },
+    {
+      "datetime": "2022-02-16",
+      "macd": "2.78365",
+      "macd_signal": "2.82895",
+      "macd_hist": "-0.04530"
+    },
+    {
+      "datetime": "2022-02-15",
+      "macd": "2.98617",
+      "macd_signal": "2.84028",
+      "macd_hist": "0.14590"
+    },
+    {
+      "datetime": "2022-02-14",
+      "macd": "3.15135",
+      "macd_signal": "2.80380",
+      "macd_hist": "0.34754"
+    },
+    {
+      "datetime": "2022-02-11",
+      "macd": "3.19516",
+      "macd_signal": "2.71692",
+      "macd_hist": "0.47824"
+    },
+    {
+      "datetime": "2022-02-10",
+      "macd": "2.97247",
+      "macd_signal": "2.59736",
+      "macd_hist": "0.37511"
+    },
+    {
+      "datetime": "2022-02-09",
+      "macd": "2.85983",
+      "macd_signal": "2.50358",
+      "macd_hist": "0.35625"
+    },
+    {
+      "datetime": "2022-02-08",
+      "macd": "2.78137",
+      "macd_signal": "2.41452",
+      "macd_hist": "0.36686"
+    },
+    {
+      "datetime": "2022-02-07",
+      "macd": "2.67642",
+      "macd_signal": "2.32280",
+      "macd_hist": "0.35362"
+    },
+    {
+      "datetime": "2022-02-04",
+      "macd": "2.38745",
+      "macd_signal": "2.23440",
+      "macd_hist": "0.15305"
+    },
+    {
+      "datetime": "2022-02-03",
+      "macd": "2.28223",
+      "macd_signal": "2.19613",
+      "macd_hist": "0.08609"
+    },
+    {
+      "datetime": "2022-02-02",
+      "macd": "2.27865",
+      "macd_signal": "2.17461",
+      "macd_hist": "0.10404"
+    },
+    {
+      "datetime": "2022-02-01",
+      "macd": "2.08618",
+      "macd_signal": "2.14860",
+      "macd_hist": "-0.06242"
+    },
+    {
+      "datetime": "2022-01-31",
+      "macd": "1.81628",
+      "macd_signal": "2.16421",
+      "macd_hist": "-0.34792"
+    },
+    {
+      "datetime": "2022-01-28",
+      "macd": "1.80989",
+      "macd_signal": "2.25119",
+      "macd_hist": "-0.44130"
+    },
+    {
+      "datetime": "2022-01-27",
+      "macd": "1.93423",
+      "macd_signal": "2.36151",
+      "macd_hist": "-0.42728"
+    },
+    {
+      "datetime": "2022-01-26",
+      "macd": "2.00677",
+      "macd_signal": "2.46833",
+      "macd_hist": "-0.46156"
+    },
+    {
+      "datetime": "2022-01-25",
+      "macd": "2.13940",
+      "macd_signal": "2.58373",
+      "macd_hist": "-0.44432"
+    },
+    {
+      "datetime": "2022-01-24",
+      "macd": "2.29183",
+      "macd_signal": "2.69481",
+      "macd_hist": "-0.40298"
+    },
+    {
+      "datetime": "2022-01-21",
+      "macd": "2.71471",
+      "macd_signal": "2.79555",
+      "macd_hist": "-0.08084"
+    },
+    {
+      "datetime": "2022-01-20",
+      "macd": "3.14371",
+      "macd_signal": "2.81576",
+      "macd_hist": "0.32795"
+    },
+    {
+      "datetime": "2022-01-19",
+      "macd": "3.42968",
+      "macd_signal": "2.73377",
+      "macd_hist": "0.69591"
+    },
+    {
+      "datetime": "2022-01-18",
+      "macd": "3.45972",
+      "macd_signal": "2.55980",
+      "macd_hist": "0.89992"
+    },
+    {
+      "datetime": "2022-01-14",
+      "macd": "3.30212",
+      "macd_signal": "2.33481",
+      "macd_hist": "0.96731"
+    },
+    {
+      "datetime": "2022-01-13",
+      "macd": "3.09775",
+      "macd_signal": "2.09299",
+      "macd_hist": "1.00476"
+    },
+    {
+      "datetime": "2022-01-12",
+      "macd": "2.97917",
+      "macd_signal": "1.84180",
+      "macd_hist": "1.13738"
+    },
+    {
+      "datetime": "2022-01-11",
+      "macd": "2.68166",
+      "macd_signal": "1.55745",
+      "macd_hist": "1.12421"
+    },
+    {
+      "datetime": "2022-01-10",
+      "macd": "2.31587",
+      "macd_signal": "1.27640",
+      "macd_hist": "1.03947"
+    },
+    {
+      "datetime": "2022-01-07",
+      "macd": "2.10243",
+      "macd_signal": "1.01654",
+      "macd_hist": "1.08589"
+    },
+    {
+      "datetime": "2022-01-06",
+      "macd": "1.80247",
+      "macd_signal": "0.74506",
+      "macd_hist": "1.05741"
+    },
+    {
+      "datetime": "2022-01-05",
+      "macd": "1.47893",
+      "macd_signal": "0.48071",
+      "macd_hist": "0.99822"
+    },
+    {
+      "datetime": "2022-01-04",
+      "macd": "1.24402",
+      "macd_signal": "0.23115",
+      "macd_hist": "1.01287"
+    },
+    {
+      "datetime": "2022-01-03",
+      "macd": "0.89454",
+      "macd_signal": "-0.02206",
+      "macd_hist": "0.91660"
+    },
+    {
+      "datetime": "2021-12-31",
+      "macd": "0.57495",
+      "macd_signal": "-0.25121",
+      "macd_hist": "0.82616"
+    },
+    {
+      "datetime": "2021-12-30",
+      "macd": "0.36536",
+      "macd_signal": "-0.45775",
+      "macd_hist": "0.82311"
+    },
+    {
+      "datetime": "2021-12-29",
+      "macd": "0.17705",
+      "macd_signal": "-0.66353",
+      "macd_hist": "0.84058"
+    },
+    {
+      "datetime": "2021-12-28",
+      "macd": "-0.10356",
+      "macd_signal": "-0.87367",
+      "macd_hist": "0.77011"
+    },
+    {
+      "datetime": "2021-12-27",
+      "macd": "-0.44493",
+      "macd_signal": "-1.06620",
+      "macd_hist": "0.62127"
+    },
+    {
+      "datetime": "2021-12-23",
+      "macd": "-0.73469",
+      "macd_signal": "-1.22152",
+      "macd_hist": "0.48683"
+    },
+    {
+      "datetime": "2021-12-22",
+      "macd": "-0.95129",
+      "macd_signal": "-1.34323",
+      "macd_hist": "0.39194"
+    },
+    {
+      "datetime": "2021-12-21",
+      "macd": "-1.17013",
+      "macd_signal": "-1.44121",
+      "macd_hist": "0.27108"
+    },
+    {
+      "datetime": "2021-12-20",
+      "macd": "-1.43447",
+      "macd_signal": "-1.50898",
+      "macd_hist": "0.07451"
+    },
+    {
+      "datetime": "2021-12-17",
+      "macd": "-1.48322",
+      "macd_signal": "-1.52761",
+      "macd_hist": "0.04439"
+    },
+    {
+      "datetime": "2021-12-16",
+      "macd": "-1.52386",
+      "macd_signal": "-1.53871",
+      "macd_hist": "0.01485"
+    },
+    {
+      "datetime": "2021-12-15",
+      "macd": "-1.55968",
+      "macd_signal": "-1.54242",
+      "macd_hist": "-0.01726"
+    },
+    {
+      "datetime": "2021-12-14",
+      "macd": "-1.53079",
+      "macd_signal": "-1.53810",
+      "macd_hist": "0.00732"
+    },
+    {
+      "datetime": "2021-12-13",
+      "macd": "-1.46655",
+      "macd_signal": "-1.53993",
+      "macd_hist": "0.07338"
+    },
+    {
+      "datetime": "2021-12-10",
+      "macd": "-1.36629",
+      "macd_signal": "-1.55828",
+      "macd_hist": "0.19199"
+    },
+    {
+      "datetime": "2021-12-09",
+      "macd": "-1.48622",
+      "macd_signal": "-1.60628",
+      "macd_hist": "0.12005"
+    },
+    {
+      "datetime": "2021-12-08",
+      "macd": "-1.56270",
+      "macd_signal": "-1.63629",
+      "macd_hist": "0.07359"
+    },
+    {
+      "datetime": "2021-12-07",
+      "macd": "-1.67933",
+      "macd_signal": "-1.65469",
+      "macd_hist": "-0.02465"
+    },
+    {
+      "datetime": "2021-12-06",
+      "macd": "-1.89642",
+      "macd_signal": "-1.64852",
+      "macd_hist": "-0.24790"
+    },
+    {
+      "datetime": "2021-12-03",
+      "macd": "-2.02171",
+      "macd_signal": "-1.58655",
+      "macd_hist": "-0.43516"
+    },
+    {
+      "datetime": "2021-12-02",
+      "macd": "-2.08094",
+      "macd_signal": "-1.47776",
+      "macd_hist": "-0.60318"
+    },
+    {
+      "datetime": "2021-12-01",
+      "macd": "-2.27492",
+      "macd_signal": "-1.32697",
+      "macd_hist": "-0.94795"
+    },
+    {
+      "datetime": "2021-11-30",
+      "macd": "-2.09641",
+      "macd_signal": "-1.08998",
+      "macd_hist": "-1.00643"
+    },
+    {
+      "datetime": "2021-11-29",
+      "macd": "-1.80039",
+      "macd_signal": "-0.83837",
+      "macd_hist": "-0.96202"
+    },
+    {
+      "datetime": "2021-11-26",
+      "macd": "-1.52162",
+      "macd_signal": "-0.59787",
+      "macd_hist": "-0.92376"
+    },
+    {
+      "datetime": "2021-11-24",
+      "macd": "-1.12738",
+      "macd_signal": "-0.36693",
+      "macd_hist": "-0.76046"
+    },
+    {
+      "datetime": "2021-11-23",
+      "macd": "-1.11078",
+      "macd_signal": "-0.17681",
+      "macd_hist": "-0.93397"
+    },
+    {
+      "datetime": "2021-11-22",
+      "macd": "-1.03270",
+      "macd_signal": "0.05668",
+      "macd_hist": "-1.08938"
+    },
+    {
+      "datetime": "2021-11-19",
+      "macd": "-0.72456",
+      "macd_signal": "0.32902",
+      "macd_hist": "-1.05358"
+    },
+    {
+      "datetime": "2021-11-18",
+      "macd": "-0.15986",
+      "macd_signal": "0.59242",
+      "macd_hist": "-0.75228"
+    },
+    {
+      "datetime": "2021-11-17",
+      "macd": "0.16717",
+      "macd_signal": "0.78049",
+      "macd_hist": "-0.61332"
+    },
+    {
+      "datetime": "2021-11-16",
+      "macd": "0.53224",
+      "macd_signal": "0.93382",
+      "macd_hist": "-0.40158"
+    },
+    {
+      "datetime": "2021-11-15",
+      "macd": "0.53331",
+      "macd_signal": "1.03422",
+      "macd_hist": "-0.50091"
+    },
+    {
+      "datetime": "2021-11-12",
+      "macd": "0.58698",
+      "macd_signal": "1.15944",
+      "macd_hist": "-0.57246"
+    },
+    {
+      "datetime": "2021-11-11",
+      "macd": "0.72535",
+      "macd_signal": "1.30256",
+      "macd_hist": "-0.57721"
+    },
+    {
+      "datetime": "2021-11-10",
+      "macd": "0.82624",
+      "macd_signal": "1.44686",
+      "macd_hist": "-0.62062"
+    },
+    {
+      "datetime": "2021-11-09",
+      "macd": "0.97966",
+      "macd_signal": "1.60202",
+      "macd_hist": "-0.62236"
+    },
+    {
+      "datetime": "2021-11-08",
+      "macd": "1.01969",
+      "macd_signal": "1.75761",
+      "macd_hist": "-0.73791"
+    },
+    {
+      "datetime": "2021-11-05",
+      "macd": "1.10382",
+      "macd_signal": "1.94208",
+      "macd_hist": "-0.83827"
+    },
+    {
+      "datetime": "2021-11-04",
+      "macd": "1.18088",
+      "macd_signal": "2.15165",
+      "macd_hist": "-0.97077"
+    },
+    {
+      "datetime": "2021-11-03",
+      "macd": "1.42192",
+      "macd_signal": "2.39434",
+      "macd_hist": "-0.97243"
+    },
+    {
+      "datetime": "2021-11-02",
+      "macd": "1.75674",
+      "macd_signal": "2.63745",
+      "macd_hist": "-0.88071"
+    },
+    {
+      "datetime": "2021-11-01",
+      "macd": "2.16058",
+      "macd_signal": "2.85763",
+      "macd_hist": "-0.69704"
+    },
+    {
+      "datetime": "2021-10-29",
+      "macd": "2.42468",
+      "macd_signal": "3.03189",
+      "macd_hist": "-0.60721"
+    },
+    {
+      "datetime": "2021-10-28",
+      "macd": "2.79674",
+      "macd_signal": "3.18369",
+      "macd_hist": "-0.38695"
+    },
+    {
+      "datetime": "2021-10-27",
+      "macd": "3.11590",
+      "macd_signal": "3.28043",
+      "macd_hist": "-0.16453"
+    },
+    {
+      "datetime": "2021-10-26",
+      "macd": "3.45656",
+      "macd_signal": "3.32156",
+      "macd_hist": "0.13500"
+    },
+    {
+      "datetime": "2021-10-25",
+      "macd": "3.51425",
+      "macd_signal": "3.28781",
+      "macd_hist": "0.22644"
+    },
+    {
+      "datetime": "2021-10-22",
+      "macd": "3.45429",
+      "macd_signal": "3.23120",
+      "macd_hist": "0.22309"
+    },
+    {
+      "datetime": "2021-10-21",
+      "macd": "3.50061",
+      "macd_signal": "3.17543",
+      "macd_hist": "0.32518"
+    },
+    {
+      "datetime": "2021-10-20",
+      "macd": "3.40598",
+      "macd_signal": "3.09413",
+      "macd_hist": "0.31184"
+    },
+    {
+      "datetime": "2021-10-19",
+      "macd": "3.33340",
+      "macd_signal": "3.01617",
+      "macd_hist": "0.31722"
+    },
+    {
+      "datetime": "2021-10-18",
+      "macd": "3.28289",
+      "macd_signal": "2.93687",
+      "macd_hist": "0.34602"
+    },
+    {
+      "datetime": "2021-10-15",
+      "macd": "3.37634",
+      "macd_signal": "2.85036",
+      "macd_hist": "0.52598"
+    },
+    {
+      "datetime": "2021-10-14",
+      "macd": "3.39255",
+      "macd_signal": "2.71887",
+      "macd_hist": "0.67368"
+    },
+    {
+      "datetime": "2021-10-13",
+      "macd": "3.31196",
+      "macd_signal": "2.55045",
+      "macd_hist": "0.76151"
+    },
+    {
+      "datetime": "2021-10-12",
+      "macd": "3.26580",
+      "macd_signal": "2.36007",
+      "macd_hist": "0.90573"
+    },
+    {
+      "datetime": "2021-10-11",
+      "macd": "3.07996",
+      "macd_signal": "2.13363",
+      "macd_hist": "0.94633"
+    },
+    {
+      "datetime": "2021-10-08",
+      "macd": "2.91200",
+      "macd_signal": "1.89705",
+      "macd_hist": "1.01495"
+    },
+    {
+      "datetime": "2021-10-07",
+      "macd": "2.57381",
+      "macd_signal": "1.64332",
+      "macd_hist": "0.93050"
+    },
+    {
+      "datetime": "2021-10-06",
+      "macd": "2.37963",
+      "macd_signal": "1.41069",
+      "macd_hist": "0.96894"
+    },
+    {
+      "datetime": "2021-10-05",
+      "macd": "2.15114",
+      "macd_signal": "1.16845",
+      "macd_hist": "0.98269"
+    },
+    {
+      "datetime": "2021-10-04",
+      "macd": "1.93716",
+      "macd_signal": "0.92278",
+      "macd_hist": "1.01437"
+    },
+    {
+      "datetime": "2021-10-01",
+      "macd": "1.56255",
+      "macd_signal": "0.66919",
+      "macd_hist": "0.89336"
+    },
+    {
+      "datetime": "2021-09-30",
+      "macd": "1.20423",
+      "macd_signal": "0.44585",
+      "macd_hist": "0.75838"
+    },
+    {
+      "datetime": "2021-09-29",
+      "macd": "1.03991",
+      "macd_signal": "0.25626",
+      "macd_hist": "0.78366"
+    },
+    {
+      "datetime": "2021-09-28",
+      "macd": "0.84153",
+      "macd_signal": "0.06034",
+      "macd_hist": "0.78119"
+    },
+    {
+      "datetime": "2021-09-27",
+      "macd": "0.48853",
+      "macd_signal": "-0.13496",
+      "macd_hist": "0.62348"
+    },
+    {
+      "datetime": "2021-09-24",
+      "macd": "0.07056",
+      "macd_signal": "-0.29083",
+      "macd_hist": "0.36139"
+    },
+    {
+      "datetime": "2021-09-23",
+      "macd": "-0.14321",
+      "macd_signal": "-0.38117",
+      "macd_hist": "0.23796"
+    },
+    {
+      "datetime": "2021-09-22",
+      "macd": "-0.36714",
+      "macd_signal": "-0.44067",
+      "macd_hist": "0.07352"
+    },
+    {
+      "datetime": "2021-09-21",
+      "macd": "-0.45926",
+      "macd_signal": "-0.45905",
+      "macd_hist": "-0.00021"
+    },
+    {
+      "datetime": "2021-09-20",
+      "macd": "-0.36651",
+      "macd_signal": "-0.45899",
+      "macd_hist": "0.09248"
+    },
+    {
+      "datetime": "2021-09-17",
+      "macd": "-0.20717",
+      "macd_signal": "-0.48211",
+      "macd_hist": "0.27494"
+    },
+    {
+      "datetime": "2021-09-16",
+      "macd": "-0.26856",
+      "macd_signal": "-0.55085",
+      "macd_hist": "0.28229"
+    },
+    {
+      "datetime": "2021-09-15",
+      "macd": "-0.32875",
+      "macd_signal": "-0.62142",
+      "macd_hist": "0.29267"
+    },
+    {
+      "datetime": "2021-09-14",
+      "macd": "-0.50771",
+      "macd_signal": "-0.69459",
+      "macd_hist": "0.18688"
+    },
+    {
+      "datetime": "2021-09-13",
+      "macd": "-0.54445",
+      "macd_signal": "-0.74131",
+      "macd_hist": "0.19686"
+    },
+    {
+      "datetime": "2021-09-10",
+      "macd": "-0.73411",
+      "macd_signal": "-0.79052",
+      "macd_hist": "0.05641"
+    },
+    {
+      "datetime": "2021-09-09",
+      "macd": "-0.68348",
+      "macd_signal": "-0.80463",
+      "macd_hist": "0.12115"
+    },
+    {
+      "datetime": "2021-09-08",
+      "macd": "-0.62214",
+      "macd_signal": "-0.83491",
+      "macd_hist": "0.21277"
+    },
+    {
+      "datetime": "2021-09-07",
+      "macd": "-0.55110",
+      "macd_signal": "-0.88811",
+      "macd_hist": "0.33701"
+    },
+    {
+      "datetime": "2021-09-03",
+      "macd": "-0.63771",
+      "macd_signal": "-0.97236",
+      "macd_hist": "0.33465"
+    },
+    {
+      "datetime": "2021-09-02",
+      "macd": "-0.65550",
+      "macd_signal": "-1.05602",
+      "macd_hist": "0.40052"
+    },
+    {
+      "datetime": "2021-09-01",
+      "macd": "-0.71958",
+      "macd_signal": "-1.15615",
+      "macd_hist": "0.43658"
+    },
+    {
+      "datetime": "2021-08-31",
+      "macd": "-0.66362",
+      "macd_signal": "-1.26530",
+      "macd_hist": "0.60168"
+    },
+    {
+      "datetime": "2021-08-30",
+      "macd": "-0.82284",
+      "macd_signal": "-1.41572",
+      "macd_hist": "0.59288"
+    },
+    {
+      "datetime": "2021-08-27",
+      "macd": "-0.98457",
+      "macd_signal": "-1.56394",
+      "macd_hist": "0.57937"
+    },
+    {
+      "datetime": "2021-08-26",
+      "macd": "-1.28765",
+      "macd_signal": "-1.70878",
+      "macd_hist": "0.42113"
+    },
+    {
+      "datetime": "2021-08-25",
+      "macd": "-1.48776",
+      "macd_signal": "-1.81406",
+      "macd_hist": "0.32630"
+    },
+    {
+      "datetime": "2021-08-24",
+      "macd": "-1.81114",
+      "macd_signal": "-1.89563",
+      "macd_hist": "0.08449"
+    },
+    {
+      "datetime": "2021-08-23",
+      "macd": "-2.08453",
+      "macd_signal": "-1.91676",
+      "macd_hist": "-0.16777"
+    },
+    {
+      "datetime": "2021-08-20",
+      "macd": "-2.18729",
+      "macd_signal": "-1.87481",
+      "macd_hist": "-0.31248"
+    },
+    {
+      "datetime": "2021-08-19",
+      "macd": "-1.99035",
+      "macd_signal": "-1.79670",
+      "macd_hist": "-0.19366"
+    },
+    {
+      "datetime": "2021-08-18",
+      "macd": "-1.71411",
+      "macd_signal": "-1.74828",
+      "macd_hist": "0.03417"
+    },
+    {
+      "datetime": "2021-08-17",
+      "macd": "-1.54022",
+      "macd_signal": "-1.75682",
+      "macd_hist": "0.21660"
+    },
+    {
+      "datetime": "2021-08-16",
+      "macd": "-1.42519",
+      "macd_signal": "-1.81097",
+      "macd_hist": "0.38578"
+    },
+    {
+      "datetime": "2021-08-13",
+      "macd": "-1.36251",
+      "macd_signal": "-1.90742",
+      "macd_hist": "0.54491"
+    },
+    {
+      "datetime": "2021-08-12",
+      "macd": "-1.43679",
+      "macd_signal": "-2.04365",
+      "macd_hist": "0.60686"
+    },
+    {
+      "datetime": "2021-08-11",
+      "macd": "-1.61252",
+      "macd_signal": "-2.19536",
+      "macd_hist": "0.58284"
+    },
+    {
+      "datetime": "2021-08-10",
+      "macd": "-1.77162",
+      "macd_signal": "-2.34107",
+      "macd_hist": "0.56945"
+    },
+    {
+      "datetime": "2021-08-09",
+      "macd": "-1.95503",
+      "macd_signal": "-2.48343",
+      "macd_hist": "0.52841"
+    },
+    {
+      "datetime": "2021-08-06",
+      "macd": "-2.06905",
+      "macd_signal": "-2.61554",
+      "macd_hist": "0.54649"
+    },
+    {
+      "datetime": "2021-08-05",
+      "macd": "-2.23540",
+      "macd_signal": "-2.75216",
+      "macd_hist": "0.51676"
+    },
+    {
+      "datetime": "2021-08-04",
+      "macd": "-2.33476",
+      "macd_signal": "-2.88135",
+      "macd_hist": "0.54658"
+    },
+    {
+      "datetime": "2021-08-03",
+      "macd": "-2.27185",
+      "macd_signal": "-3.01799",
+      "macd_hist": "0.74614"
+    },
+    {
+      "datetime": "2021-08-02",
+      "macd": "-2.65029",
+      "macd_signal": "-3.20453",
+      "macd_hist": "0.55424"
+    },
+    {
+      "datetime": "2021-07-30",
+      "macd": "-2.82902",
+      "macd_signal": "-3.34309",
+      "macd_hist": "0.51407"
+    },
+    {
+      "datetime": "2021-07-29",
+      "macd": "-3.07403",
+      "macd_signal": "-3.47160",
+      "macd_hist": "0.39758"
+    },
+    {
+      "datetime": "2021-07-28",
+      "macd": "-3.41025",
+      "macd_signal": "-3.57100",
+      "macd_hist": "0.16074"
+    },
+    {
+      "datetime": "2021-07-27",
+      "macd": "-3.75518",
+      "macd_signal": "-3.61118",
+      "macd_hist": "-0.14400"
+    },
+    {
+      "datetime": "2021-07-26",
+      "macd": "-3.96568",
+      "macd_signal": "-3.57518",
+      "macd_hist": "-0.39050"
+    },
+    {
+      "datetime": "2021-07-23",
+      "macd": "-4.17260",
+      "macd_signal": "-3.47756",
+      "macd_hist": "-0.69504"
+    },
+    {
+      "datetime": "2021-07-22",
+      "macd": "-4.18969",
+      "macd_signal": "-3.30380",
+      "macd_hist": "-0.88589"
+    },
+    {
+      "datetime": "2021-07-21",
+      "macd": "-4.12714",
+      "macd_signal": "-3.08232",
+      "macd_hist": "-1.04482"
+    },
+    {
+      "datetime": "2021-07-20",
+      "macd": "-4.13288",
+      "macd_signal": "-2.82112",
+      "macd_hist": "-1.31176"
+    },
+    {
+      "datetime": "2021-07-19",
+      "macd": "-3.84183",
+      "macd_signal": "-2.49318",
+      "macd_hist": "-1.34865"
+    },
+    {
+      "datetime": "2021-07-16",
+      "macd": "-3.34828",
+      "macd_signal": "-2.15602",
+      "macd_hist": "-1.19226"
+    },
+    {
+      "datetime": "2021-07-15",
+      "macd": "-2.97101",
+      "macd_signal": "-1.85795",
+      "macd_hist": "-1.11306"
+    },
+    {
+      "datetime": "2021-07-14",
+      "macd": "-2.64176",
+      "macd_signal": "-1.57969",
+      "macd_hist": "-1.06207"
+    },
+    {
+      "datetime": "2021-07-13",
+      "macd": "-2.27166",
+      "macd_signal": "-1.31417",
+      "macd_hist": "-0.95749"
+    },
+    {
+      "datetime": "2021-07-12",
+      "macd": "-2.05134",
+      "macd_signal": "-1.07480",
+      "macd_hist": "-0.97654"
+    },
+    {
+      "datetime": "2021-07-09",
+      "macd": "-1.86349",
+      "macd_signal": "-0.83066",
+      "macd_hist": "-1.03282"
+    },
+    {
+      "datetime": "2021-07-08",
+      "macd": "-1.65974",
+      "macd_signal": "-0.57246",
+      "macd_hist": "-1.08728"
+    },
+    {
+      "datetime": "2021-07-07",
+      "macd": "-1.16784",
+      "macd_signal": "-0.30064",
+      "macd_hist": "-0.86720"
+    },
+    {
+      "datetime": "2021-07-06",
+      "macd": "-0.73173",
+      "macd_signal": "-0.08384",
+      "macd_hist": "-0.64789"
+    },
+    {
+      "datetime": "2021-07-02",
+      "macd": "-0.40780",
+      "macd_signal": "0.07813",
+      "macd_hist": "-0.48593"
+    },
+    {
+      "datetime": "2021-07-01",
+      "macd": "-0.33154",
+      "macd_signal": "0.19961",
+      "macd_hist": "-0.53115"
+    },
+    {
+      "datetime": "2021-06-30",
+      "macd": "-0.20291",
+      "macd_signal": "0.33240",
+      "macd_hist": "-0.53531"
+    },
+    {
+      "datetime": "2021-06-29",
+      "macd": "-0.06327",
+      "macd_signal": "0.46623",
+      "macd_hist": "-0.52951"
+    },
+    {
+      "datetime": "2021-06-28",
+      "macd": "0.23398",
+      "macd_signal": "0.59861",
+      "macd_hist": "-0.36463"
+    },
+    {
+      "datetime": "2021-06-25",
+      "macd": "0.52853",
+      "macd_signal": "0.68976",
+      "macd_hist": "-0.16123"
+    },
+    {
+      "datetime": "2021-06-24",
+      "macd": "0.45185",
+      "macd_signal": "0.73007",
+      "macd_hist": "-0.27822"
+    },
+    {
+      "datetime": "2021-06-23",
+      "macd": "0.38406",
+      "macd_signal": "0.79963",
+      "macd_hist": "-0.41557"
+    },
+    {
+      "datetime": "2021-06-22",
+      "macd": "0.38154",
+      "macd_signal": "0.90352",
+      "macd_hist": "-0.52198"
+    },
+    {
+      "datetime": "2021-06-21",
+      "macd": "0.35955",
+      "macd_signal": "1.03401",
+      "macd_hist": "-0.67446"
+    },
+    {
+      "datetime": "2021-06-18",
+      "macd": "0.42807",
+      "macd_signal": "1.20263",
+      "macd_hist": "-0.77456"
+    },
+    {
+      "datetime": "2021-06-17",
+      "macd": "0.91249",
+      "macd_signal": "1.39627",
+      "macd_hist": "-0.48378"
+    },
+    {
+      "datetime": "2021-06-16",
+      "macd": "1.25687",
+      "macd_signal": "1.51722",
+      "macd_hist": "-0.26035"
+    },
+    {
+      "datetime": "2021-06-15",
+      "macd": "1.38490",
+      "macd_signal": "1.58230",
+      "macd_hist": "-0.19740"
+    },
+    {
+      "datetime": "2021-06-14",
+      "macd": "1.44264",
+      "macd_signal": "1.63165",
+      "macd_hist": "-0.18901"
+    },
+    {
+      "datetime": "2021-06-11",
+      "macd": "1.53100",
+      "macd_signal": "1.67891",
+      "macd_hist": "-0.14791"
+    },
+    {
+      "datetime": "2021-06-10",
+      "macd": "1.68870",
+      "macd_signal": "1.71588",
+      "macd_hist": "-0.02718"
+    },
+    {
+      "datetime": "2021-06-09",
+      "macd": "1.79924",
+      "macd_signal": "1.72268",
+      "macd_hist": "0.07656"
+    },
+    {
+      "datetime": "2021-06-08",
+      "macd": "1.91518",
+      "macd_signal": "1.70354",
+      "macd_hist": "0.21164"
+    },
+    {
+      "datetime": "2021-06-07",
+      "macd": "1.89988",
+      "macd_signal": "1.65063",
+      "macd_hist": "0.24926"
+    },
+    {
+      "datetime": "2021-06-04",
+      "macd": "1.91076",
+      "macd_signal": "1.58831",
+      "macd_hist": "0.32245"
+    },
+    {
+      "datetime": "2021-06-03",
+      "macd": "1.84085",
+      "macd_signal": "1.50770",
+      "macd_hist": "0.33315"
+    },
+    {
+      "datetime": "2021-06-02",
+      "macd": "1.71670",
+      "macd_signal": "1.42441",
+      "macd_hist": "0.29229"
+    },
+    {
+      "datetime": "2021-06-01",
+      "macd": "1.42432",
+      "macd_signal": "1.35134",
+      "macd_hist": "0.07299"
+    },
+    {
+      "datetime": "2021-05-28",
+      "macd": "1.25545",
+      "macd_signal": "1.33309",
+      "macd_hist": "-0.07765"
+    },
+    {
+      "datetime": "2021-05-27",
+      "macd": "1.20287",
+      "macd_signal": "1.35250",
+      "macd_hist": "-0.14963"
+    },
+    {
+      "datetime": "2021-05-26",
+      "macd": "1.07856",
+      "macd_signal": "1.38991",
+      "macd_hist": "-0.31135"
+    },
+    {
+      "datetime": "2021-05-25",
+      "macd": "1.07730",
+      "macd_signal": "1.46775",
+      "macd_hist": "-0.39045"
+    },
+    {
+      "datetime": "2021-05-24",
+      "macd": "1.23922",
+      "macd_signal": "1.56536",
+      "macd_hist": "-0.32615"
+    },
+    {
+      "datetime": "2021-05-21",
+      "macd": "1.32808",
+      "macd_signal": "1.64690",
+      "macd_hist": "-0.31882"
+    }
+  ],
+  "status": "ok"
+}

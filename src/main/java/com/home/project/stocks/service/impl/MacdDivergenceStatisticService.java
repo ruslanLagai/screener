@@ -61,48 +61,52 @@ public class MacdDivergenceStatisticService implements IndicatorStatisticService
 
     @Override
     public void analyzeStock(ProcessingResult processingResult, Interval interval) {
-        var ticker = processingResult.getTicker();
-        if (processingResult.getMacdDivergence() == null
-            || processingResult.getMacdDivergence() == ProcessingResult.Trend.NO_SIGN) {
-            return;
-        }
-
-        log.debug("Analyzing macd divergence statistic for {}", ticker);
-
-        var candles = candlesService.getHistoricalCandles(ticker, interval, 500);
-        var indicator = indicatorService.getHistoricalMacd(ticker, interval, 500);
-        var macdData = macdDataMapper.toMacdData(indicator, candles);
-
-        int goodSignalNumber = 0;
-        int totalSignalNumber = 0;
-        var key = processingResult.getMacdDivergence().equals(ProcessingResult.Trend.ASCENDING)
-            ? NEGATIVE : POSITIVE;
-        log.debug("Processing {} divergence", key);
-
-        var hills = getMacdHills(macdData).get(key);
-        for (MacdData prevExtremum : hills) {
-            if (hills.indexOf(prevExtremum) + 1 >= hills.size()) {
-                break;
+        try {
+            var ticker = processingResult.getTicker();
+            if (processingResult.getMacdDivergence() == null
+                || processingResult.getMacdDivergence() == ProcessingResult.Trend.NO_SIGN) {
+                return;
             }
-            var nextExtremum = hills.get(hills.indexOf(prevExtremum) + 1);
-            boolean isDivergence = divergenceProcessors.get(key).apply(nextExtremum, prevExtremum);
-            if (isDivergence) {
-                var candlesAfterDivergence = getCandlesForPeriod(candles, nextExtremum.getDateTime(),
-                    nextExtremum.getDateTime().plusDays(days));
-                if (candlesAfterDivergence.isEmpty()) {
-                    log.warn("Failed to fetch candles from DB for divergence analytic, ticker {}", ticker);
-                    continue;
+
+            log.debug("Analyzing macd divergence statistic for {}", ticker);
+
+            var candles = candlesService.getHistoricalCandles(ticker, interval, 500);
+            var indicator = indicatorService.getHistoricalMacd(ticker, interval, 500);
+            var macdData = macdDataMapper.toMacdData(indicator, candles);
+
+            int goodSignalNumber = 0;
+            int totalSignalNumber = 0;
+            var key = processingResult.getMacdDivergence().equals(ProcessingResult.Trend.ASCENDING)
+                ? NEGATIVE : POSITIVE;
+            log.debug("Processing {} divergence", key);
+
+            var hills = getMacdHills(macdData).get(key);
+            for (MacdData prevExtremum : hills) {
+                if (hills.indexOf(prevExtremum) + 1 >= hills.size()) {
+                    break;
                 }
-                int procResult = divergenceResultProcessors.get(key).apply(candlesAfterDivergence, nextExtremum);
-                goodSignalNumber = goodSignalNumber + procResult;
-                totalSignalNumber++;
+                var nextExtremum = hills.get(hills.indexOf(prevExtremum) + 1);
+                boolean isDivergence = divergenceProcessors.get(key).apply(nextExtremum, prevExtremum);
+                if (isDivergence) {
+                    var candlesAfterDivergence = getCandlesForPeriod(candles, nextExtremum.getDateTime(),
+                        nextExtremum.getDateTime().plusDays(days));
+                    if (candlesAfterDivergence.isEmpty()) {
+                        log.warn("Failed to fetch candles from DB for divergence analytic, ticker {}", ticker);
+                        continue;
+                    }
+                    int procResult = divergenceResultProcessors.get(key).apply(candlesAfterDivergence, nextExtremum);
+                    goodSignalNumber = goodSignalNumber + procResult;
+                    totalSignalNumber++;
+                }
             }
-        }
-        if (totalSignalNumber > 0) {
-            double winPercentage = Integer.valueOf(goodSignalNumber).doubleValue() / Integer.valueOf(totalSignalNumber).doubleValue();
-            processingResult.setMacdDivergenceStatistics(winPercentage);
-            processingResult.setTotalDiverSignals(totalSignalNumber);
-            processingResult.setGoodDiverSignals(goodSignalNumber);
+            if (totalSignalNumber > 0) {
+                double winPercentage = Integer.valueOf(goodSignalNumber).doubleValue() / Integer.valueOf(totalSignalNumber).doubleValue();
+                processingResult.setMacdDivergenceStatistics(winPercentage);
+                processingResult.setTotalDiverSignals(totalSignalNumber);
+                processingResult.setGoodDiverSignals(goodSignalNumber);
+            }
+        } catch (Exception e) {
+            log.error("Failed to analyze macd divergence statistics, ticker {}", processingResult.getTicker(), e);
         }
     }
 
