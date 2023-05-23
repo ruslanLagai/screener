@@ -46,6 +46,6 @@ WORKDIR /opt/software/
 
 EXPOSE 8080
 
-ENV JAVA_OPTS=""
+ENV JAVA_OPTS="-Xmx1024m -Xms256m"
 
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Dspring.profiles.active=$PROFILE -jar ${app_name}.jar"]

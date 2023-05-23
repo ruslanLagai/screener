@@ -4,6 +4,7 @@ import com.home.project.stocks.model.entity.ProcessedIndicators;
 import com.home.project.stocks.model.processing.ProcessingResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.util.Pair;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -12,13 +13,14 @@ import java.util.stream.Collectors;
 /**
  * @author rlagay
  */
+@Component
 public class RsiNotificationProcessor implements NotificationProcessor {
 
     private static final String MSG = "✔️ Акции, приближающиеся с перепроданностью/перекупленностью: \n\n";
 
     @Override
     public Pair<String, Collection<?>> toMessage(Collection<?> indicators) {
-        if (indicators.iterator().next() instanceof ProcessedIndicators) {
+        if (indicators.iterator().hasNext() && indicators.iterator().next() instanceof ProcessedIndicators) {
             return Pair.of(
                 MSG, indicators.stream()
                         .map(stocks -> (ProcessedIndicators) stocks)
