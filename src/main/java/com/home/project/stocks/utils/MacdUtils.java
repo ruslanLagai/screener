@@ -35,13 +35,15 @@ public class MacdUtils {
 
 
     public static boolean checkAscDivergence(MacdData latest, MacdData prev) {
-        return prev.getMacdBarValue() < latest.getMacdBarValue()
+        return (prev.getMacdBarValue() < 0 && latest.getMacdBarValue() < 0)
+            && prev.getMacdBarValue() < latest.getMacdBarValue()
             && prev.getClosePrice() > latest.getClosePrice()
             && prev.getClosePrice() / latest.getClosePrice() > 1.03;
     }
 
     public static boolean checkDescDivergence(MacdData latest, MacdData prev) {
-        return abs(prev.getMacdBarValue()) > abs(latest.getMacdBarValue())
+        return (prev.getMacdBarValue() > 0 && latest.getMacdBarValue() > 0)
+            && abs(prev.getMacdBarValue()) > abs(latest.getMacdBarValue())
             && prev.getClosePrice() < latest.getClosePrice()
             && (latest.getClosePrice() / prev.getClosePrice()) > 1.03;
     }

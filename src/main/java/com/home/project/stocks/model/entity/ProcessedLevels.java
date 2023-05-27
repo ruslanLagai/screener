@@ -52,7 +52,7 @@ public class ProcessedLevels {
         return "Тикер: " + ticker + "\n" +
                 "Цена закрытия: " + closePrice + "\n" +
                 "Ближайший уровень " + type + ": " + level + "\n" +
-                "Уровень отработал " + goodSignals + " из " + totalCrosses + "за последние 500 дней." + "\n" +
+                "Уровень отработал " + goodSignals + " раз из " + totalCrosses + " за последние 500 дней." + "\n" +
                 "Среднее пробитие: " + averageBreaking + "\n" +
                 "Среднее отскок: " + averageRebound;
     }

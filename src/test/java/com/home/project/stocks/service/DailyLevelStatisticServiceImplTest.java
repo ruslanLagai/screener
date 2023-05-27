@@ -57,4 +57,18 @@ class DailyLevelStatisticServiceImplTest {
         assertEquals(0.04, level.getAverageRebound());
         assertEquals(1, level.getTotalCrosses());
     }
+
+    @Test
+    @DisplayName("test resistance historical maximum")
+    void analyzeStockMaxinmum() {
+        var candles =  TestUtils.readData("templates/macd/statistics/ipg-candles.json", TwelveDataCandles.class).getValues();
+        when(candlesService.getHistoricalCandles(any(), any(), anyInt())).thenReturn(candles);
+        var level = ProcessedLevels.builder().levelType(ProcessingResult.LevelType.RESISTANCE).level(39.35).build();
+        levelStatisticService.analyzeStock(level, Interval.TWELVE_DATA_ONE_DAY);
+
+        assertEquals(1.0, level.getSuccessRate());
+        assertEquals(0.02, level.getAverageBreaking());
+        assertEquals(0.09, level.getAverageRebound());
+        assertEquals(3, level.getTotalCrosses());
+    }
 }
