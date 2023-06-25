@@ -50,6 +50,7 @@ public class ProcessedIndicators {
     private String macdDiverTrend;
     private String rsiSign;
     private String ticker;
+    private String wtTrend;
     private double closePrice;
     private double macdDiverStatistics;
     private int goodDiverSignals;
@@ -72,6 +73,7 @@ public class ProcessedIndicators {
                         ? processingResult.getMacdDivergence().name() : null)
                 .rsiSign(processingResult.getRsiSign() != null
                         ? processingResult.getRsiSign().name() : null)
+                .wtTrend(processingResult.getWtTrend() != null ? processingResult.getWtTrend().name() : null)
 //                .isSignalCrossed(processingResult.isSignalCrossed())
                 .macdDiverStatistics(processingResult.getMacdDivergenceStatistics())
                 .goodDiverSignals(processingResult.getGoodDiverSignals())
@@ -105,9 +107,12 @@ public class ProcessedIndicators {
         var macdBarIcon = ProcessingResult.Trend.ASCENDING.name().equals(macdBarTrend) ? "↗️" : "↘️";
         var macdSignalIcon = ProcessingResult.Trend.ASCENDING.name().equals(macdSignalTrend) ? "↗️" : "↘️";
         var macdDiverIcon = ProcessingResult.Trend.ASCENDING.name().equals(macdDiverTrend) ? "↗️" : "↘️";
+        var wtIcon = ProcessingResult.Trend.ASCENDING.name().equals(wtTrend) ? "↗️" : "↘️";
 
         String macdBuilder = "Дивергенция по macd: " + macdDiverIcon + "\n" +
             "Дивергенция отработала " + goodDiverSignals + " раз из " + totalDiverSignals;
+
+        var wtBuilder = "Сигнал по WaveTrend: " + wtIcon + "\n";
 
         return "Тикер: " + ticker + "\n" +
                 "Цена закрытия: " + closePrice + "\n" +
@@ -115,6 +120,7 @@ public class ProcessedIndicators {
 //                (macdBarTrend != null && !macdBarTrend.equals(NO_SIGN.name()) ? "Гистограмма macd: " + macdBarIcon + "\n" : "") +
 //                (macdSignalTrend != null && !macdSignalTrend.equals(NO_SIGN.name()) ? "Пересечение macd: " + macdSignalIcon + "\n" : "") +
                 (macdDiverTrend != null && !macdDiverTrend.equals(NO_SIGN.name()) ? macdBuilder : "") +
+                (wtTrend != null && !wtTrend.equals(NO_SIGN.name()) ? wtBuilder : "") +
                 stringBuilder;
     }
 }

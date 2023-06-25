@@ -28,6 +28,7 @@ public class ProcessingResult {
     private Trend macdSignalTrend;
     private Trend macdBarTrend;
     private Trend macdDivergence;
+    private Trend wtTrend;
     private RsiSign rsiSign;
     private String ticker;
     private double macdDivergenceStatistics;

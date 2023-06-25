@@ -12,6 +12,7 @@ import com.home.project.stocks.telegram.processor.MacdNotificationProcessor;
 import com.home.project.stocks.telegram.processor.NotificationProcessor;
 import com.home.project.stocks.telegram.processor.PatternNotificationProcessor;
 import com.home.project.stocks.telegram.processor.RsiNotificationProcessor;
+import com.home.project.stocks.telegram.processor.WtNotificationProcessor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -96,7 +97,8 @@ public class TelegramBot extends TelegramLongPollingBot implements TelegramNotif
             LevelsNotificationProcessor.class, stocksWithLevels,
             MacdNotificationProcessor.class, stocksWithIndicators,
             PatternNotificationProcessor.class, stocksWithPattern,
-            RsiNotificationProcessor.class, stocksWithIndicators
+            RsiNotificationProcessor.class, stocksWithIndicators,
+            WtNotificationProcessor.class, stocksWithIndicators
         );
 
         log.info("Found {} stocks with pattern", stocksWithPattern.size());
