@@ -10,6 +10,7 @@ import com.home.project.stocks.model.processing.ProcessingResult;
 import com.home.project.stocks.processor.Ema200Processor;
 import com.home.project.stocks.processor.IndicatorProcessor;
 import com.home.project.stocks.processor.MacdProcessor;
+import com.home.project.stocks.processor.WaveTrendProcessor;
 import com.home.project.stocks.service.CandlesService;
 import com.home.project.stocks.service.DailyScanService;
 import com.home.project.stocks.service.DbUpdateService;
@@ -45,7 +46,8 @@ public class DailyIndicatorScanService implements DailyScanService {
                     Ema200Processor.class, ((indicatorService, ticker) ->
                     indicatorService.getEma(ticker, Interval.TWELVE_DATA_ONE_WEEK, EmaPeriod.TWO_HUNDRED, SeriesType.CLOSE)),
                     MacdProcessor.class, ((indicatorService, ticker) ->
-                    indicatorService.getMacd(ticker, Interval.TWELVE_DATA_ONE_DAY, SeriesType.CLOSE))
+                    indicatorService.getMacd(ticker, Interval.TWELVE_DATA_ONE_DAY, SeriesType.CLOSE)),
+                    WaveTrendProcessor.class, ((indicatorService, ticker) -> ParsedIndicator.builder().ticker(ticker).build())
     );
 
     public DailyIndicatorScanService(IndicatorService dailyIndicatorService,
